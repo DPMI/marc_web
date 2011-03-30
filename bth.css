@@ -1,0 +1,459 @@
+p	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+}
+
+p.efterMellanrubrik	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+	margin-top: 0px;
+	padding-top: 2px;
+}
+
+
+p.pbildtext {
+	margin-top: 0px;
+	padding-top: 2px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	font-weight: lighter;
+	color: #666666;
+	text-decoration: none;
+}
+
+.MsoNormal	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+}
+
+h1	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	text-transform: uppercase;
+	color: #666666;
+	font-weight: bold;
+}
+
+h2	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	text-transform: uppercase;
+	color: #666666;
+	font-weight: bold;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+}
+
+table {
+	background-color: #FFFFFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+}
+
+tr,td {
+	text-align:left;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+}
+
+th {
+	text-align:left;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #666666;
+	text-decoration: none;
+}
+
+body {
+	background-image: url(http://www.bth.se/bth/images/backtest06.gif);
+	background-repeat: repeat;
+	background-attachment: fixed;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+	margin: 0px 0px 0px 0px;
+}
+
+a {
+	text-decoration:none
+}
+
+a:link, a:active, a:visited {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	text-transform: none;
+	text-decoration: none;
+	color: #336699;
+
+}
+
+a:visited {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #336699;
+	text-decoration: none;
+}
+
+a:active {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	text-transform: none;
+	text-decoration: none;
+	color: #336699;
+}
+
+a:hover {
+
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	text-transform: none;
+	text-decoration: none;
+	color: #999966;
+}
+
+:focus {
+	outline: thin dotted invert
+}
+
+.menyrubrik {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	text-transform: uppercase;
+	color: #999966;
+	font-weight: bold;
+
+}
+.rubrik {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	text-transform: uppercase;
+	color: #666666;
+	font-weight: bold;
+
+}
+
+.topPosition {
+	position: absolute;
+	top: 0px;
+}
+
+.bildtext {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	font-weight: lighter;
+	color: #666666;
+	text-decoration: none;
+}
+
+
+.institutions-namn {
+
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	text-transform: uppercase;
+	color: #666666;
+	font-weight: bolder;
+}
+
+input.search {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	background-color: white;
+
+}
+
+input.searchbutton {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+
+
+}
+
+.bthcss {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+}
+
+.container {
+	width:98%; 
+	margin:0%;
+	position:absolute;
+	top:0px;
+}
+
+
+
+/* Här följer stilar för kursdatabasen */
+
+
+
+.utb_rubrik_text {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #666666;
+	text-decoration: none;
+	padding-top: 11px;
+}
+
+
+.utb_rubrik_sida_Prog_NL	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	text-transform: uppercase;
+	color: #666666;
+	font-weight: bold;
+}
+
+.utb_kttabell_rubrik	{
+	background          : #e6e6e6;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	text-transform: uppercase;
+	color: #666666;
+	font-weight: bold;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+}
+
+.utb_rubrik_sida_NL	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	text-transform: uppercase;
+	color: #666666;
+	font-weight: bold;
+	text-align: left;
+}
+
+.utb_overgripande_tabell	{
+	padding-top: 0px;
+	margin-top: 0px;
+}
+
+.utb_ktinfotabell_rubrik	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+	font-weight: bold;
+	background: #e6e6e6;
+}
+
+.utb_ktinfotabell_tom	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+	padding: 1px;
+}
+
+.utb_rubrik_text_padding	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	text-transform: uppercase;
+	color: #666666;
+	font-weight: bold;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+	padding-top: 12px;
+}
+
+.utb_ktinfotabell_textp	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+	margin-bottom: 4px;
+}
+
+.utb_shortinfotable_rubrik_liten	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.utb_program_benamning	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	text-transform: uppercase;
+	color: #666666;
+	font-weight: bold;
+}
+
+
+.utb_program_faktaruta_rubrik	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.utb_meny_dropdown_inst {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+}
+
+.utb_meny_dropdown_typ {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+}
+
+.utb_meny_dropdown_termin {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+}
+
+.utb_meny_knapp {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #333333;
+	text-decoration: none;
+}
+
+.utb_kttabell_kttermin_rubrik	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+	font-weight: bold;
+	background: #e6e6e6;
+	border-top: 1 solid #444444;
+	border-bottom: 1 solid #444444;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+.utb_kttabell_rubrik_normal	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+	font-weight: bold;
+	background: #e6e6e6;
+}
+
+.utb_program_faktaruta	{
+	clear: both;
+	float: right;
+	width: 175px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #e6e6e6;/*#999999;*/
+	margin-left: 4px;
+	margin-bottom: 4px;
+}
+
+.utb_program_faktaruta_tom {
+	margin-bottom: 10px;
+	clear: both;
+	float: right;
+	width: 175px;
+}
+
+.utb_program_innehallsruta {
+	clear: right;
+	border-style: solid;
+	border-color: #e6e6e6;/*#999999;*/
+	border-top-width: 0px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+}
+
+.utb_program_faktaruta_rubrik	{
+	padding-top: 3px;
+	padding-left: 3px;
+	padding-bottom: 3px;
+	padding-right: 3px;
+	color: #666666;
+	background: #e6e6e6;/*#999999;*/
+	font-family: verdana,sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	font-style: normal;
+}
+
+.utb_program_faktaruta_text {
+	padding-top: 3px;
+	padding-left: 3px;
+	padding-bottom: 3px;
+	padding-right: 3px;
+}
+
+.utb_program_faktaruta_textlank	{
+	padding-top: 3px;
+	padding-left: 3px;
+	padding-bottom: 3px;
+	padding-right: 3px;
+}
+
+.utb_program_fritextruta	{
+	width: 340px;
+	
+}
+
+.utb_ktbenamning	{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	text-transform: uppercase;
+	color: #666666;
+	font-weight: bold;
+}
+
+
+
+/* Här följer stilar för VEGA (Master Students) */
+
+.prgDropDown	{
+	width: 550px; 
+	font-family: Verdana; 
+	font-size: 9px;
+}
