@@ -2,7 +2,7 @@
 require("config.inc");
 header("Content-type: image/png");
 
-$im=@imagecreatefromjpeg("http://127.0.0.1/huvud-rubrik-inga.jpg");
+$im=imagecreatefromjpeg("huvud-rubrik-inga.jpg");
 $textColor=imagecolorallocate($im, 255,255,255);
 $bgColor=imagecolorallocate($im, 0,0,0);
 
@@ -21,4 +21,3 @@ if(!$im) {
 
 imagepng($im);
 ?>
-
