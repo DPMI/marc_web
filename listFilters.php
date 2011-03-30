@@ -22,12 +22,12 @@ $toggle = 0;
     <p>No MPs found!</p>
 <?php } else { ?>
 <?php foreach ( $mps as $mp ){ ?>
-    <table border="0">
-      <tr bgcolor="eeeeee">
-	<th colspan="14"><?=$mp->name?></caption>
+    <table border="1">
+      <tr style="background: #eee;">
+	<th colspan="14"><?=$mp->name?></th>
 	<th>
-	  <a href="verifyFilters.php?SID=<?=$sid?>&amp;MAMPid=<?=$mp->MAMPid?>"><img width="12" height="13"  border="0" ALT="Verify all filters" src="button_properties.png" /></a>
-	  <a href="addFilter.php?SID=<?=$sid?>"><img width="12" height="13"  border="0" ALT="Add filter" src="button_insert.png" /></a>
+	  <a href="verifyFilters.php?SID=<?=$sid?>&amp;MAMPid=<?=$mp->MAMPid?>"><img width="12" height="13" border="0" alt="Verify all filters" src="button_properties.png" /></a>
+	  <a href="addFilter.php?SID=<?=$sid?>"><img width="12" height="13"  border="0" alt="Add filter" src="button_insert.png" /></a>
 	</th>
       </tr>
       
@@ -59,7 +59,7 @@ $toggle = 0;
 	<td><?=$filter->ETH_TYPE?>/<br/><?=$filter->ETH_TYPE_MASK?></td>
 	<td><?=$filter->ETH_SRC?>/<br/><?=$filter->ETH_SRC_MASK?></td>
 	<td><?=$filter->ETH_DST?>/<br/><?=$filter->ETH_DST_MASK?></td>
-	<td><?=$filter->IP_PROTO?></td/>
+	<td><?=$filter->IP_PROTO?></td>
 	<td><?=$filter->IP_SRC?>/<br/><?=$filter->IP_SRC_MASK?></td>
 	<td><?=$filter->IP_DST?>/<br/><?=$filter->IP_DST_MASK?></td>
 	<td><?=$filter->SRC_PORT?>/<br/><?=$filter->SRC_PORT_MASK?></td>
@@ -67,9 +67,9 @@ $toggle = 0;
 	<td><?=$filter->DESTADDR?>/<?=$filter->TYPE?></td>
 	<td><?=$filter->CAPLEN?></td>
 	<td>
-	  <a href="editFilter.php?SID=<?=$sid?>&amp;filter_id=<?=$filter->filter_id?>&amp;MAMPid=<?=$mp->MAMPid?>"><img width=12 height=13  border=0 ALT='Edit' src='button_edit.png'/></a>
-	  <a href="delFilter.php?SID=<?=$sid?>&amp;filter_id=<?=$filter->filter_id?>&amp;MAMPid=<?=$mp->MAMPid?>"><img width=12 height=13  border=0 ALT='Drop' src='button_drop.png'/></a>
-	  <a href="verifyFilter.php?SID=<?=$sid?>&amp;filter_id=<?=$filter->filter_id?>&amp;MAMPid=<?=$mp->MAMPid?>"><img width=12 height=13  border=0 ALT='Verify' src='button_properties.png'/></a>
+	  <a href="editFilter.php?SID=<?=$sid?>&amp;filter_id=<?=$filter->filter_id?>&amp;MAMPid=<?=$mp->MAMPid?>"><img width="12" height="13"  border="0" alt='Edit' src='button_edit.png'/></a>
+	  <a href="delFilter.php?SID=<?=$sid?>&amp;filter_id=<?=$filter->filter_id?>&amp;MAMPid=<?=$mp->MAMPid?>"><img width="12" height="13"  border="0" alt='Drop' src='button_drop.png'/></a>
+	  <a href="verifyFilter.php?SID=<?=$sid?>&amp;filter_id=<?=$filter->filter_id?>&amp;MAMPid=<?=$mp->MAMPid?>"><img width="12" height="13"  border="0" alt='Verify' src='button_properties.png'/></a>
 	</td>
       </tr>
 <?php } /* foreach $filter */ ?>
