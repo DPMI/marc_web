@@ -6,49 +6,38 @@ $Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to 
 mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 
 $url=$_GET["url"];
-//print "url = $url <br>\n";
 $qMark=strpos($url,"?");
-//print "qMark = $qMark <br>\n";
 if($qMark>0) {
-	$url=substr($url, 0, $qMark);
+  $url=substr($url, 0, $qMark);
 }
 
 $sql_question="SELECT * FROM pages WHERE url='" . $url . "'";
-//print "SQL: $sql_question <br>\n";
 $tabell_query=mysql_query(($sql_question),$Connect) or die("Invalid SQL query: $sql_question");
 $row = mysql_fetch_array($tabell_query);
 
+$accesslevel = isset($_SESSION["accesslevel"]) ? $_SESSION["accesslevel"] : 0;
 
-if (isset($_SESSION["accesslevel"])) {
-	if ($row["accesslevel"]>$_SESSION["accesslevel"]) {
-		header("Location: loginDenied.php");
-	}
-} else {
-	if ($row["accesslevel"]>0) {
-		header("Location: loginDenied.php");
-	}
-}	
-
-
+if ( $row["accesslevel"] > $accesslevel ) {
+  header("Location: loginDenied.php");
+}
 
 ?>
-<html>
-<head>
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-   <meta name="Author" content="Patrik Carlsson">
-   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Windows NT 5.0; U) [Netscape]">
-   <title>Root</title>
-</head>
-<? 
-print $pageStyle;
-?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-US" xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="http://www.bth.se/bth/styles/bth.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
+    <title>MArC</title>
+  </head>
+  
+  <body class="bthcss">
+    <?=$row['text']?>
+    <hr />
+    <p>Last Modified: <?=$row['date']?></p>
+  </body>
+</html>
 <?
-
-	print $row["text"];
-	print "<hr>\n";
-	print "Last Modified: " . $row["date"] . "<br>\n";
-	
-
 mysql_close($Connect);
 ?>
-</html>
