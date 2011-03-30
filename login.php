@@ -1,7 +1,6 @@
 <?
 require("config.inc");
 
-session_start();
 // Use $HTTP_SESSION_VARS with PHP 4.0.6 or less
 if (session_is_registered("OK") and isset($HTTP_SESSION_VARS["SID"])) {
 //    print "OK";

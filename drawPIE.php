@@ -19,10 +19,10 @@ example:
 //header ("Content-type: image/png");
 //header ("Content-type: image/png");
 
-$x=$HTTP_GET_VARS["legend"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
-$y=$HTTP_GET_VARS["values"]; // Comma separated
-$zoom=$HTTP_GET_VARS["zoom"];
-$title=$HTTP_GET_VARS["title"];
+$x=$_GET["legend"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
+$y=$_GET["values"]; // Comma separated
+$zoom=$_GET["zoom"];
+$title=$_GET["title"];
 
 $linkArray=array("0x0800" => "IPv4",
 		"0x0806" => "ARP",

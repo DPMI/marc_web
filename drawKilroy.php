@@ -20,10 +20,10 @@ example:
 //header ("Content-type: image/png");
 //header ("Content-type: image/png");
 
-$x1=$HTTP_GET_VARS["x1"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
-$y1=$HTTP_GET_VARS["y1"]; 
-$x2=$HTTP_GET_VARS["x2"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
-$y2=$HTTP_GET_VARS["y2"]; 
+$x1=$_GET["x1"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
+$y1=$_GET["y1"]; 
+$x2=$_GET["x2"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
+$y2=$_GET["y2"]; 
 
 /*
 	print "x1= $x1<br>\n";
@@ -32,11 +32,11 @@ $y2=$HTTP_GET_VARS["y2"];
 	print "y2= $y2<br>\n";
 */
 
-$zoom=$HTTP_GET_VARS["zoom"];
+$zoom=$_GET["zoom"];
 $logx=0;
-$logx=$HTTP_GET_VARS["logx"];
+$logx=$_GET["logx"];
 $logy=0;
-$logy=$HTTP_GET_VARS["logy"];
+$logy=$_GET["logy"];
 
 //$logx=1;
 //$logy=0;

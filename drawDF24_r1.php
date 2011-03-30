@@ -55,8 +55,8 @@ $logx=0;
 $logy=0;
 $LEN=5;
 
-$LEN=$HTTP_GET_VARS["LEN"];
-$MAMPid=$HTTP_GET_VARS["MAMPid"];
+$LEN=$_GET["LEN"];
+$MAMPid=$_GET["MAMPid"];
 
 $LENHRS=$LEN*60;
 
@@ -91,9 +91,9 @@ while($row2=mysql_fetch_array($result2)){
 //print_r($datax);
 //print_r($datay);
 
-$zoom=$HTTP_GET_VARS["zoom"];
-$logx=$HTTP_GET_VARS["logx"];
-$logy=$HTTP_GET_VARS["logy"];
+$zoom=$_GET["zoom"];
+$logx=$_GET["logx"];
+$logy=$_GET["logy"];
 
 $width=$zoom*400; // Plus 20, 10 to the left, 10 to the right
 $heigth=$zoom*150; // Plus 20, 10 to the top and 10 to the bottom

@@ -18,7 +18,6 @@ if($n==0) {
 //	header("Location: loginDenied.php");
 } else {
  //Access allowed!!!
-	session_start();
 	$_SESSION["OK"]="OK";
 
 	if (getenv(HTTP_X_FORWARDED_FOR)){ 

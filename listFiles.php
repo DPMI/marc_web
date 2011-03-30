@@ -3,9 +3,8 @@ require("sessionCheck.php");
 require("config.inc");
 
 
-$sid=$HTTP_GET_VARS["SID"];
+$sid=$_GET["SID"];
 if (isset($sid)) {
-	session_start();
 	$nSid=session_id();
 	if($sid!=$nSid) {
 		print "The passes SID is not equal to the one found here.. problems!";
@@ -30,7 +29,7 @@ mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database"
 
 $toggle=0;
 
-$order=$HTTP_GET_VARS["order"];
+$order=$_GET["order"];
 if (isset($_SESSION["accesslevel"])) {
 	$level=$_SESSION["accesslevel"];
 } else {

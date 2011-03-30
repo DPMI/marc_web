@@ -2,8 +2,7 @@
 require("sessionCheck.php");
 require("config.inc");
 
-$sid=$HTTP_GET_VARS["SID"];
-session_start();
+$sid=$_GET["SID"];
 $nSid=session_id();
 if($sid!=$nSid) {
 	print "The passes SID is not equal to the one found here.. problems!";
@@ -28,7 +27,7 @@ mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database"
 
 $toggle=0;
 
-$order=$HTTP_GET_VARS["order"];
+$order=$_GET["order"];
 
 $sql_query="SELECT * FROM pages";
 if($order!=""){

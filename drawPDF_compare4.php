@@ -20,27 +20,27 @@ example:
 //header ("Content-type: image/png");
 //header ("Content-type: image/png");
 
-$x1=$HTTP_GET_VARS["x1"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
-$y1=$HTTP_GET_VARS["y1"];
-$x2=$HTTP_GET_VARS["x2"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
-$y2=$HTTP_GET_VARS["y2"];
+$x1=$_GET["x1"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
+$y1=$_GET["y1"];
+$x2=$_GET["x2"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
+$y2=$_GET["y2"];
 
-$x3=$HTTP_GET_VARS["x3"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
-$y3=$HTTP_GET_VARS["y3"];
-$x4=$HTTP_GET_VARS["x4"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
-$y4=$HTTP_GET_VARS["y4"];
+$x3=$_GET["x3"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
+$y3=$_GET["y3"];
+$x4=$_GET["x4"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
+$y4=$_GET["y4"];
 
 
  
-$zoom=$HTTP_GET_VARS["zoom"];
+$zoom=$_GET["zoom"];
 $logx=0;
-$logx=$HTTP_GET_VARS["logx"];
+$logx=$_GET["logx"];
 $logy=0;
-$logy=$HTTP_GET_VARS["logy"];
-$str1=$HTTP_GET_VARS["str1"];
-$str2=$HTTP_GET_VARS["str2"];
-$str3=$HTTP_GET_VARS["str3"];
-$str4=$HTTP_GET_VARS["str4"];
+$logy=$_GET["logy"];
+$str1=$_GET["str1"];
+$str2=$_GET["str2"];
+$str3=$_GET["str3"];
+$str4=$_GET["str4"];
 
 
 //$logx=1;

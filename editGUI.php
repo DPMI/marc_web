@@ -2,8 +2,7 @@
 require("sessionCheck.php");
 require("config.inc");
 
-$sid=$HTTP_GET_VARS["SID"];
-session_start();
+$sid=$_GET["SID"];
 $nSid=session_id();
 if($sid!=$nSid) {
 	print "The passes SID is not equal to the one found here.. problems!";
@@ -27,7 +26,7 @@ mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database"
 
 $toggle=0;
 
-$sql_query="SELECT * FROM guiconfig WHERE id=" . $HTTP_GET_VARS["ID"];
+$sql_query="SELECT * FROM guiconfig WHERE id=" . $_GET["ID"];
 $result=mysql_query ($sql_query);
 if(!$result) {
 	print "sq: $sql_q <br>\n";
@@ -36,7 +35,7 @@ if(!$result) {
 
 if(mysql_num_rows($result)>0) {
 ?>	
-	<form action="updateGUI.php?SID=<? print $sid;?>&ID=<? print $HTTP_GET_VARS["ID"]; ?>" method="POST" target="view">
+	<form action="updateGUI.php?SID=<? print $sid;?>&ID=<? print $_GET["ID"]; ?>" method="POST" target="view">
 
 <?
 	$row = mysql_fetch_array($result);

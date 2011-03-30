@@ -2,7 +2,7 @@
 require("sessionCheck.php");
 require("config.inc");
 
-$sid=$HTTP_GET_VARS["SID"];
+$sid=$_GET["SID"];
 session_start();
 $nSid=session_id();
 if($sid!=$nSid) {

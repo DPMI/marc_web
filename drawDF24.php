@@ -25,17 +25,17 @@ $logx=0;
 $logy=0;
 $LEN=5;
 
-$LEN=$HTTP_GET_VARS["LEN"];
+$LEN=$_GET["LEN"];
 
 
 for($k=1;$k<$LEN;$k++){
 	$idx=sprintf("x$k");
 	$idy=sprintf("y$k");
-//	print "leX = $idx <= " . $HTTP_GET_VARS[$idx] . "[EOF] <br>\n";
-//	print "leY = $idy <= " . $HTTP_GET_VARS[$idy] . "[EOF]<br>\n";
+//	print "leX = $idx <= " . $_GET[$idx] . "[EOF] <br>\n";
+//	print "leY = $idy <= " . $_GET[$idy] . "[EOF]<br>\n";
 
-	$leX = preg_split("/,/",$HTTP_GET_VARS[$idx]);
-	$leY = preg_split("/,/",$HTTP_GET_VARS[$idy]);
+	$leX = preg_split("/,/",$_GET[$idx]);
+	$leY = preg_split("/,/",$_GET[$idy]);
 	$datax[$k]= $leX;
 	$datay[$k]= $leY;
 }
@@ -43,9 +43,9 @@ for($k=1;$k<$LEN;$k++){
 //print_r($datax);
 //print_r($datay);
 
-$zoom=$HTTP_GET_VARS["zoom"];
-$logx=$HTTP_GET_VARS["logx"];
-$logy=$HTTP_GET_VARS["logy"];
+$zoom=$_GET["zoom"];
+$logx=$_GET["logx"];
+$logy=$_GET["logy"];
 
 $width=$zoom*400; // Plus 20, 10 to the left, 10 to the right
 $heigth=$zoom*150; // Plus 20, 10 to the top and 10 to the bottom

@@ -5,7 +5,7 @@ require("config.inc");
 $Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
 mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 
-$url=$HTTP_GET_VARS["url"];
+$url=$_GET["url"];
 //print "url = $url <br>\n";
 $qMark=strpos($url,"?");
 //print "qMark = $qMark <br>\n";

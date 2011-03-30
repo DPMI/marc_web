@@ -20,21 +20,21 @@ example:
 //header ("Content-type: image/png");
 //header ("Content-type: image/png");
 
-$x=$HTTP_GET_VARS["x"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
-$y=$HTTP_GET_VARS["y"]; 
+$x=$_GET["x"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
+$y=$_GET["y"]; 
 $xtimes=1;
 $ytimes=1;
-if(is_scalar($HTTP_GET_VARS["xtimes"])) {
-	$xtimes=$HTTP_GET_VARS["xtimes"];	
+if(is_scalar($_GET["xtimes"])) {
+	$xtimes=$_GET["xtimes"];	
 }
-if(is_scalar($HTTP_GET_VARS["ytimes"])) {
-	$ytimes=$HTTP_GET_VARS["ytimes"];	
+if(is_scalar($_GET["ytimes"])) {
+	$ytimes=$_GET["ytimes"];	
 }
-$zoom=$HTTP_GET_VARS["zoom"];
+$zoom=$_GET["zoom"];
 $logx=0;
-$logx=$HTTP_GET_VARS["logx"];
+$logx=$_GET["logx"];
 $logy=0;
-$logy=$HTTP_GET_VARS["logy"];
+$logy=$_GET["logy"];
 
 //$logx=1;
 //$logy=0;
