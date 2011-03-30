@@ -17,24 +17,6 @@ require("config.inc");
 <link REL="SHORTCUT ICON" HREF="/favicon.ico">
 <link href="bth.css" rel="stylesheet" type="text/css">
 
-<!-- Implementerat av IT & Nya Media vid Blekinge Tekniska Hvgskola -->
-
-<script language="JavaScript" type="text/javascript">
-<!-- 
-document._domino_target = "_self";
-function _doClick(v, o, t) {
-  var url="/ht/twebeng.nsf!OpenDatabase&Click=" + v;
-  if (o.href != null)
-    o.href = url;
-  else {
-    if (t == null)
-      t = document._domino_target;
-    window.open(url, t);
-  }
-
-}
-// -->
-</script>
 </head>
 
 <? 
