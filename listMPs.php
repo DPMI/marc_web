@@ -4,14 +4,6 @@ require("sessionCheck.php");
 require("config.inc");
 require_once('model/MP.php');
 
-$sid = '';
-if ( isset($_GET['SID']) ){
-  $sid = $_GET['SID'];
-  if ( $sid != session_id() ){
-    die("The passes SID is not equal to the one found here.. problems!");
-  }
-}
-
 $order = isset($_GET['order']) ? $_GET['order'] : 'id';
 $asc = isset($_GET['asc']) ? (int)$_GET['asc'] : 1;
 $ascinv = 1 - $asc;
