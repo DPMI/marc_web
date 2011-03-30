@@ -1,36 +1,36 @@
-<?
-require("config.inc");
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-US" xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="http://www.bth.se/bth/styles/bth.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
+    <title>MArC :: Login</title>
+  </head>
+  
+  <body class="bthcss">
+    <h1>Login</h1>
+    <p>This site uses cookies and sessions.</p>
 
-// Use $HTTP_SESSION_VARS with PHP 4.0.6 or less
-if (session_is_registered("OK") and isset($HTTP_SESSION_VARS["SID"])) {
-//    print "OK";
-	$sid=$HTTP_SESSION_VARS["SID"];
-//	print "SID = $sid \n";
-	header("Location: framesMgnt.php?SID=$sid");
-	exit;
-}
+    <div style="margin: auto; width: 260px; background: green; border: 1px solid black;">
+      <form action="loginVerification.php" method="post">
+	<table width="100%">
+	  <tr>
+	    <td>User Name</td>
+	    <td><input type="text" name="uName" /></td>
+	  </tr>
+	  <tr>
+	    <td>Password</td>
+	    <td><input type="password" name="pWord" /></td>
+	  </tr>
+	  <tr>
+	    <td colspan="2" style="text-align: center;">
+	      <input type="submit" value="Enter" />
+	    </td>
+	  </tr>
+	</table>
+      </form>
+    </div>
 
-?>
-<html>
-<head>
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-   <meta name="GENERATOR" content="Mozilla/4.78 [en] (Windows NT 5.0; U) [Netscape]">
-</head>
-<? 
-print $pageStyle;
-?>
-
-
-<h1><u>Login</u></h1>
-This site uses cookies and sessions.<br>
-<center>
-<form action="loginVerification.php" method=post>
-<table border=1>
-<tr><td>User Name</td><td><input type=text name=uName></td></tr>
-<tr><td>Password</td><td><input type=password name=pWord></td></tr>
-<tr><td colspan=2 align=center><input type=submit value="Enter"></tr>
-</table>
-</form></center>
-
-</body>
+  </body>
 </html>
