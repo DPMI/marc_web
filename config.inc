@@ -8,6 +8,10 @@ $user='marc';
 $password='konko';
 $path='uploadedfiles/';
 
+/* required for BasicObject */
+$db = new mysqli($DB_SERVER, $user, $password, $DATABASE);
+define('HTML_ACCESS', 1);
+
 $max_size=1000000;
 $Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
 mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
