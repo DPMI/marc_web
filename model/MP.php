@@ -1,6 +1,7 @@
 <?php
 
 require_once('BasicObject.php');
+require_once('Filter.php');
 
 class MP extends BasicObject {
   static protected function table_name(){
@@ -13,9 +14,10 @@ class MP extends BasicObject {
       return "Not Auth";
     }
 
-    $result = $db->query('SELECT COUNT(*) FROM ${this->MAMPid}_filterlist');
+    $result = $db->query("SELECT COUNT(*) FROM {$this->MAMPid}_filterlist");
+    $row = $result->fetch_row();
 
-    if ( $result[0] > 0 ){
+    if ( $row[0] > 0 ){
       return "Capturing";
     } else {
       return "Idle";
@@ -23,8 +25,19 @@ class MP extends BasicObject {
   }
 
   public function is_authorized(){
-    return true;
     return strlen($this->MAMPid) > 0;
+  }
+
+  public function filters(){
+    global $db;
+    
+    $filters = array();
+    $result = $db->query("SELECT * FROM {$this->MAMPid}_filterlist");
+    while ( $row = $result->fetch_assoc() ){
+      $filters[] = new Filter($row);
+    }
+
+    return $filters;
   }
 }
 
