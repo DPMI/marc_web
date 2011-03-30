@@ -3,7 +3,6 @@ require("sessionCheck.php");
 require("config.inc");
 
 $sid=$_GET["SID"];
-session_start();
 $nSid=session_id();
 if($sid!=$nSid) {
 	print "The passes SID is not equal to the one found here.. problems!";
@@ -14,7 +13,7 @@ if($sid!=$nSid) {
 
 ?>
 <?
-$id=$_GET["id"];
+$id=isset($_GET['id']) ? $_GET["id"] : '';
 
 ?>
 <html>
