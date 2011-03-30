@@ -9,7 +9,6 @@ print $pageStyle;
 ?>
 <h2>Messages</h2>
 <?
-require("config.inc");
 
 $Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
 mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
