@@ -5,6 +5,7 @@ require_once("model/MP.php");
 
 $FILTER_ID=$_GET["filter_id"];
 $toggle=0;
+$can_set_mp = false;
 
 $mp = MP::from_mampid($_GET['MAMPid']);
 $all_mp = MP::selection();
@@ -40,9 +41,11 @@ function build_options($key, $value){
  *                only the first match (value, not key) is selected.
  * @param update Name of another field to update (using javascript) when a value
  *               is selected.
+ * @param extra Extra attributes to select, e.g. style.
  */
-function select($name, array $values, array $default=null, $update=null){
+function select($name, array $values, array $default=null, $update=null, array $extra=null){
   $js = '';
+  $extra_str = '';
 
   if ( $update != null ){
     $js = "onchange=\"document.myForm.$update.value = document.myForm.$name.value;\"";
@@ -70,7 +73,14 @@ function select($name, array $values, array $default=null, $update=null){
     }
   }
 
-  $head = "<select name=\"$name\" size=\"1\" $js>";
+  /* build extra */
+  if ( $extra != null ){
+    foreach ( $extra as $key => $value ){
+      $extra_str .= "$key=\"$value\" ";
+    }
+  }
+
+  $head = "<select name=\"$name\" size=\"1\" $js $extra_str>";
   $foot = "</select>";
   $options = array_map('build_options', array_keys($normalized), array_values($normalized));
  
@@ -95,32 +105,34 @@ function select($name, array $values, array $default=null, $update=null){
       <form action="editFilter2.php?SID=<?=$sid?>" method="post" name="myForm" target="view">
 	<input type="hidden" name="old_filter_id" value="<?=$filter->filter_id?>" />
 
-	<h2>Filter Specification</h2>
+	<h1>Filter Specification</h1>
 	<noscript>
 	<p class="notice">This page requires javascript to function properly!</p>
+	<p class="notice">You need to manually update index!</p>
 	</noscript>
 
 	<p><b>MP</b>: <?=$mp->name?></p>
 	<p>
-	  INDEX     <input name="index"     type="text" size="14" readonly="readonly" value="<?=$filter->ind?>" />
-	  FILTER ID <input name="filter_id" type="text" size="14" maxlength="14"      value="<?=$filter->filter_id?>" />
+	  INDEX     <input id="index"     name="index"     type="text" size="14" value="<?=$filter->ind?>" />
+	  FILTER ID <input id="filter_id" name="filter_id" type="text" size="14" value="<?=$filter->filter_id?>" maxlength="14" />
 	</p>
 
-	<table border="1">
-	  <tr><th colspan="6">Packet Specification</th></tr>
-	  <tr><td width="50"><input name="cicb"   type="checkbox" onchange="updateIndex();" <?=$filter->ind&512 ? 'checked="checked"' : '' ?> />512</td><td class="label">CI      </td>    <td colspan="4"><input name="ci"       type="text" size="8"  maxlength="8"  value="<?=$filter->CI_ID    ?>" /></td></tr>
-	  <tr><td width="50"><input name="vlancb" type="checkbox" onchange="updateIndex();" <?=$filter->ind&256 ? 'checked="checked"' : '' ?> />256</td><td class="label">VLAN_TCI</td>    <td colspan="1"><input name="vlan_tci" type="text" size="5"  maxlength="5"  value="<?=$filter->VLAN_TCI ?>" /></td>    <td class="label">VLAN_TCI_MASK</td><td><input name="vlan_tci_mask" type="text" size="14" maxlength="14" value="<?=$filter->VLAN_TCI_MASK?>" /></td><td><?=select('vlanmask',   array('ffff', 'ff00', '00ff', 'Other' => ''), array($filter->VLAN_TCI_MASK, ''), 'vlan_tci_mask')?></td></tr>
-	  <tr><td width="50"><input name="ethtcb" type="checkbox" onchange="updateIndex();" <?=$filter->ind&128 ? 'checked="checked"' : '' ?> />128</td><td class="label">ETH_TYPE</td>    <td colspan="1"><input name="eth_type" type="text" size="5"  maxlength="5"  value="<?=$filter->ETH_TYPE ?>" /></td>    <td class="label">ETH_TYPE_MASK</td><td><input name="eth_type_mask" type="text" size="14" maxlength="14" value="<?=$filter->ETH_TYPE_MASK?>" /></td><td><?=select('ethmask',    array('ffff', 'ff00', '00ff', 'Other' => ''), array($filter->ETH_TYPE_MASK, ''), 'eth_type_mask')?></td></tr>
-	  <tr><td width="50"><input name="ethscb" type="checkbox" onchange="updateIndex();" <?=$filter->ind&64  ? 'checked="checked"' : '' ?> />64 </td><td class="label">ETH_SRC </td>    <td colspan="1"><input name="eth_src"  type="text" size="17" maxlength="17" value="<?=$filter->ETH_SRC  ?>" /></td>    <td class="label">ETH_SRC_MASK </td><td><input name="eth_src_mask"  type="text" size="17" maxlength="17" value="<?=$filter->ETH_SRC_MASK ?>" /></td><td><?=select('ethsrcmask', array('ffffffffffff', '000000000000', 'Other' => ''), array($filter->ETH_SRC_MASK, ''), 'eth_src_mask')?></td></tr>
-	  <tr><td width="50"><input name="ethdcb" type="checkbox" onchange="updateIndex();" <?=$filter->ind&32  ? 'checked="checked"' : '' ?> />32 </td><td class="label">ETH_DST </td>    <td colspan="1"><input name="eth_dst"  type="text" size="17" maxlength="17" value="<?=$filter->ETH_DST  ?>" /></td>    <td class="label">ETH_DST_MASK </td><td><input name="eth_dst_mask"  type="text" size="17" maxlength="17" value="<?=$filter->ETH_DST_MASK ?>" /></td><td><?=select('ethdstmask', array('ffffffffffff', '000000000000', 'Other' => ''), array($filter->ETH_DST_MASK, ''), 'eth_dst_mask')?></td></tr>
-	  <tr><td width="50"><input name="ippcb"  type="checkbox" onchange="updateIndex();" <?=$filter->ind&16  ? 'checked="checked"' : '' ?> />16 </td><td class="label">IP_PROTO</td>    <td colspan="4"><input name="ip_proto" type="text" size="5"  maxlength="5"  value="<?=$filter->IP_PROTO ?>" /> <?=select('ipproto_predef', array('UDP' => 17, 'TCP' => 6, 'ICMP' => 1, 'Other' => ''), array($filter->protocol(), ''), 'ip_proto')?></td></tr>
-	  <tr><td width="50"><input name="ipscb"  type="checkbox" onchange="updateIndex();" <?=$filter->ind&8   ? 'checked="checked"' : '' ?> />8  </td><td class="label">IP_SRC  </td>    <td colspan="1"><input name="ip_src"   type="text" size="16" maxlength="16" value="<?=$filter->IP_SRC   ?>" /></td>    <td class="label">IP_SRC_MASK  </td><td><input name="ip_src_mask"   type="text" size="16" maxlength="16" value="<?$filter->IP_SRC_MASK   ?>" /></td><td><?=select('ipsmask',    array('255.255.255.255', '255.255.255.0', 'Other' => ''), array($filter->IP_SRC_MASK, ''), 'ip_src_mask')?></td></tr>
-	  <tr><td width="50"><input name="ipdcb"  type="checkbox" onchange="updateIndex();" <?=$filter->ind&4   ? 'checked="checked"' : '' ?> />4  </td><td class="label">IP_DST  </td>    <td colspan="1"><input name="ip_dst"   type="text" size="16" maxlength="16" value="<?=$filter->IP_DST   ?>" /></td>    <td class="label">IP_DST_MASK  </td><td><input name="ip_dst_mask"   type="text" size="16" maxlength="16" value="<?$filter->IP_DST_MASK   ?>" /></td><td><?=select('ipdmask',    array('255.255.255.255', '255.255.255.0', 'Other' => ''), array($filter->IP_DST_MASK, ''), 'ip_dst_mask')?></td></tr>
-	  <tr><td width="50"><input name="sprtcb" type="checkbox" onchange="updateIndex();" <?=$filter->ind&2   ? 'checked="checked"' : '' ?> />2  </td><td class="label">SRC_PORT</td>    <td colspan="1"><input name="src_port" type="text" size="5"  maxlength="5"  value="<?=$filter->SRC_PORT ?>" /></td>    <td class="label">SRC_PORT_MASK</td><td><input name="src_port_mask" type="text" size="5"  maxlength="5"  value="<?$filter->SRC_PORT_MASK ?>" /></td><td><?=select('portsmask',  array('ffff', '0000', 'Other' => ''), array($filter->SRC_PORT_MASK, ''), 'src_port_mask')?></td></tr>
-	  <tr><td width="50"><input name="dprtcb" type="checkbox" onchange="updateIndex();" <?=$filter->ind&1   ? 'checked="checked"' : '' ?> />1  </td><td class="label">DST_PORT</td>    <td colspan="1"><input name="dst_port" type="text" size="5"  maxlength="5"  value="<?=$filter->DST_PORT ?>" /></td>    <td class="label">DST_PORT_MASK</td><td><input name="dst_port_mask" type="text" size="5"  maxlength="5"  value="<?$filter->DST_PORT_MASK ?>" /></td><td><?=select('portdmask',  array('ffff', '0000', 'Other' => ''), array($filter->DST_PORT_MASK, ''), 'dst_port_mask')?></td></tr>
-	  <tr><td width="50" class="label">DESTADDR</td><td><input name="destaddr" type="text" size="23" maxlength="23" value="<?=$filter->DESTADDR?>"/></td><td class="label">TYPE</td><td><input name="stream_type" type="text" size="5" maxlength="5" value="<?=$filter->TYPE?>" /></td><td><?=select('stream_type_sel', array('File' => 0, 'Ethernet multicast' => 1, 'UDP' => 2, 'TCP' => 3), array($filter->TYPE), 'stream_type')?><p>Note: TCP requires a running TCP consumer</p></td></tr>
-	  <tr><td width="50">&nbsp;</td><td class="label">CAPLEN</td><td><input name="caplen" type="text" size="14" maxlength="4" value="<?=$filter->CAPLEN?>" /></td></tr>
-	  
+	<h2>Packet specification</h2>
+	<table border="0" cellspacing="1">
+	  <tr><td style="width: 50px;"><input name="cicb"   type="checkbox" onchange="updateIndex();" <?=$filter->ind&512 ? 'checked="checked"' : '' ?> />512</td>          <td class="label">CI      </td>	<td colspan="4"><input name="ci"       type="text" size="8"  maxlength="8"  value="<?=$filter->CI_ID	?>" /></td></tr>
+	  <tr><td style="width: 50px;"><input name="vlancb" type="checkbox" onchange="updateIndex();" <?=$filter->ind&256 ? 'checked="checked"' : '' ?> />256</td>          <td class="label">VLAN_TCI</td>	<td colspan="1"><input name="vlan_tci" type="text" size="5"  maxlength="5"  value="<?=$filter->VLAN_TCI ?>" /></td>    <td class="label">VLAN_TCI_MASK</td><td><input name="vlan_tci_mask" type="text" size="14" maxlength="14" value="<?=$filter->VLAN_TCI_MASK?>" /></td><td><?=select('vlanmask',   array('ffff', 'ff00', '00ff', 'Other' => ''), array($filter->VLAN_TCI_MASK, ''), 'vlan_tci_mask')?></td></tr>
+	  <tr><td style="width: 50px;"><input name="ethtcb" type="checkbox" onchange="updateIndex();" <?=$filter->ind&128 ? 'checked="checked"' : '' ?> />128</td>          <td class="label">ETH_TYPE</td>	<td colspan="1"><input name="eth_type" type="text" size="5"  maxlength="5"  value="<?=$filter->ETH_TYPE ?>" /></td>    <td class="label">ETH_TYPE_MASK</td><td><input name="eth_type_mask" type="text" size="14" maxlength="14" value="<?=$filter->ETH_TYPE_MASK?>" /></td><td><?=select('ethmask',    array('ffff', 'ff00', '00ff', 'Other' => ''), array($filter->ETH_TYPE_MASK, ''), 'eth_type_mask')?></td></tr>
+	  <tr><td style="width: 50px;"><input name="ethscb" type="checkbox" onchange="updateIndex();" <?=$filter->ind&64  ? 'checked="checked"' : '' ?> />&nbsp;64</td>     <td class="label">ETH_SRC </td>	<td colspan="1"><input name="eth_src"  type="text" size="17" maxlength="17" value="<?=$filter->ETH_SRC	?>" /></td>    <td class="label">ETH_SRC_MASK </td><td><input name="eth_src_mask"  type="text" size="17" maxlength="17" value="<?=$filter->ETH_SRC_MASK ?>" /></td><td><?=select('ethsrcmask', array('ffffffffffff', '000000000000', 'Other' => ''), array($filter->ETH_SRC_MASK, ''), 'eth_src_mask')?></td></tr>
+	  <tr><td style="width: 50px;"><input name="ethdcb" type="checkbox" onchange="updateIndex();" <?=$filter->ind&32  ? 'checked="checked"' : '' ?> />&nbsp;32</td>     <td class="label">ETH_DST </td>	<td colspan="1"><input name="eth_dst"  type="text" size="17" maxlength="17" value="<?=$filter->ETH_DST	?>" /></td>    <td class="label">ETH_DST_MASK </td><td><input name="eth_dst_mask"  type="text" size="17" maxlength="17" value="<?=$filter->ETH_DST_MASK ?>" /></td><td><?=select('ethdstmask', array('ffffffffffff', '000000000000', 'Other' => ''), array($filter->ETH_DST_MASK, ''), 'eth_dst_mask')?></td></tr>
+	  <tr><td style="width: 50px;"><input name="ippcb"  type="checkbox" onchange="updateIndex();" <?=$filter->ind&16  ? 'checked="checked"' : '' ?> />&nbsp;16</td>     <td class="label">IP_PROTO</td>	<td colspan="4"><input name="ip_proto" type="text" size="5"  maxlength="5"  value="<?=$filter->IP_PROTO ?>" style="width: 6em;" /> <?=select('ipproto_predef', array('UDP' => 17, 'TCP' => 6, 'ICMP' => 1, 'Other' => ''), array($filter->protocol(), ''), 'ip_proto', array('style' => 'width: 7em;'))?></td></tr>
+	  <tr><td style="width: 50px;"><input name="ipscb"  type="checkbox" onchange="updateIndex();" <?=$filter->ind&8   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;8</td><td class="label">IP_SRC  </td>	<td colspan="1"><input name="ip_src"   type="text" size="16" maxlength="16" value="<?=$filter->IP_SRC	?>" /></td>    <td class="label">IP_SRC_MASK  </td><td><input name="ip_src_mask"   type="text" size="16" maxlength="16" value="<?$filter->IP_SRC_MASK	?>" /></td><td><?=select('ipsmask',    array('255.255.255.255', '255.255.255.0', 'Other' => ''), array($filter->IP_SRC_MASK, ''), 'ip_src_mask')?></td></tr>
+	  <tr><td style="width: 50px;"><input name="ipdcb"  type="checkbox" onchange="updateIndex();" <?=$filter->ind&4   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;4</td><td class="label">IP_DST  </td>	<td colspan="1"><input name="ip_dst"   type="text" size="16" maxlength="16" value="<?=$filter->IP_DST	?>" /></td>    <td class="label">IP_DST_MASK  </td><td><input name="ip_dst_mask"   type="text" size="16" maxlength="16" value="<?$filter->IP_DST_MASK	?>" /></td><td><?=select('ipdmask',    array('255.255.255.255', '255.255.255.0', 'Other' => ''), array($filter->IP_DST_MASK, ''), 'ip_dst_mask')?></td></tr>
+	  <tr><td style="width: 50px;"><input name="sprtcb" type="checkbox" onchange="updateIndex();" <?=$filter->ind&2   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;2</td><td class="label">SRC_PORT</td>	<td colspan="1"><input name="src_port" type="text" size="5"  maxlength="5"  value="<?=$filter->SRC_PORT ?>" /></td>    <td class="label">SRC_PORT_MASK</td><td><input name="src_port_mask" type="text" size="5"	 maxlength="5"	value="<?$filter->SRC_PORT_MASK ?>" /></td><td><?=select('portsmask',  array('ffff', '0000', 'Other' => ''), array($filter->SRC_PORT_MASK, ''), 'src_port_mask')?></td></tr>
+	  <tr><td style="width: 50px;"><input name="dprtcb" type="checkbox" onchange="updateIndex();" <?=$filter->ind&1   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;1</td><td class="label">DST_PORT</td>	<td colspan="1"><input name="dst_port" type="text" size="5"  maxlength="5"  value="<?=$filter->DST_PORT ?>" /></td>    <td class="label">DST_PORT_MASK</td><td><input name="dst_port_mask" type="text" size="5"	 maxlength="5"	value="<?$filter->DST_PORT_MASK ?>" /></td><td><?=select('portdmask',  array('ffff', '0000', 'Other' => ''), array($filter->DST_PORT_MASK, ''), 'dst_port_mask')?></td></tr>
+	  <tr><td style="width: 50px;">&nbsp;</td><td class="label">DESTADDR</td><td><input name="destaddr" type="text" size="23" maxlength="23" value="<?=$filter->DESTADDR?>"/></td><td class="label">TYPE</td><td colspan="2"><?=select('stream_type', array('File' => 0, 'Ethernet multicast' => 1, 'UDP' => 2, 'TCP' => 3), array($filter->TYPE))?><p>Note: TCP requires a running TCP consumer!</p></td></tr>
+	  <tr><td style="width: 50px;">&nbsp;</td><td class="label">CAPLEN</td><td colspan="4"><input name="caplen" type="text" size="14" maxlength="4" value="<?=$filter->CAPLEN?>" /></td></tr>
+
+<?php if ( $can_set_mp ) { ?>	  
 	  <tr><th colspan="6">MP Receiving Filter</th></tr>
 	  <tr><td colspan="6">DO NOT CHANGE THIS IN EDIT MODE!!!!<br/>DELETE OLD RULE AND MAKE A NEW!!!!!</td></tr>
 	  
@@ -140,7 +152,7 @@ function select($name, array $values, array $default=null, $update=null){
 	    <td><?=$cur->maxFilters?></td>
 	  </tr>
 <?php } /* foreach $all_mp */ ?>
-
+<?php } /* $can_set_mp */ ?>
 	  <tr>
 	    <td colspan="5">&nbsp;</td>
 	    <td><input type="submit" value="Update Filter" />&nbsp;<input type="reset" value="Reset" /></td>
@@ -149,4 +161,10 @@ function select($name, array $values, array $default=null, $update=null){
       </form>
     </div>
   </body>
+
+  <script type="text/javascript" />
+    /* disable index-modification if javascript is enabled (it is calculated automatically) */
+    document.getElementById('index').disabled = true;
+  </script>
+
 </html>

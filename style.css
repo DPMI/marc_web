@@ -1,18 +1,35 @@
 body {
-    margin: 0;
+    margin: 1em;
+}
+
+#filter {
+    background: #fff;
+    width: 850px;
+    border: 1px solid #000;
+    margin: 1em;
+    padding: 1em;
+    margin: auto;
 }
 
 #filter td.label {
     background: #d3dce3;
     text-align: right;
+    padding-left: 1em;
+    padding-right: 0.5em;
 }
 
-#filter input {
+#filter td {
+    vertical-align: text-top;
+}
+
+#filter input[type="text"] {
     font-family: monospace;
+    width: 14em;
 }
 
 #filter select {
     font-family: monospace;
+    width: 14em;
 }
 
 #filter .notice {
