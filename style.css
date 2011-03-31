@@ -1,3 +1,21 @@
 body {
     margin: 0;
 }
+
+#filter td.label {
+    background: #d3dce3;
+    text-align: right;
+}
+
+#filter input {
+    font-family: monospace;
+}
+
+#filter select {
+    font-family: monospace;
+}
+
+#filter .notice {
+    color: red;
+    font-weight: bold;
+}

@@ -15,6 +15,10 @@ class Filter {
     return $this->data[$name];
   }
 
+  public function protocol(){
+    return getprotobynumber($this->IP_PROTO);
+  }
+
   /**
    * Gives a plain-text description of the filter.
    */

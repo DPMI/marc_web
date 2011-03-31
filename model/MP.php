@@ -8,6 +8,10 @@ class MP extends BasicObject {
     return 'measurementpoints';
   }
 
+  public static function from_mampid($mampid){
+    return static::from_field('MAMPid', $mampid);
+  }
+
   public function status(){
     global $db;
     if ( !$this->is_authorized() ){
@@ -38,6 +42,14 @@ class MP extends BasicObject {
     }
 
     return $filters;
+  }
+
+  public function filter($id){
+    global $db;
+    
+    $sql = "SELECT * FROM {$this->MAMPid}_filterlist WHERE filter_id = '" . mysql_real_escape_string($id) . "' LIMIT 1";
+    $result = $db->query($sql);
+    return new Filter($result->fetch_assoc());
   }
 }
 
