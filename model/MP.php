@@ -12,6 +12,10 @@ class MP extends BasicObject {
     return static::from_field('MAMPid', $mampid);
   }
 
+  public function filter_table(){
+    return "{$this->MAMPid}_filterlist";
+  }
+
   public function status(){
     global $db;
     if ( !$this->is_authorized() ){
@@ -38,7 +42,7 @@ class MP extends BasicObject {
     $filters = array();
     $result = $db->query("SELECT * FROM {$this->MAMPid}_filterlist");
     while ( $row = $result->fetch_assoc() ){
-      $filters[] = new Filter($row);
+      $filters[] = new Filter($this, $row);
     }
 
     return $filters;
@@ -49,7 +53,11 @@ class MP extends BasicObject {
     
     $sql = "SELECT * FROM {$this->MAMPid}_filterlist WHERE filter_id = '" . mysql_real_escape_string($id) . "' LIMIT 1";
     $result = $db->query($sql);
-    return new Filter($result->fetch_assoc());
+    $row = $result->fetch_assoc();
+    if ( !$row ){
+      return null;
+    }
+    return new Filter($this, $row);
   }
 }
 
