@@ -39,8 +39,12 @@ class MP extends BasicObject {
   public function filters(){
     global $db;
     
-    $filters = array();
     $result = $db->query("SELECT * FROM {$this->MAMPid}_filterlist");
+    if ( $result == null ){
+      return array();
+    }
+
+    $filters = array();
     while ( $row = $result->fetch_assoc() ){
       $filters[] = new Filter($this, $row);
     }
