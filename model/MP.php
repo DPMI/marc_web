@@ -79,7 +79,7 @@ class MP extends BasicObject {
     $this->send($message);
   }
 
-  private function send($message){
+  public function send($message){
     $ip = $this->ip;
     $port = $this->port;
     $fp = fsockopen("udp://$ip", $port, $errno, $errstr);
