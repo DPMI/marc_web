@@ -32,7 +32,30 @@ body {
     width: 14em;
 }
 
-.notice {
+#filter .notice {
     color: red;
+    font-weight: bold;
+}
+
+#content .alert {
+    background: #fff url('gfx/Ambox_content.png') no-repeat left top;
+    height: 50px;
+    padding-left: 50px;
+}
+
+#content .alert p {
+    padding-top: 5px;
+    color: red;
+    font-weight: bold;
+}
+
+#content .notice {
+    background: #fff url('gfx/Ambox_notice.png') no-repeat left top;
+    height: 50px;
+    padding-left: 50px;
+}
+
+#content .notice p {
+    padding-top: 5px;
     font-weight: bold;
 }

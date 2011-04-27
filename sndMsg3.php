@@ -9,22 +9,26 @@ if ( !$mp ){
 }
 
 $alert = null;
-$type = (int)$_POST['type'];
+$type = $_POST['type'];
 $message = $_POST['message'];
 
-switch ( $type ){
-case 3:
-  if ( !is_numeric($message) ){
-    $alert = "Expected a numerical filter id.";
-  } else {
-    $id = (int)$message;
-    $mp->reload_filter($id);
-  }
-  break;
-default:
-  $data = pack("N", $type) . $message;
-  $mp->send($data);
-};
+if ( !is_numeric($type) ){
+  $alert = "Expected a numerical message type.";
+} else {
+  switch ( (int)$type ){
+  case 3:
+    if ( !is_numeric($message) ){
+      $alert = "Expected a numerical filter id.";
+    } else {
+      $id = (int)$message;
+      $mp->reload_filter($id);
+    }
+    break;
+  default:
+    $data = pack("N", $type) . $message;
+    $mp->send($data);
+  };
+}
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -40,9 +44,13 @@ default:
   <body class="bthcss">
     <div id="content">
 <?php if ( !$alert ){ ?>
-      <p>Message sent. <a href="sendMsg.php?SID=<?=$sid?>">Back</a>.</p>
+      <div class="notice">
+	<p>Message sent. <a href="sendMsg.php?SID=<?=$sid?>"><br/>Back</a>.</p>
+      </div>
 <?php } else { ?>
-      <p class="notice"><?=$alert?> <a href="sndMsg2.php?SID=<?=$sid?>&amp;id=<?=$mp->id?>"><br/>Back</a>.</p>
+      <div class="alert">
+	 <p><?=$alert?> <a href="sndMsg2.php?SID=<?=$sid?>&amp;id=<?=$mp->id?>"><br/>Back</a>.</p>
+      </div>
 <?php } ?>
     </div>
   </body>
