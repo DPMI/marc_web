@@ -24,7 +24,7 @@ $id=isset($_GET['id']) ? $_GET["id"] : '';
    <title>Root</title>
 </head>
 
-<frameset cols="25%,*">
+<frameset cols="200,*">
 	<frame src="frameMngtMenu.php?SID=<? print $sid;?>&id=<? print $id;?>" name="index1">
 	<frame name="view">
 </frameset>
