@@ -119,7 +119,7 @@ class Filter {
   public function commit($old_id=null){
     global $db;
 
-    $id = $old_id ? $old_id : $this->data['filter_id'];
+    $id = $old_id != null ? $old_id : $this->data['filter_id'];
     $types = str_repeat('s', count($this->data)) . 'i';
     $keys = array_map(create_function('$x', 'return "$x = ?";'), array_keys($this->data));
     $param = array(&$types);

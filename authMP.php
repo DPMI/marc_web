@@ -69,7 +69,7 @@ print "Updated measurementpoints <br>\n";
 $MAMPidfl="$MAMPid"."_filterlist";
 
 $sql_create="CREATE TABLE `$MAMPidfl` (
-  `filter_id` int(11) NOT NULL default '0',
+  `filter_id` int(11) PRIMARY KEY,
   `ind` bigint(20) NOT NULL default '0',
   `CI_ID` varchar(8) NOT NULL default '',
   `VLAN_TCI` int(11) NOT NULL default '0',
@@ -92,8 +92,7 @@ $sql_create="CREATE TABLE `$MAMPidfl` (
   `consumer` int(11) NOT NULL default '0',
   `DESTADDR` varchar(23) NOT NULL default '',
   `TYPE` int(11) NOT NULL default '1',
-  `CAPLEN` int(11) NOT NULL default '0',
-  KEY `filter_id` (`filter_id`)
+  `CAPLEN` int(11) NOT NULL default '0'
 ) TYPE=MyISAM";
     
 $result=mysql_query ($sql_create);

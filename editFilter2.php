@@ -14,15 +14,6 @@ if ( $mp == null ){
   die("No measurement point named {$_GET['MAMPid']}!");
 }
 
-echo "<pre>";
-print_r($_POST);
-echo "</pre>";
-
-?>
-<html>
-<? 
-print $pageStyle;
-
 $FILTER_ID=$_POST["filter_id"];
 $OLD_FILTER_ID=$_POST["old_filter_id"];
 
@@ -36,26 +27,9 @@ foreach ($fields as $key => $value){
 }
 
 $filter = new Filter($mp, $fields);
-$filter->commit($_POST['old_filter_id']);
+$filter->commit($OLD_FILTER_ID);
 
-exit();
-
-$IP=$row["ip"];
-$port=$row["port"];
-$type=4;
-$message=$FILTER_ID;
-
-$message=sprintf("%s%s",pack("N",$type),$message);
-
-print "Contacting ctrl $IP:$port <h1>$message</h1>\n";
-$fp = fsockopen("udp://$IP", $port, $errno, $errstr);
-if (!$fp) {
-   echo "ERROR: $errno - $errstr<br />\n";
-} else {
-   fwrite($fp, $message);
-   fclose($fp);
-}
-
+$mp->reload_filter($FILTER_ID);
+header("Location: listFilters.php?SID=$sid");
 
 ?>
-</body></html>

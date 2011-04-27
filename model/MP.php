@@ -2,6 +2,7 @@
 
 require_once('BasicObject.php');
 require_once('Filter.php');
+require_once('MPStatus.php');
 
 class MP extends BasicObject {
   static protected function table_name(){
@@ -63,6 +64,32 @@ class MP extends BasicObject {
     }
     return new Filter($this, $row);
   }
+
+  public function stats($limit=null){
+    if ( $this->is_authorized() ){
+      return new MPStatus($this->MAMPid, $limit);
+    } else {
+      return null;
+    }
+  }
+
+  public function reload_filter($id){
+    /* 65 is filter reload event */
+    $message = pack("Na16N", 65, $this->MAMPid, $id);
+    $this->send($message);
+  }
+
+  private function send($message){
+    $ip = $this->ip;
+    $port = $this->port;
+    $fp = fsockopen("udp://$ip", $port, $errno, $errstr);
+    if ( !$fp ){
+      throw new RuntimeError("Could not open MP socket (code $errno): $errstr");
+    }
+    fwrite($fp, $message);
+    fclose($fp);
+  }
+
 }
 
 ?>
