@@ -19,9 +19,9 @@ header ("Content-type: image/png");
 
 $x=$_GET["x"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
 $y=$_GET["y"]; 
-$zoom=$_GET["zoom"];
+$zoom=isset($_GET["zoom"]) ? $_GET["zoom"] : 1.0;
 $logx=0;
-$logx=$_GET["log"];
+$logx=isset($_GET["log"]) ? $_GET["log"] : 0;
 
 $width=$zoom*250; // Plus 20, 10 to the left, 10 to the right
 $heigth=$zoom*75; // Plus 20, 10 to the top and 10 to the bottom
