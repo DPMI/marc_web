@@ -1,14 +1,73 @@
 body {
     margin: 1em;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+
+    background-image: url(http://www.bth.se/bth/images/backtest06.gif);
+    background-repeat: repeat;
+    background-attachment: fixed;
+
+    color: #666666;
+}
+
+h1 {
+    font-size: 1.5em;
+    text-transform: uppercase;
+    color: #666666;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+h2 {
+    font-size: 10px;
+    color: #666666;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+a {
+	text-decoration:none
+}
+
+a:link, a:active, a:visited {
+	font-weight: bold;
+	text-transform: none;
+	text-decoration: none;
+	color: #336699;
+}
+
+a:visited {
+	font-weight: bold;
+	color: #336699;
+	text-decoration: none;
+}
+
+a:active {
+	font-weight: bold;
+	text-transform: none;
+	text-decoration: none;
+	color: #336699;
+}
+
+a:hover {
+	font-weight: bold;
+	text-transform: none;
+	text-decoration: none;
+	color: #999966;
 }
 
 #content, #filter {
     background: #fff;
-    width: 850px;
+    width: 780px;
     border: 1px solid #000;
     margin: 1em;
     padding: 1em;
     margin: auto;
+}
+
+#content {
+    min-width: 780px;
+    width: 90%;
 }
 
 #filter td.label {
@@ -24,12 +83,12 @@ body {
 
 #filter input[type="text"] {
     font-family: monospace;
-    width: 14em;
+    width: 13em;
 }
 
 #filter select {
     font-family: monospace;
-    width: 14em;
+    width: 13em;
 }
 
 #filter .notice {
@@ -59,3 +118,31 @@ body {
     padding-top: 5px;
     font-weight: bold;
 }
+
+#content table {
+    margin-bottom: 1em;
+    border: 1px solid #99b;
+}
+
+#content th {
+    background: #d3dce3;
+    padding-bottom: 0.5em;
+    border-bottom: 1px dashed #99b;
+}
+
+tr.odd {
+    background: #efefef;
+}
+
+tr.odd:hover {
+    background: #d3dce3;
+}
+
+tr.even {
+    background: #fff;
+}
+
+tr.even:hover {
+    background: #ddd;
+}
+

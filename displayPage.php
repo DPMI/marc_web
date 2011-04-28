@@ -26,16 +26,17 @@ if ( $row["accesslevel"] > $accesslevel ) {
 <html lang="en-US" xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="http://www.bth.se/bth/styles/bth.css" />
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
     <title>MArC</title>
   </head>
   
   <body class="bthcss">
-    <?=$row['text']?>
-    <hr />
-    <p>Last Modified: <?=$row['date']?></p>
+    <div id="content">
+      <?=$row['text']?>
+      <hr />
+      <p>Last Modified: <?=$row['date']?></p>
+    </div>
   </body>
 </html>
 <?

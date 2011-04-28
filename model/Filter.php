@@ -51,7 +51,7 @@ class Filter {
    */
   public function description(){
     $index=$this->ind;
-    $parts = array("($index)");
+    $parts = array();
 
     if($index&512){
       $parts[] = "(if = {$this->CI_ID})";
