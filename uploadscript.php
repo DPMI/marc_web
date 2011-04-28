@@ -2,15 +2,6 @@
 require("sessionCheck.php");
 require("config.inc");
 
-
-$sid=$_GET["SID"];
-$nSid=session_id();
-if($sid!=$nSid) {
-	print "The passes SID is not equal to the one found here.. problems!";
-//	print "$sid == $nSid <br>\n";
-		exit();
-}
-
 print "action = " . $HTTP_POST_VARS["action1"] . "eol <br>\n";
 if ($HTTP_POST_VARS["action1"]==1) { 
 if (!isset($HTTP_POST_FILES['file'])) exit;

@@ -67,7 +67,7 @@ a:hover {
 
 #content {
     min-width: 780px;
-    width: 90%;
+    width: 95%;
 }
 
 #filter td.label {
@@ -98,7 +98,6 @@ a:hover {
 
 #content .alert {
     background: #fff url('gfx/Ambox_content.png') no-repeat left top;
-    height: 50px;
     padding-left: 50px;
 }
 

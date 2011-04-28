@@ -1,16 +1,6 @@
 <?
 require("sessionCheck.php");
 require("config.inc");
-
-$sid=$_GET["SID"];
-$nSid=session_id();
-if($sid!=$nSid) {
-	print "The passes SID is not equal to the one found here.. problems!";
-//	print "$sid == $nSid <br>\n";
-		exit();
-}
-
-
 $uname=		$HTTP_POST_VARS["uname"];
 $passwd=	$HTTP_POST_VARS["passwd"];
 $status=	$HTTP_POST_VARS["status"];

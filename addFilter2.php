@@ -1,27 +1,6 @@
 <?
 require("sessionCheck.php");
 require("config.inc");
-$sid=$_GET["SID"];
-if (isset($sid)) {
-	$nSid=session_id();
-	if($sid!=$nSid) {
-		print "The passes SID is not equal to the one found here.. problems!";
-//		print "$sid == $nSid <br>\n";
-			exit();
-	}
-} 
-else {
-	print "<html><head>\n";
-	print "<title>404 Not Found</title>\n";
-	print "</head><body>\n";
-	print "<h1>Not Found</h1>\n";
-	print "<p>The requested URL was not found on this server.</p>\n";
-	print "<hr/>\n";
-	print "<address>Apache/2.0.48 (Unix) DAV/2 PHP/4.3.4 Server at inga.its.bth.se Port 80</address>\n";
-	print "</body></html>\n";
-	exit();
-}
-
 ?>
 <html>
 <? 

@@ -1,15 +1,14 @@
-<?
+<?php
 session_start();
-// Use $HTTP_SESSION_VARS with PHP 4.0.6 or less
-$noSESSION=0;
-$SESSION = isset($_SESSION['OK']) && $_SESSION['OK'] == 'OK';
 
-$sid = '';
-if ( isset($_GET['SID']) ){
-  $sid = $_GET['SID'];
-  if ( $sid != session_id() ){
-    die("Invalid session id. Is cookies turned off?");
-  }
+$u_id = -1;
+$u_username = null;
+$u_access = -1;
+
+if ( isset($_SESSION['OK']) ){
+  $u_id = $_SESSION['user_id'];
+  $u_username = $_SESSION['username'];
+  $u_access = $_SESSION['accesslevel'];
 }
 
 ?>

@@ -39,6 +39,7 @@ $mps = MP::selection(array(
 	  <th valign="bottom"><a href="listMPs.php?SID=<?=$sid?>&amp;order=MAMPid&amp;asc=<?=$ascinv?>">MAMPid</a></th>
 	  <th valign="bottom"><a href="listMPs.php?SID=<?=$sid?>&amp;order=maxFilters&amp;asc=<?=$ascinv?>">max<br/>filters</a></th>
 	  <th valign="bottom">Authorize MP</th>
+	  <th valign="bottom">Control</th>
 	</tr>
 	
 <?php foreach ( $mps as $mp ){ ?>
@@ -57,6 +58,10 @@ $mps = MP::selection(array(
 <?php } else { ?>
 	  <td><a href="authMP.php?SID=<?=$sid?>&amp;id=<?=$mp->id?>">Auth</a></td>
 <?php } ?>
+	  <td>
+	    <a href="control.php?id=<?=$mp->id?>&amp;action=stop">Stop</a>
+	    <a href="control.php?id=<?=$mp->id?>&amp;action=remove">Remove</a>
+	  </td>
 	</tr>
 <?php } /* foreach $mps */ ?>
       </table>
