@@ -16,9 +16,22 @@ if ( !$mp ){
   die("invalid mp");
 }
 
-$verify = array('remove');
+$verify = array(
+  'remove' => "Are you sure you want to remove measurement point \"{$mp->name}\" and all its data?<br/>This action is unreversable."
+);
 
-$need_verify = !in_array($action, $verify);
+$need_verify = array_key_exists($action, $verify) && !isset($_GET['verify']);
+
+if ( !$need_verify ){
+  if ( $action == 'remove' ){
+    $mp->delete();
+  } else {
+    die("unknown action");
+  }
+
+  header("Location: listMPs.php");
+  exit;
+}
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -33,8 +46,8 @@ $need_verify = !in_array($action, $verify);
   <body>
     <div id="content">
       <div class="alert">
-	<p>Are you sure you want to remove measurement point "<?=$mp->name?>" and all its data?<br/>This action is unreversable.</p>
-	<p><a href="">Remove</a>&nbsp;&nbsp;&nbsp;<a href="listMPs.php">Cancel</a></p>
+	<p><?=$verify[$action]?></p>
+	<p><a href="?id=<?=$id?>&amp;action=<?=$action?>&verify=1"><?=$action?></a>&nbsp;&nbsp;&nbsp;<a href="listMPs.php">cancel</a></p>
       </div>
     </div>
   </body>

@@ -29,17 +29,16 @@ $mps = MP::selection(array(
       <h1>Measurement points</h1>
       <table border="0" cellspacing="0" width="100%">
 	<tr>
-	  <th valign="bottom">Status</th>
-	  <th valign="bottom"><a href="listMPs.php?SID=<?=$sid?>&amp;order=id&amp;asc=<?=$ascinv?>">ID</a></th>
-	  <th valign="bottom"><a href="listMPs.php?SID=<?=$sid?>&amp;order=name&amp;asc=<?=$ascinv?>">name</a></th>
-	  <th valign="bottom"><a href="listMPs.php?SID=<?=$sid?>&amp;order=ip&amp;asc=<?=$ascinv?>">ip:port</a></th>
-	  <th valign="bottom"><a href="listMPs.php?SID=<?=$sid?>&amp;order=mac&amp;asc=<?=$ascinv?>">mac</a></th>
-	  <th valign="bottom"><a href="listMPs.php?SID=<?=$sid?>&amp;order=comment&amp;asc=<?=$ascinv?>">comment</a></th>
-	  <th valign="bottom"><a href="listMPs.php?SID=<?=$sid?>&amp;order=time&amp;asc=<?=$ascinv?>">time</a></th>
-	  <th valign="bottom"><a href="listMPs.php?SID=<?=$sid?>&amp;order=MAMPid&amp;asc=<?=$ascinv?>">MAMPid</a></th>
-	  <th valign="bottom"><a href="listMPs.php?SID=<?=$sid?>&amp;order=maxFilters&amp;asc=<?=$ascinv?>">max<br/>filters</a></th>
-	  <th valign="bottom">Authorize MP</th>
-	  <th valign="bottom">Control</th>
+	  <th align="left" valign="bottom">Status</th>
+	  <th align="left" valign="bottom"><a href="listMPs.php?order=id&amp;asc=<?=$ascinv?>">ID</a></th>
+	  <th align="left" valign="bottom"><a href="listMPs.php?order=name&amp;asc=<?=$ascinv?>">name</a></th>
+	  <th align="left" valign="bottom"><a href="listMPs.php?order=ip&amp;asc=<?=$ascinv?>">ip:port</a></th>
+	  <th align="left" valign="bottom"><a href="listMPs.php?order=mac&amp;asc=<?=$ascinv?>">mac</a></th>
+	  <th align="left" valign="bottom"><a href="listMPs.php?order=comment&amp;asc=<?=$ascinv?>">comment</a></th>
+	  <th align="left" valign="bottom"><a href="listMPs.php?order=time&amp;asc=<?=$ascinv?>">time</a></th>
+	  <th align="left" valign="bottom"><a href="listMPs.php?order=MAMPid&amp;asc=<?=$ascinv?>">MAMPid</a></th>
+	  <th align="left" valign="bottom"><a href="listMPs.php?order=maxFilters&amp;asc=<?=$ascinv?>">max<br/>filters</a></th>
+	  <th align="left" valign="bottom">Control</th>
 	</tr>
 	
 <?php foreach ( $mps as $mp ){ ?>
@@ -53,13 +52,12 @@ $mps = MP::selection(array(
 	  <td><?=$mp->time?></td>
 	  <td><?=$mp->MAMPid?></td>
 	  <td><?=$mp->maxFilters?></td>
-<?php if ( $mp->is_authorized() ){ ?>
-	  <td>Authorized</td>
-<?php } else { ?>
-	  <td><a href="authMP.php?SID=<?=$sid?>&amp;id=<?=$mp->id?>">Auth</a></td>
-<?php } ?>
 	  <td>
+<?php if ( $mp->is_authorized() ){ ?>
 	    <a href="control.php?id=<?=$mp->id?>&amp;action=stop">Stop</a>
+<?php } else { ?>
+	    <a href="authMP.php?id=<?=$mp->id?>">Auth</a>
+<?php } ?>
 	    <a href="control.php?id=<?=$mp->id?>&amp;action=remove">Remove</a>
 	  </td>
 	</tr>

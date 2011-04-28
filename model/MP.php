@@ -79,6 +79,18 @@ class MP extends BasicObject {
     $this->send($message);
   }
 
+  
+  public function generate_mampid(){
+    $this->MAMPid = $this->name . substr($this->mac,15,2);
+    return $this->MAMPid;
+  }
+
+  public function auth(){
+    /* 129 is auth request */
+    $message = pack("N", 129);
+    $this->send($message);
+  }
+
   public function send($message){
     $ip = $this->ip;
     $port = $this->port;
@@ -90,6 +102,14 @@ class MP extends BasicObject {
     fclose($fp);
   }
 
+  public function delete(){
+    global $db;
+    $db->query("DROP TABLE IF EXISTS {$this->MAMPid}_filterlist") or die($db->error);
+    $db->query("DROP TABLE IF EXISTS {$this->MAMPid}_filterlistverify") or die($db->error);
+    $db->query("DROP TABLE IF EXISTS {$this->MAMPid}_CIload") or die($db->error);
+    $db->query("DROP TABLE IF EXISTS {$this->MAMPid}_ci") or die($db->error);
+    parent::delete();
+  }
 }
 
 ?>
