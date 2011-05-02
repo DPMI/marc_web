@@ -31,6 +31,18 @@ class Filter {
     }
   }
 
+  static public function placeholder($mp){
+    $data = array_fill_keys(Filter::$columns, null);
+    $data['ind'] = 0;
+    $data['filter_id'] = 10;
+    $data['ETH_SRC'] = str_replace(':', '', $mp->mac);
+    $data['ETH_DST'] = str_replace(':', '', $mp->mac);
+    $data['DESTADDR'] = '010000000001';
+    $data['TYPE'] = 1;
+    $data['CAPLEN'] = 54;
+    return new Filter($mp, $data);
+  }
+
   public function __get($name){
     return $this->data[$name];
   }
@@ -114,13 +126,13 @@ class Filter {
 
   /**
    * Commit changes to a filter.
-   * @param old_id If changing id, pass the old here here.
+   * @param old_id If updating an existing filter, pass the filter id.
    */
   public function commit($old_id=null){
     global $db;
 
     $id = $old_id != null ? $old_id : $this->data['filter_id'];
-    $types = str_repeat('s', count($this->data)) . 'i';
+    $types = str_repeat('s', count($this->data));
     $keys = array_map(create_function('$x', 'return "$x = ?";'), array_keys($this->data));
     $param = array(&$types);
 
@@ -128,9 +140,21 @@ class Filter {
     foreach ( $this->data as $key => $value ){
       $param[] = &$this->data[$key];
     }
-    $param[] = &$id;
 
-    $sql = "UPDATE {$this->mp->filter_table()} SET " . implode(', ', $keys) . " WHERE filter_id = ?";
+    $sql = '';
+    if ( $old_id == null ){
+      $sql .= 'INSERT INTO ';
+    } else {
+      $sql .= 'UPDATE ';
+    }
+
+    $sql .= "{$this->mp->filter_table()} SET " . implode(', ', $keys);
+
+    if ( $old_id != null ){
+      $sql .= " WHERE filter_id = ?";
+      $param[] = &$id;
+      $types .=  'i';
+    }
 
     $stmt = $db->prepare($sql);
     if ( !$stmt){

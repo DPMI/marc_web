@@ -22,7 +22,7 @@ foreach ($fields as $key => $value){
 }
 
 $filter = new Filter($mp, $fields);
-$filter->commit($OLD_FILTER_ID);
+$filter->commit($OLD_FILTER_ID > 0 ? $OLD_FILTER_ID : null);
 
 $mp->reload_filter($FILTER_ID);
 header("Location: listFilters.php?SID=$sid");
