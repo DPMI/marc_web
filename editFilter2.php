@@ -4,11 +4,6 @@ require("config.inc");
 require_once('model/MP.php');
 require_once('model/Filter.php');
 
-if ( !($SESSION && isset($_POST['mp'])) ){
-  header('HTTP/1.0 403 Forbidden');
-  exit("<h1>403 Forbidden</h1>\n");
-}
-
 $mp = MP::from_mampid($_POST['mp']);
 if ( $mp == null ){
   die("No measurement point named {$_GET['MAMPid']}!");
