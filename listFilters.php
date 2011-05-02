@@ -26,8 +26,8 @@ $toggle = 0;
       <?php foreach ( $mps as $mp ){ ?>
       <h2>
 	<?=$mp->name?>
-	<a href="verifyFilters.php?SID=<?=$sid?>&amp;MAMPid=<?=$mp->MAMPid?>"><img width="12" height="13" border="0" alt="Verify all filters" title="Verify all filters" src="button_properties.png" /></a>
-	<a href="addFilter.php?SID=<?=$sid?>"><img width="12" height="13"  border="0" alt="Add filter" title="Add filter" src="button_insert.png" /></a>
+	<a href="verifyFilters.php?MAMPid=<?=$mp->MAMPid?>"><img width="12" height="13" border="0" alt="Verify all filters" title="Verify all filters" src="button_properties.png" /></a>
+	<a href="addFilter.php"><img width="12" height="13"  border="0" alt="Add filter" title="Add filter" src="button_insert.png" /></a>
       </h2>
 
       <table border="0" cellspacing="0" width="100%">
@@ -64,9 +64,9 @@ $toggle = 0;
 	  <td valign="top"><?=$filter->DESTADDR?>/<?=$filter->TYPE?></td>
 	  <td valign="top"><?=$filter->CAPLEN?></td>
 	  <td width="45">
-	    <a href="editFilter.php?SID=<?=$sid?>&amp;filter_id=<?=$filter->filter_id?>&amp;MAMPid=<?=$mp->MAMPid?>"><img width="12" height="13"  border="0" alt="Edit" title="Edit filter" src='button_edit.png'/></a>
-	    <a href="delFilter.php?SID=<?=$sid?>&amp;filter_id=<?=$filter->filter_id?>&amp;MAMPid=<?=$mp->MAMPid?>"><img width="12" height="13"  border="0" alt="Drop" title="Drop filter" src='button_drop.png'/></a>
-	    <a href="verifyFilter.php?SID=<?=$sid?>&amp;filter_id=<?=$filter->filter_id?>&amp;MAMPid=<?=$mp->MAMPid?>"><img width="12" height="13"  border="0" alt="Verify" title="Verify filter" src='button_properties.png'/></a>
+	    <a href="editFilter.php?filter_id=<?=$filter->filter_id?>&amp;MAMPid=<?=$mp->MAMPid?>"><img width="12" height="13"  border="0" alt="Edit" title="Edit filter" src='button_edit.png'/></a>
+	    <a href="delFilter.php?filter_id=<?=$filter->filter_id?>&amp;MAMPid=<?=$mp->MAMPid?>"><img width="12" height="13"  border="0" alt="Drop" title="Drop filter" src='button_drop.png'/></a>
+	    <a href="verifyFilter.php?filter_id=<?=$filter->filter_id?>&amp;MAMPid=<?=$mp->MAMPid?>"><img width="12" height="13"  border="0" alt="Verify" title="Verify filter" src='button_properties.png'/></a>
 	  </td>
 	</tr>
 <?php } /* foreach $filter */ ?>
