@@ -3,7 +3,6 @@ require("sessionCheck.php");
 require("config.inc");
 require_once("model/MP.php");
 
-$FILTER_ID=$_GET["filter_id"];
 $toggle=0;
 $can_set_mp = false;
 
@@ -13,9 +12,15 @@ if ( $mp == null ){
   die("No measurement point named {$_GET['MAMPid']}!");
 }
 
-$filter = $mp->filter($_GET['filter_id']);
-if ( $filter == null ){
-  die("Measurement point {$mp->MAMPid} has no filter named {$_GET['filter_id']}!");
+$filter_exist = false;
+if ( isset($_GET['filter_id']) ){
+  $filter = $mp->filter($_GET['filter_id']);
+  $filter_exist = true;
+  if ( $filter == null ){
+    die("Measurement point {$mp->MAMPid} has no filter named {$_GET['filter_id']}!");
+  }
+} else {
+  $filter = Filter::placeholder($mp);
 }
 
 /**
@@ -114,8 +119,12 @@ function select($name, array $values, array $default=null, $update=null, array $
   <body class="bthcss">
 
     <div id="filter">
-      <form action="editFilter2.php?SID=<?=$sid?>" method="post" name="myForm" onsubmit="return filter_submit();">
+      <form action="editFilter2.php" method="post" name="myForm" onsubmit="return filter_submit();">
+<?php if ( $filter_exist ){ ?>
 	<input type="hidden" name="old_filter_id" value="<?=$filter->filter_id?>" />
+<?php } else {?>
+	<input type="hidden" name="old_filter_id" value="-1" />
+<?php } ?>
 <?php if ( !$can_set_mp ){ ?>
 	<input type="hidden" name="mp" value="<?=$mp->MAMPid?>" />
 <?php } /* !$can_set_mp */ ?>
