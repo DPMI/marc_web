@@ -10,7 +10,7 @@ class Menu extends BasicObject {
   public function href(){
     switch ( $this->type ){
     case 0:  return "index2.php/display/{$this->url}";
-    default: return "index2.php/main/{$this->url}";
+    default: return "index2.php/{$this->url}";
     }
   }
 }

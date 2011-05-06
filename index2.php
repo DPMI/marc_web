@@ -8,10 +8,17 @@ $menu = Menu::selection(array('accesslevel:<=' => $u_access, 'type:!=' => 3));
 
 $path = array('');
 if ( isset($_SERVER['PATH_INFO']) ){
-  $path = explode('/', $_SERVER['PATH_INFO']);
+  $path = explode('/', rtrim($_SERVER['PATH_INFO'],'/'));
   array_shift($path);
 }
 $handler = array_shift($path);
+
+function template($view, $data){
+  global $root;
+  $index = $root . 'index2.php';
+  extract($data);
+  require("view/$view");
+}
 
 ?>
 <!DOCTYPE html>
@@ -43,11 +50,13 @@ $handler = array_shift($path);
 <?php } ?>
       </ul>
 
+<?php if ( $u_id > 0 ){ ?>
       <h1>Site maintenance</h1>
       <ul>
 	<li><a href="listPages.php">List Pages</a></li>
 	<li><a href="uploadscript.php">Upload File</a></li>
       </ul>
+<?php } ?>
 
 <?php if ( $u_access > 1 ) { ?>
       <h1>Site administration</h1>
@@ -64,7 +73,11 @@ $handler = array_shift($path);
 
       <h1>User</h1>
       <ul>
-	<li><a href="logout.php">Logout</a></li>
+<?php if ( $u_id > 0 ){ ?>
+	<li><a href="<?=$root?>logout.php">Logout</a></li>
+<?php } else { ?>
+	<li><a href="<?=$root?>login.php">Login</a></li>
+<?php } ?>
       </ul>
 
     </div>
@@ -75,6 +88,14 @@ $handler = array_shift($path);
     require('view/welcome.php');
   } else if ( file_exists("controller/$handler.php") ){
     require("controller/$handler.php");
+    $classname = "{$handler}Controller";
+    $handler = new $classname();
+
+    try {
+      echo $handler->_path($path);
+    } catch ( HTTPError404 $e ){
+      require('view/404.php');
+    }
   } else {
     require('view/404.php');
   }
