@@ -23,26 +23,81 @@ function updateIndex() {
 	return;
 }
 
-function filter_submit(){
-    id = [
-	'VLAN_TCI','VLAN_TCI_MASK',
-	'ETH_TYPE_MASK',
-	'SRC_PORT', 'SRC_PORT_MASK',
-	'DST_PORT', 'DST_PORT_MASK',
-    ];
+function trim(value){
+    return value.replace(/^\s+|\s+$/g, '');
+}
 
-    for (i in id){
-	elem = document.getElementById(id[i]);
+function parse_hex(value){
+    if ( value.substr(0,2) == "0x" ){
+	return parseInt(value, 16);
+    }
+    return value;
+}
+
+function strip_mac(value){
+    return value.replace(/[:-]/g, '');
+}
+
+function upper(value){
+    return value.toUpperCase();
+}
+
+function validate_numeric(value){
+    if ( value == "" ){ return value; }
+    var tmp = parseInt(value);
+    if ( isNaN(tmp) || value != tmp ) throw "Not a number";
+    return value;
+}
+
+function filter_clear(elem){
+    elem.className = "";
+    elem.title = "";
+}
+
+function filter_submit(){
+    fields = {
+	'VLAN_TCI': [trim, parse_hex, validate_numeric],
+	'VLAN_TCI_MASK': [trim, parse_hex],
+	'ETH_TYPE_MASK': [trim, parse_hex],
+	'ETH_SRC': [trim, strip_mac, upper],
+	'ETH_DST': [trim, strip_mac, upper],
+	'SRC_PORT': [trim, parse_hex],
+	'SRC_PORT_MASK': [trim, parse_hex],
+	'DST_PORT': [trim, parse_hex],
+	'DST_PORT_MASK': [trim, parse_hex],
+	'CAPLEN': [trim, validate_numeric]
+    };
+    var ret = true;
+
+    for ( id in fields ){
+	elem = document.getElementById(id);
 	if ( elem == null ){
 	    continue;
 	}
 
-	value = elem.value.replace(/^\s+|\s+$/g, ''); /* trim */
-	if ( value.substr(0,2) == "0x" ){
-	    value = parseInt(value, 16);
+	try {
+	    pipes = fields[id];
+	    value = elem.value;
+	    for ( func in pipes ){
+		value = pipes[func](value);
+	    }
+	    elem.value = value;
+	} catch ( e ){
+	    elem.className = "invalid";
+	    elem.title = e;
+	    ret = false;
 	}
-	elem.value = value;
     }
+    
+    console.log("validated");
+    return ret;
+}
 
-    return true;
+function filter_cancel(){
+    /* this is required because the form would otherwise be validated, and if
+     * it contains errors it wouldn't be able to cancel. Which would make the
+     * point of the cancel button vague. Also, onsubmit must be used to ensure
+     * the form is validated all the time, like when pressing enter. */
+    document.myForm.onsubmit = function(){};
+    document.myForm.submit();
 }

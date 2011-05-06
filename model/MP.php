@@ -74,8 +74,8 @@ class MP extends BasicObject {
   }
 
   public function reload_filter($id){
-    /* 65 is filter reload event */
-    $message = pack("Na16N", 65, $this->MAMPid, $id);
+    /* 66 is filter reload event */
+    $message = pack("Na16N", 66, $this->MAMPid, $id);
     $this->send($message);
   }
 

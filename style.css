@@ -96,6 +96,10 @@ a:hover {
     font-weight: bold;
 }
 
+#filter .invalid {
+    background: #f3bcc3;
+}
+
 #content .alert {
     background: #fff url('gfx/Ambox_content.png') no-repeat left top;
     padding-left: 50px;
