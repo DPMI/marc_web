@@ -15,7 +15,7 @@ if ( !$mp ){
 $MAMPid = $mp->generate_mampid();
 $mp->commit();
 
-$tables[] = "CREATE TABLE `{$MAMPid}_filterlist` (
+$tables[] = "CREATE TABLE IF NOT EXISTS `{$MAMPid}_filterlist` (
   `filter_id` int(11) PRIMARY KEY,
   `ind` bigint(20) NOT NULL default '0',
   `CI_ID` varchar(8) NOT NULL default '',
@@ -42,7 +42,7 @@ $tables[] = "CREATE TABLE `{$MAMPid}_filterlist` (
   `CAPLEN` int(11) NOT NULL default '0'
 ) TYPE=MyISAM";
 
-$tables[] = "CREATE TABLE `{$MAMPid}_filterlistverify` (
+$tables[] = "CREATE TABLE IF NOT EXISTS `{$MAMPid}_filterlistverify` (
   `filter_id` int(11) PRIMARY KEY,
   `ind` bigint(20) NOT NULL default '0',
   `CI_ID` varchar(8) NOT NULL default '',
@@ -70,7 +70,7 @@ $tables[] = "CREATE TABLE `{$MAMPid}_filterlistverify` (
   `consumer` int(11) NOT NULL default '0'
 ) TYPE=MyISAM";
     
-$tables[] = "CREATE TABLE `{$MAMPid}_ci` ( `id` INT NOT NULL AUTO_INCREMENT ,
+$tables[] = "CREATE TABLE IF NOT EXISTS `{$MAMPid}_ci` ( `id` INT NOT NULL AUTO_INCREMENT ,
         `ci` INT NOT NULL ,
         `type` TEXT NOT NULL ,
         `mtu` VARCHAR( 20 ) NOT NULL ,
@@ -80,7 +80,7 @@ $tables[] = "CREATE TABLE `{$MAMPid}_ci` ( `id` INT NOT NULL AUTO_INCREMENT ,
 
 
 $MAMPidCIl="$MAMPid"."_CIload";
-$sql_create = "CREATE TABLE `$MAMPidCIl` ( `id` INT NOT NULL AUTO_INCREMENT, `time` timestamp(14) NOT NULL, `noFilters` INT NOT NULL, `matchedPkts` INT NOT NULL ";
+$sql_create = "CREATE TABLE IF NOT EXISTS `$MAMPidCIl` ( `id` INT NOT NULL AUTO_INCREMENT, `time` timestamp(14) NOT NULL, `noFilters` INT NOT NULL, `matchedPkts` INT NOT NULL ";
 for($i=0;$i<$mp->noCI;$i++){
   $sql_create = $sql_create . ",`CI$i` VARCHAR(20) NOT NULL, `PKT$i` INT NOT NULL, `BU$i` INT NOT NULL";
 }
@@ -94,6 +94,31 @@ foreach ( $tables as $query ){
     echo "<p>\"" . mysql_error() . "\"<p>\n";
     echo "<p>The attempted query was:</p>\n";
     echo "<pre>$query</pre>";
+    exit;
+  }
+}
+
+$heartbeat = 180; /* can miss two updates */
+$databases = 
+  "--step 60 " . /* 60s steps */
+  "DS:total:COUNTER:$heartbeat:0:U " .
+  "DS:matched:COUNTER:$heartbeat:0:U " .
+  "RRA:AVERAGE:0.5:1:1440 "  . /* 1440 * 60s = 24h */
+  "RRA:AVERAGE:0.5:30:1440 " ; /* 1440 * 60s * 30 = 30 days */
+
+$rrd[] = "rrdtool create $rrdbase/{$MAMPid}.rrd " . $databases;
+for($i=0;$i<$mp->noCI;$i++){
+  $rrd[] = "rrdtool create $rrdbase/{$MAMPid}_CI{$i}.rrd " . $databases;
+}
+
+/* Create RRDtool databases */
+foreach ( $rrd as $cmd ){
+  exec("$cmd 2>&1", $output, $rc);
+  if ( $rc != 0 ){
+    echo "<h1>RRDtool error</h1>\n";
+    echo "<p>Command: \"$cmd\"<br/>Returncode: $rc<p>\n";
+    echo "<p>Output:</p>\n";
+    echo "<pre>" . implode("\n", $output) . "</pre>";
     exit;
   }
 }

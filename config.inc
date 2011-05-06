@@ -8,6 +8,9 @@ $user='marc';
 $password='konko';
 $path='uploadedfiles/';
 
+$prefix = '/home/ext/temp/NPLDP-prefix';
+$rrdbase = "$prefix/var/lib/marc";
+
 /* required for BasicObject */
 $db = new mysqli($DB_SERVER, $user, $password, $DATABASE);
 define('HTML_ACCESS', 1);
