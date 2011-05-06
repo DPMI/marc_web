@@ -93,9 +93,12 @@ function template($view, $data){
 
     try {
       echo $handler->_path($path);
+    } catch ( HTTPError403 $e ){
+      require('view/403.php');
     } catch ( HTTPError404 $e ){
       require('view/404.php');
     }
+
   } else {
     require('view/404.php');
   }

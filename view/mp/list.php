@@ -17,8 +17,8 @@
 <?php foreach ( $mps as $mp ){ ?>
   <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
     <td><?=$mp->status()?></td>
-    <td><a href="<?=$index?>/MP/view/<?=$mp->id?>"><?=$mp->id?></a></td>
-    <td><a href="<?=$index?>/MP/view/<?=$mp->id?>"><?=$mp->name?></a></td>
+    <td><a href="<?=$index?>/MP/view/<?=$mp->MAMPid?>"><?=$mp->id?></a></td>
+    <td><a href="<?=$index?>/MP/view/<?=$mp->MAMPid?>"><?=$mp->name?></a></td>
     <td><?=$mp->ip?>:<?=$mp->port?></td>
     <td><?=$mp->mac?></td>
     <td><?=strlen($mp->comment) > 0 ? $mp->comment : "&nbsp;" ?></td>

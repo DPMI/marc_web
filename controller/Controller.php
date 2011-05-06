@@ -1,12 +1,27 @@
 <?php
 
 class HTTPError extends Exception {
+  public $code;
 
+  public function __construct($code){
+    parent::__construct();
+    $this->code = $code;
+  }
+}
+
+class HTTPError403 extends HTTPError {
+  public function __construct(){
+    parent::__construct(403);
+  }
 }
 
 class HTTPError404 extends HTTPError {
-
+  public function __construct(){
+    parent::__construct(404);
+  }
+  
 }
+
 
 class Controller {
   public function _path(array $path){
@@ -21,6 +36,13 @@ class Controller {
     }
 
     return call_user_func_array($func, $path);
+  }
+
+  protected function validate_access($level){
+    global $u_access;
+    if ( $u_access < $level ){
+      throw new HTTPError403();
+    }
   }
 };
 
