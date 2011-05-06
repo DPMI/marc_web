@@ -3,7 +3,7 @@ session_start();
 
 $u_id = -1;
 $u_username = null;
-$u_access = -1;
+$u_access = 0;
 
 if ( isset($_SESSION['OK']) ){
   $u_id = $_SESSION['user_id'];
