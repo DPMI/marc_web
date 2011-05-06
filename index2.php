@@ -1,43 +1,91 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
-<html>
-<head>
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-   <meta name="Author" content="Patrik Carlsson">
-   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Windows NT 5.0; U) [Netscape]">
-   <title>Network Performance Lab -- MArC</title>
-</head>
+<?php
 
-<body text="#000000" bgcolor="#FFFFFF" background="http://www.bth.se/bth/images/backtest06.gif" leftmargin=0 topmargin=0 marginwidth=0 marginh\
-eight=0 class="bthcss"  link="#336699" alink="#336699" vlink="#336699">
-<link REL="SHORTCUT ICON" HREF="http://www.bth.se/favicon.ico">
-<link href="http://www.bth.se/bth/styles/bth.css" rel="stylesheet" type="text/css">
+require("sessionCheck.php");
+require("config.inc");
+require_once('model/Menu.php');
 
-<table width="100%" border="0" cellpadding="0" cellspacing="0">
-<tr>
-<td width="100%" background="http://www.bth.se/bth/images//backtest06.gif">
-<img SRC="header_image.php" WIDTH=773 HEIGHT=59 ALT="Internet Next Generation Analysis - MArC"></td></tr> 
-</table>
+$menu = Menu::selection(array('accesslevel:<=' => $u_access, 'type:!=' => 3));
 
-<table border=0 cellpadding="0" cellspacing="3">
-<tr>
-<td valign="top" width="137">
-<b>Column 1</b>
-<br />
-<?
-require("menu2.php");
+$path = array('');
+if ( isset($_SERVER['PATH_INFO']) ){
+  $path = explode('/', $_SERVER['PATH_INFO']);
+  array_shift($path);
+}
+$handler = array_shift($path);
+
 ?>
-</td>
+<!DOCTYPE html>
+<html lang="en-US" xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="<?=$root?>style2.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
+    <title>Network Performance Lab -- MArC</title>
+  </head>
+  
+  <body>
 
-<td valign="top" width="630">
-<b>Column 2</b>
-<br />
-<? 
-require("content2.php");
+    <div id="header">
+      <map name="link">
+	<area shape="circle" coords="25, 20, 18" href="http://www.bth.se/eng/">
+	<area shape="rect" coords="600, 20, 700, 41" href="http://www.bth.se/eng/">
+      </map>
+      <img src="<?=$root?>lighthuvud.jpg" alt="" width="700" height="41" usemap="#link" border="0" />
+      <img src="<?=$root?>header_image.php" width="700" height="59" alt="Internet Next Generation Analysis - <?=$projectName;?>" border="0" />
+    </div>
+
+    <div id="menu">
+      <h1>MArC - Member</h1>
+      <ul>
+        <li><a href="<?=$root?>index2.php">Home</a></li>
+<?php foreach($menu as $item){ ?>
+        <li><a href="<?=$root?><?=$item->href()?>"><?=$item->string?></a></li>
+<?php } ?>
+      </ul>
+
+      <h1>Site maintenance</h1>
+      <ul>
+	<li><a href="listPages.php">List Pages</a></li>
+	<li><a href="uploadscript.php">Upload File</a></li>
+      </ul>
+
+<?php if ( $u_access > 1 ) { ?>
+      <h1>Site administration</h1>
+      <ul>
+	<li><a href="addPage.php">Add Page</a></li>
+	<li><a href="listGUIconfig.php">List GUI config</a></li>
+	<li><a href="addGUI.php">Add GUI config</a></li>
+	<li><a href="listMenu.php">List Menu</a></li>
+	<li><a href="addMenu.php">Add Menu Entry</a></li>
+	<li><a href="listAccounts.php">List Accounts</a></li>
+	<li><a href="addAccount.php">Add Account</a></li>
+      </ul>
+<?php } /* if $u_access > 1 */ ?>
+
+      <h1>User</h1>
+      <ul>
+	<li><a href="logout.php">Logout</a></li>
+      </ul>
+
+    </div>
+
+    <div id="content">
+<?php
+  if ( $handler == '' ){
+    require('view/welcome.php');
+  } else if ( file_exists("controller/$handler.php") ){
+    require("controller/$handler.php");
+  } else {
+    require('view/404.php');
+  }
 ?>
-</td>
+    </div>
 
-</tr>
-</table>
+    <div id="footer">
+      <hr/>
+      <p>Responsible for page: <a href="mailto:pal@bth.se">Patrik Arlos</a></p>
+    </div>
 
-</body>
+  </body>
+
 </html>

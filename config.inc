@@ -4,15 +4,19 @@
 /* store config errors, if count() != 0 the config errorpage is shown */
 $config_error = array();
 
-//Database configuration
+/* Database configuration */
 $DB_SERVER="localhost";
 $DATABASE='marc';
 $user='marc';
 $password='konko';
 $path='uploadedfiles/';
 
+/* RRDtool config */
 $prefix = '/home/ext/temp/NPLDP-prefix';
 $rrdbase = "$prefix/var/lib/marc";
+
+/* Path configuration */
+$root = '/'; /* if installing into a subdirectory, set the path here. Must end in trailing slash */
 
 if ( !is_writable($rrdbase) ){
   $config_error[] = array(
