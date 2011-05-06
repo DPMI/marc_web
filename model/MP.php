@@ -24,6 +24,10 @@ class MP extends BasicObject {
     }
 
     $result = $db->query("SELECT COUNT(*) FROM {$this->MAMPid}_filterlist");
+    if ( !$result ){
+      return "Invalid";
+    }
+
     $row = $result->fetch_row();
 
     if ( $row[0] > 0 ){
