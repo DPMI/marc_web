@@ -102,10 +102,11 @@ a:hover {
 
 #content .alert {
     background: #fff url('gfx/Ambox_content.png') no-repeat left top;
+    min-height: 50px;
     padding-left: 50px;
 }
 
-#content .alert p {
+#content .alert p:first-child {
     padding-top: 5px;
     color: red;
     font-weight: bold;
@@ -113,7 +114,7 @@ a:hover {
 
 #content .notice {
     background: #fff url('gfx/Ambox_notice.png') no-repeat left top;
-    height: 50px;
+    min-height: 50px;
     padding-left: 50px;
 }
 
