@@ -21,6 +21,7 @@ unset($_SESSION['config_error']);
   
   <body>
     <div id="content">
+<?php if ( count($config_error) > 0 ){ ?>
       <h1>MArC Configuration error</h1>
 <?php foreach ($config_error as $err){ ?>
       <div class="alert">
@@ -28,10 +29,17 @@ unset($_SESSION['config_error']);
 	<p>
 <?php foreach ($err as $key => $value){ if ( $key == "message" ){ continue; } ?>
 	  <?=$key?>: <?=$value?><br/>
-<?php } ?>
+<?php } /* foreach $key => $value */ ?>
 	</p>
       </div>
-<?php } ?>
+<?php } /* foreach $config_error */ ?>
+<?php } else { /* if ( count > 0 ) */ ?>
+      <h1>MArC Configuration</h1>
+      <div class="notice">
+	<p>Configuration OK</p>
+	<p><a href="<?=$root?>">Return</a></p>
+      </div>
+<?php } /* if ( count > 0 ) */ ?>
     </div>
   </body>
 </html>
