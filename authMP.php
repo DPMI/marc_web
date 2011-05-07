@@ -106,19 +106,26 @@ $databases =
   "RRA:AVERAGE:0.5:1:1440 "  . /* 1440 * 60s = 24h */
   "RRA:AVERAGE:0.5:30:1440 " ; /* 1440 * 60s * 30 = 30 days */
 
-$rrd[] = "rrdtool create $rrdbase/{$MAMPid}.rrd " . $databases;
+$filename = "$rrdbase/{$MAMPid}.rrd";
+$rrd[$filename] = "rrdtool create {$filename} " . $databases;
 for($i=0;$i<$mp->noCI;$i++){
-  $rrd[] = "rrdtool create $rrdbase/{$MAMPid}_CI{$i}.rrd " . $databases;
+  $filename = "$rrdbase/{$MAMPid}_CI{$i}.rrd";
+  $rrd[$filename] = "rrdtool create {$filename} " . $databases;
 }
 
 /* Create RRDtool databases */
-foreach ( $rrd as $cmd ){
+foreach ( $rrd as $filename => $cmd ){
   exec("$cmd 2>&1", $output, $rc);
   if ( $rc != 0 ){
     echo "<h1>RRDtool error</h1>\n";
     echo "<p>Command: \"$cmd\"<br/>Returncode: $rc<p>\n";
     echo "<p>Output:</p>\n";
     echo "<pre>" . implode("\n", $output) . "</pre>";
+    exit;
+  }
+  if ( ! (chgrp($filename, $usergroup['gid']) && chmod($filename, 0660)) ){
+    echo "<h1>RRDtool error<h1>\n";
+    echo "<p>Failed to set ownership/permission on $filename</p>";
     exit;
   }
 }
