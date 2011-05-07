@@ -1,6 +1,6 @@
 <?php //  -*- mode:html;  -*- ?>
 <h1>Measurement points</h1>
-<table border="0" cellspacing="0" width="100%">
+<table border="0" cellspacing="0" width="100%" class="list">
   <tr>
     <th align="left" valign="bottom">Status</th>
     <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=id&amp;asc=<?=$ascinv?>">ID</a></th>

@@ -9,7 +9,7 @@
   <a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>"><img width="12" height="13"  border="0" alt="Add filter" title="Add filter" src="<?=$root?>button_insert.png" /></a>
 </h2>
 
-<table border="0" cellspacing="0" width="100%">
+<table border="0" cellspacing="0" width="100%" class="list">
   <tr>
     <th valign="bottom">Filter ID</th>
     <th valign="bottom">Capture<br/>interface</th>

@@ -6,7 +6,7 @@
 <?php foreach ( $mps as $mp ){ ?>
 <h2><?=$mp->name?></h2>
 
-<table border="0" cellspacing="0" width="100%">
+<table border="0" cellspacing="0" width="100%" class="list">
   <tr>
     <th width="50">Filter ID</th>
     <th>Filter Description</th>

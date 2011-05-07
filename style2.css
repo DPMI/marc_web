@@ -64,6 +64,7 @@ body {
     margin: 1em;
     padding: 1em;
     margin: auto;
+    min-height: 405px;
 }
 
 #content {
@@ -179,12 +180,12 @@ body {
     font-weight: bold;
 }
 
-#content table {
+#content table.list {
     margin-bottom: 1em;
     border: 1px solid #99b;
 }
 
-#content th {
+#content table.list th {
     background: #d3dce3;
     padding-bottom: 0.5em;
     border-bottom: 1px dashed #99b;

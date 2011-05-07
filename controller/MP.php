@@ -21,8 +21,13 @@ class MPController extends Controller {
 
   public function view($id){
     parent::validate_access(1);
+    
+    $mp = MP::from_mampid($id);
+    if ( !$mp ){
+      return template('mp/invalid.php', array());
+    }
 
-    $data['mp'] = MP::from_mampid($id);
+    $data['mp'] = $mp;
     return template('mp/view.php', $data);
   }
 
