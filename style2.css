@@ -58,7 +58,7 @@ body {
     color: #999966;
 }
 
-#content, #filter {
+#content {
     background: #fff;
     border: 1px solid #000;
     margin: 1em;
@@ -118,6 +118,14 @@ body {
 	color: #999966;
 }
 
+#filter {
+    width: 780px;
+}
+
+#filter table {
+    border: 0 !IMPORTANT;
+}
+
 #filter td.label {
     background: #d3dce3;
     text-align: right;
@@ -139,7 +147,7 @@ body {
     width: 13em;
 }
 
-#filter .notice {
+.filter_notice {
     color: red;
     font-weight: bold;
 }

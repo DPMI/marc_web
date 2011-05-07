@@ -1,5 +1,14 @@
 <?php
 
+class HTTPRedirect extends Exception {
+  public $url;
+
+  public function __construct($url){
+    parent::__construct();
+    $this->url = $url;
+  }
+}
+
 class HTTPError extends Exception {
   public $code;
 

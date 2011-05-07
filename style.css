@@ -106,7 +106,12 @@ a:hover {
     padding-left: 50px;
 }
 
+#content .alert p {
+    margin: 0;
+}
+
 #content .alert p:first-child {
+    margin-top: 20px;
     padding-top: 5px;
     color: red;
     font-weight: bold;

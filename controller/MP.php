@@ -27,9 +27,41 @@ class MPController extends Controller {
   }
 
   public function filter($mampid, $filter_id=null){
+    trigger_error("No accesslevel specified");
+
+    $mp = MP::from_mampid($mampid);
+
     if ( $filter_id == null ){
-      $data['mps'] = array(MP::from_mampid($mampid));
+      $data['mps'] = array($mp);
       return template('filter/list.php', $data);
+    } else {
+      $data['mp'] = $mp;
+      $data['filter'] = $mp->filter($filter_id);
+      $data['filter_exist'] = true;
+      return template('filter/view.php', $data);
+    }
+  }
+
+  public function filter_add($mampid){
+    trigger_error("No accesslevel specified");
+
+    $data['mp'] = MP::from_mampid($mampid);
+    $data['filter'] = Filter::placeholder($mp);
+    $data['filter_exist'] = false;
+    return template('filter/view.php', $data);
+  }
+
+  public function filter_update($mampid){
+    trigger_error("No accesslevel specified");
+
+    $mp = MP::from_mampid($mampid);
+    if ( !$mp ){
+      throw new Exception("No such MP");
+    }
+
+    if ( isset($_POST['cancel']) ){
+      global $index;
+      throw new HTTPRedirect("$index/MP/view/{$mp->MAMPid}");
     }
   }
 };

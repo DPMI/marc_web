@@ -6,6 +6,16 @@ require_once('model/Menu.php');
 
 $menu = Menu::selection(array('accesslevel:<=' => $u_access, 'type:!=' => 3));
 
+function template($view, $data){
+  global $root, $index;
+  extract($data);
+  ob_start();
+  require("view/$view");
+  $content = ob_get_contents();
+  ob_end_clean();
+  return $content;
+}
+
 $path = array('');
 if ( isset($_SERVER['PATH_INFO']) ){
   $path = explode('/', rtrim($_SERVER['PATH_INFO'],'/'));
@@ -13,12 +23,30 @@ if ( isset($_SERVER['PATH_INFO']) ){
 }
 $handler = array_shift($path);
 
-function template($view, $data){
-  global $root;
-  $index = $root . 'index2.php';
-  extract($data);
-  require("view/$view");
+$controller = null;
+$content = null;
+if ( $handler == '' ){
+  $content = template('welcome.php', array());
+} else if ( file_exists("controller/$handler.php") ){
+  require("controller/$handler.php");
+  $classname = "{$handler}Controller";
+  $controller = new $classname();
+  
+  try {
+    $content = $controller->_path($path);
+  } catch ( HTTPError403 $e ){
+    $content = template('403.php', array());
+  } catch ( HTTPError404 $e ){
+    $content = template('404.php', array());
+  } catch ( HTTPRedirect $e ){
+    header("Location: {$e->url}");
+    exit;
+  }
+  
+} else {
+  $content = template('404.php', array());
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -83,26 +111,7 @@ function template($view, $data){
     </div>
 
     <div id="content">
-<?php
-  if ( $handler == '' ){
-    require('view/welcome.php');
-  } else if ( file_exists("controller/$handler.php") ){
-    require("controller/$handler.php");
-    $classname = "{$handler}Controller";
-    $handler = new $classname();
-
-    try {
-      echo $handler->_path($path);
-    } catch ( HTTPError403 $e ){
-      require('view/403.php');
-    } catch ( HTTPError404 $e ){
-      require('view/404.php');
-    }
-
-  } else {
-    require('view/404.php');
-  }
-?>
+<?=$content?>
     </div>
 
     <div id="footer">

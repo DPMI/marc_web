@@ -1,15 +1,19 @@
 <?php
 
+require_once('Controller.php');
 require_once('model/Page.php');
 
-$page = Page::from_url($path);
+class displayController extends Controller {
+  public function index($path){
+    $page = Page::from_url(implode('/',$path));
+    parent::validate_access($page->accesslevel);
+    
+    return html_entity_decode($page->text) . "\n<p>Last Modified: {$page->date}</p>\n"; 
+  }
 
-if ( $page->accesslevel > $u_access ){
-  header("Location: loginDenied.php");
-  exit;
+  public function _path(array $path){
+    return $this->index($path);
+  }
 }
-
-echo html_entity_decode($page->text);
-echo "<p>Last Modified: {$page->date}</p>";
 
 ?>
