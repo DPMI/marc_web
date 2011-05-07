@@ -107,7 +107,11 @@ class MP extends BasicObject {
   }
 
   public function delete(){
-    global $db;
+    global $db, $rrdbase;
+    @unlink("$rrdbase/{$this->MAMPid}.rrd");
+    for($i=0; $i<$this->noCI; $i++){
+      @unlink("$rrdbase/{$this->MAMPid}_CI{$i}.rrd");
+    }
     $db->query("DROP TABLE IF EXISTS {$this->MAMPid}_filterlist") or die($db->error);
     $db->query("DROP TABLE IF EXISTS {$this->MAMPid}_filterlistverify") or die($db->error);
     $db->query("DROP TABLE IF EXISTS {$this->MAMPid}_CIload") or die($db->error);
