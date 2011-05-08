@@ -1,5 +1,5 @@
 <?php //  -*- mode:html;  -*- ?>
-<h1>Measurement points</h1>
+<h1>Measurement Points</h1>
 <table border="0" cellspacing="0" width="100%" class="list">
   <tr>
     <th align="left" valign="bottom">Status</th>
