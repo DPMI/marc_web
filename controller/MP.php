@@ -84,6 +84,7 @@ class MPController extends Controller {
       $confirm = $_GET['confirm'];
       if ( $confirm == 'delete' ){
 	$filter->delete();
+	$mp->del_filter($filter->filter_id);
       }
 
       throw new HTTPRedirect("$index/MP/filter/{$mp->MAMPid}");

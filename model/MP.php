@@ -97,6 +97,12 @@ class MP extends BasicObject {
     $message = pack("Na16N", 66, $this->MAMPid, $id);
     $this->send($message);
   }
+
+  public function del_filter($id){
+    /* 69 is filter del event */
+    $message = pack("Na16N", 69, $this->MAMPid, $id);
+    $this->send($message);
+  }
   
   public function generate_mampid(){
     $this->MAMPid = $this->name . substr($this->mac,15,2);
