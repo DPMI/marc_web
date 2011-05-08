@@ -42,8 +42,8 @@
     <td valign="top"><?=$filter->CAPLEN?></td>
     <td width="45">
       <a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>/<?=$filter->filter_id?>"><img width="12" height="13"  border="0" alt="Edit" title="Edit filter" src='<?=$root?>button_edit.png'/></a>
-      <a href="<?=$index?>/MP/del/<?=$mp->MAMPid?>/<?=$filter->filter_id?>"><img width="12" height="13"  border="0" alt="Drop" title="Drop filter" src='<?=$root?>button_drop.png'/></a>
-      <a href="<?=$index?>/MP/verify/<?=$mp->MAMPid?>/<?=$filter->filter_id?>"><img width="12" height="13"  border="0" alt="Verify" title="Verify filter" src='<?=$root?>button_properties.png'/></a>
+      <a href="<?=$index?>/MP/filter_del/<?=$mp->MAMPid?>/<?=$filter->filter_id?>"><img width="12" height="13"  border="0" alt="Drop" title="Drop filter" src='<?=$root?>button_drop.png'/></a>
+      <a href="<?=$index?>/MP/filter_verify/<?=$mp->MAMPid?>/<?=$filter->filter_id?>"><img width="12" height="13"  border="0" alt="Verify" title="Verify filter" src='<?=$root?>button_properties.png'/></a>
     </td>
   </tr>
   <?php } /* foreach $filter */ ?>

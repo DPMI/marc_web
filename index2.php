@@ -16,6 +16,10 @@ function template($view, $data){
   return $content;
 }
 
+function confirm($message, $alt){
+  return template('confirm.php', array('message' => $message, 'alt' => $alt));
+}
+
 $path = array('');
 if ( isset($_SERVER['PATH_INFO']) ){
   $path = explode('/', rtrim($_SERVER['PATH_INFO'],'/'));

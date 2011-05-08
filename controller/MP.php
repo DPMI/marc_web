@@ -66,6 +66,32 @@ class MPController extends Controller {
     return template('filter/view.php', $data);
   }
 
+  public function filter_del($mampid, $filter_id){
+    parent::validate_access(1);
+    global $index;
+
+    $mp = MP::from_mampid($mampid);
+    if ( !$mp ){
+      return template('mp/invalid.php', array());
+    }
+
+    $filter = $mp->filter($filter_id);
+    if ( !$filter ){
+      return "Invalid filter";
+    }
+
+    if ( isset($_GET['confirm']) ){
+      $confirm = $_GET['confirm'];
+      if ( $confirm == 'delete' ){
+	$filter->delete();
+      }
+
+      throw new HTTPRedirect("$index/MP/filter/{$mp->MAMPid}");
+    }
+
+    return confirm("Are you sure you want to delete filter {{$filter->filter_id}} from {$mp->name}?", array("delete", "cancel"));
+  }
+
   public function filter_update($mampid){
     parent::validate_access(1);
     global $index;

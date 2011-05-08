@@ -189,6 +189,12 @@ class Filter {
     }
     $stmt->close();
   }
+
+  public function delete(){
+    global $db;
+
+    $db->query("DELETE FROM {$this->mp->filter_table()} WHERE filter_id = " . (int)$this->filter_id);
+  }
 }
 
 ?>
