@@ -1,8 +1,6 @@
-<h1>Filters</h1>
-<?php if ( count($mps) == 0 ){ ?>
-<p>No MPs found!</p>
-<?php } else { ?>
+<?php //  -*- mode:html;  -*- ?>
 <?php foreach ( $mps as $mp ){ ?>
+<h1><a href="<?=$index?>/MP">Measurement Points</a> &gt; <a href="<?=$index?>/MP/view/<?=$mp->MAMPid?>"><?=$mp->name?></a> &gt; Filters</h1>
 <h2>
   <?=$mp->name?>
   <a href="<?=$index?>/MP/verify/<?=$mp->MAMPid?>"><img width="12" height="13" border="0" alt="Verify all filters" title="Verify all filters" src="<?=$root?>button_properties.png" /></a>
@@ -51,4 +49,4 @@
   <?php } /* foreach $filter */ ?>
 </table>
 <?php } /* foreach $mps */ ?>
-<?php } /* if count($mps) */ ?>
+
