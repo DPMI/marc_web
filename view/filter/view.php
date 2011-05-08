@@ -83,7 +83,7 @@ function select($name, array $values, array $default=null, $update=null, array $
 }
 
 ?>
-<h1><?=$mp->name?> - Filter specification</h1>
+<h1><a href="<?=$index?>/MP">Measurement Points</a> &gt; <a href="<?=$index?>/MP/view/<?=$mp->MAMPid?>"><?=$mp->name?></a> &gt; Edit filter</h1>
 <div id="filter">
   <noscript>
     <p class="filter_notice">This page requires javascript to function properly!</p>
