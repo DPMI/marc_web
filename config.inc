@@ -19,6 +19,8 @@ $index = $root . 'index2.php';
 
 /* --------- END OF USER CONFIGURATION --------------- */
 
+$version = "0.7.0";
+
 /* store config errors, if count() != 0 the config errorpage is shown */
 $config_error = array();
 $config_check = $_SERVER['REQUEST_URI'] == "{$root}config_error.php";

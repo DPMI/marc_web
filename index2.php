@@ -41,6 +41,8 @@ if ( $handler == '' ){
   } catch ( HTTPRedirect $e ){
     header("Location: {$e->url}");
     exit;
+  } catch( Exception $e ){
+    $content = template('exception.php', array('exception' => $e));
   }
   
 } else {
@@ -55,6 +57,7 @@ if ( $handler == '' ){
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="<?=$root?>style2.css" />
     <link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
+    <script type="text/javascript" src="<?=$root?>js/filter.js"></script>
     <title>Network Performance Lab -- MArC</title>
   </head>
   
@@ -116,7 +119,9 @@ if ( $handler == '' ){
 
     <div id="footer">
       <hr/>
-      <p>Responsible for page: <a href="mailto:pal@bth.se">Patrik Arlos</a></p>
+      <p>MArCd webgui - <?=$version?></p>
+      <p>Maintained by <a href="mailto:pal@bth.se">Patrik Arlos</a>.</p>
+      <p><a href="http://www.bth.se/">Blekinge Institute of Technology</a>.</p>
     </div>
 
   </body>

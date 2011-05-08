@@ -35,8 +35,16 @@ class Filter {
     $data = array_fill_keys(Filter::$columns, null);
     $data['ind'] = 0;
     $data['filter_id'] = 10;
+    $data['VLAN_TCI_MASK'] = '0xffff';
+    $data['ETH_TYPE_MASK'] = '0xffff';
     $data['ETH_SRC'] = str_replace(':', '', $mp->mac);
+    $data['ETH_SRC_MASK'] = 'ffffffffffff';
     $data['ETH_DST'] = str_replace(':', '', $mp->mac);
+    $data['ETH_DST_MASK'] = 'ffffffffffff';
+    $data['IP_SRC_MASK'] = '255.255.255.255';
+    $data['IP_DST_MASK'] = '255.255.255.255';
+    $data['SRC_PORT_MASK'] = '0xffff';
+    $data['DST_PORT_MASK'] = '0xffff';
     $data['DESTADDR'] = '010000000001';
     $data['TYPE'] = 1;
     $data['CAPLEN'] = 54;
@@ -124,6 +132,20 @@ class Filter {
     return $destination;
   }
 
+  static private function sql_error($query, $error){
+    throw new Exception("Failed to execute MySQL query: <b>$error</b>. The query was:\n<pre>\n$query\n</pre>");
+  }
+
+  public function validate_id($id){
+    global $db;
+    $query = "SELECT 1 FROM {$this->mp->filter_table()} WHERE filter_id = " . (int)$id . " LIMIT 1";
+    $result = $db->query($query);
+    if ( !$result ){
+      $this->sql_error($query, $db->error);
+    }
+    return !$result || $result->num_rows == 0;
+  }
+
   /**
    * Commit changes to a filter.
    * @param old_id If updating an existing filter, pass the filter id.
@@ -143,12 +165,12 @@ class Filter {
 
     $sql = '';
     if ( $old_id == null ){
-      $sql .= 'INSERT INTO ';
+      $sql .= "INSERT INTO \n";
     } else {
-      $sql .= 'UPDATE ';
+      $sql .= "UPDATE \n";
     }
 
-    $sql .= "{$this->mp->filter_table()} SET " . implode(', ', $keys);
+    $sql .= "\t{$this->mp->filter_table()}\nSET\n\t" . implode(", \n\t", $keys) . "\n";
 
     if ( $old_id != null ){
       $sql .= " WHERE filter_id = ?";
@@ -163,7 +185,7 @@ class Filter {
 
     call_user_func_array(array($stmt, 'bind_param'), $param);
     if ( !$stmt->execute() ){
-      throw new Exception($stmt->error);
+      throw new Exception("Failed to execute MySQL query:\n<pre>\n$sql\n{$stmt->error}</pre>");
     }
     $stmt->close();
   }

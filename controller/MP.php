@@ -46,6 +46,7 @@ class MPController extends Controller {
       $data['mp'] = $mp;
       $data['filter'] = $mp->filter($filter_id);
       $data['filter_exist'] = true;
+      $data['errors'] = array();
       return template('filter/view.php', $data);
     }
   }
@@ -53,24 +54,61 @@ class MPController extends Controller {
   public function filter_add($mampid){
     parent::validate_access(1);
 
-    $data['mp'] = MP::from_mampid($mampid);
+    $mp = MP::from_mampid($mampid);
+    if ( !$mp ){
+      return template('mp/invalid.php', array());
+    }
+
+    $data['mp'] = $mp;
     $data['filter'] = Filter::placeholder($mp);
     $data['filter_exist'] = false;
+    $data['errors'] = array();
     return template('filter/view.php', $data);
   }
 
   public function filter_update($mampid){
     parent::validate_access(1);
+    global $index;
 
     $mp = MP::from_mampid($mampid);
     if ( !$mp ){
-      throw new Exception("No such MP");
+      return template('mp/invalid.php', array());
     }
 
     if ( isset($_POST['cancel']) ){
-      global $index;
       throw new HTTPRedirect("$index/MP/view/{$mp->MAMPid}");
     }
+    
+    $FILTER_ID=$_POST["filter_id"];
+    $OLD_FILTER_ID=$_POST["old_filter_id"];
+    
+    $fields = $_POST;
+    unset($fields['old_filter_id']);
+    unset($fields['mp']);
+    unset($fields['action']);
+    foreach ($fields as $key => $value){
+      if ( strcmp(substr($key, -10), '_selection') == 0 || strcmp(substr($key, -3), '_cb') == 0 ){
+	unset($fields[$key]);
+      }
+    }
+
+    $filter = new Filter($mp, $fields);
+
+    /* validate filter_id if it changes */
+    if ( $FILTER_ID != $OLD_FILTER_ID ){
+      if ( !$filter->validate_id($FILTER_ID) ){
+	$data['mp'] = $mp;
+	$data['filter'] = $filter;
+	$data['filter_exist'] = $OLD_FILTER_ID > 0;
+	$data['errors'][] = 'Filter ID is already used.';
+	return template('filter/view.php', $data);
+      }
+    }
+
+    $filter->commit($OLD_FILTER_ID > 0 ? $OLD_FILTER_ID : null);
+    
+    $mp->reload_filter($FILTER_ID);
+    throw new HTTPRedirect("$index/MP/filter/{$mp->MAMPid}");
   }
 };
 

@@ -4,7 +4,7 @@
 <h2>
   <?=$mp->name?>
   <a href="<?=$index?>/MP/verify/<?=$mp->MAMPid?>"><img width="12" height="13" border="0" alt="Verify all filters" title="Verify all filters" src="<?=$root?>button_properties.png" /></a>
-  <a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>"><img width="12" height="13"  border="0" alt="Add filter" title="Add filter" src="<?=$root?>button_insert.png" /></a>
+  <a href="<?=$index?>/MP/filter_add/<?=$mp->MAMPid?>"><img width="12" height="13"  border="0" alt="Add filter" title="Add filter" src="<?=$root?>button_insert.png" /></a>
 </h2>
 
 <table border="0" cellspacing="0" width="100%" class="list">

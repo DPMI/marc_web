@@ -201,4 +201,17 @@ tr.even:hover {
     clear: both;
     width: 100%;
     text-align: center;
+    font-size: 0.9em;
+}
+
+#footer p {
+    margin: 0;
+}
+
+#footer a,
+#footer a:link,
+#footer a:active,
+#footer a:visited {
+	text-transform: none;
+	color: #336699;
 }

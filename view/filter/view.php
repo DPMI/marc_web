@@ -83,12 +83,24 @@ function select($name, array $values, array $default=null, $update=null, array $
 }
 
 ?>
-<h1><a href="<?=$index?>/MP">Measurement Points</a> &gt; <a href="<?=$index?>/MP/view/<?=$mp->MAMPid?>"><?=$mp->name?></a> &gt; Edit filter</h1>
+<h1>
+  <a href="<?=$index?>/MP">Measurement Points</a> &gt;
+  <a href="<?=$index?>/MP/view/<?=$mp->MAMPid?>"><?=$mp->name?></a> &gt;
+  <a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>">Filters</a> &gt;
+<?php if ( $filter_exist ){ ?>
+  Edit
+<?php } else { ?>
+  Add
+<?php } ?>
+</h1>
 <div id="filter">
   <noscript>
     <p class="filter_notice">This page requires javascript to function properly!</p>
     <p class="filter_notice">You need to manually update index bitmask. Non-decimal values are NOT supported!</p>
   </noscript>
+<?php foreach ( $errors as $msg ){ ?>
+    <p class="filter_notice"><?=$msg?></p>
+<?php } /* foreach $errors */ ?>
 
       <form action="<?=$index?>/MP/filter_update/<?=$mp->MAMPid?>" method="post" name="myForm" onsubmit="return filter_submit();">
 <?php if ( $filter_exist ){ ?>
@@ -109,7 +121,7 @@ function select($name, array $values, array $default=null, $update=null, array $
 	  <tr><td style="width: 50px;"><input name="etht_cb" type="checkbox" onchange="updateIndex();" <?=$filter->ind&128 ? 'checked="checked"' : '' ?> />128</td>          <td class="label">ETH_TYPE</td>    <td colspan="1"><input id="ETH_TYPE" name="ETH_TYPE" type="text" size="5"  maxlength="5"  onchange="filter_clear(this);" value="<?=$filter->ETH_TYPE ?>" /></td>    <td class="label">ETH_TYPE_MASK</td><td><input id="ETH_TYPE_MASK" name="ETH_TYPE_MASK" type="text" size="14" maxlength="14" value="<?=$filter->ETH_TYPE_MASK?>" /></td><td><?=select('ethmask_selection',    array('0xffff', '0xff00', '0x00ff', 'Other' => ''), array($filter->ETH_TYPE_MASK, ''), 'ETH_TYPE_MASK')?></td></tr>
 	  <tr><td style="width: 50px;"><input name="eths_cb" type="checkbox" onchange="updateIndex();" <?=$filter->ind&64  ? 'checked="checked"' : '' ?> />&nbsp;64</td>     <td class="label">ETH_SRC </td>    <td colspan="1"><input id="ETH_SRC"  name="ETH_SRC"  type="text" size="17" maxlength="17" onchange="filter_clear(this);" value="<?=$filter->ETH_SRC  ?>" /></td>    <td class="label">ETH_SRC_MASK </td><td><input id="ETH_SRC_MASK"  name="ETH_SRC_MASK"  type="text" size="17" maxlength="17" value="<?=$filter->ETH_SRC_MASK ?>" /></td><td><?=select('ethsrcmask_selection', array('ffffffffffff', '000000000000', 'Other' => ''), array($filter->ETH_SRC_MASK, ''), 'ETH_SRC_MASK')?></td></tr>
 	  <tr><td style="width: 50px;"><input name="ethd_cb" type="checkbox" onchange="updateIndex();" <?=$filter->ind&32  ? 'checked="checked"' : '' ?> />&nbsp;32</td>     <td class="label">ETH_DST </td>    <td colspan="1"><input id="ETH_DST"  name="ETH_DST"  type="text" size="17" maxlength="17" onchange="filter_clear(this);" value="<?=$filter->ETH_DST  ?>" /></td>    <td class="label">ETH_DST_MASK </td><td><input id="ETH_DST_MASK"  name="ETH_DST_MASK"  type="text" size="17" maxlength="17" value="<?=$filter->ETH_DST_MASK ?>" /></td><td><?=select('ethdstmask_selection', array('ffffffffffff', '000000000000', 'Other' => ''), array($filter->ETH_DST_MASK, ''), 'ETH_DST_MASK')?></td></tr>
-	  <tr><td style="width: 50px;"><input name="ipp_cb"  type="checkbox" onchange="updateIndex();" <?=$filter->ind&16  ? 'checked="checked"' : '' ?> />&nbsp;16</td>     <td class="label">IP_PROTO</td>    <td colspan="4"><input id="IP_PROTO" name="IP_PROTO" type="text" size="5"  maxlength="5"  onchange="filter_clear(this);" value="<?=$filter->IP_PROTO ?>" style="width: 6em;" /> <?=select('ipproto_selection', array('UDP' => 17, 'TCP' => 6, 'ICMP' => 1, 'Other' => '0'), array($filter->IP_PROTO, ''), 'IP_PROTO', array('style' => 'width: 7em;'))?></td></tr>
+	  <tr><td style="width: 50px;"><input name="ipp_cb"  type="checkbox" onchange="updateIndex();" <?=$filter->ind&16  ? 'checked="checked"' : '' ?> />&nbsp;16</td>     <td class="label">IP_PROTO</td>    <td colspan="4"><input id="IP_PROTO" name="IP_PROTO" type="text" size="5"  maxlength="5"  onchange="filter_clear(this);" value="<?=$filter->IP_PROTO ?>" style="width: 6em;" /> <?=select('ipproto_selection', array('UDP' => 17, 'TCP' => 6, 'ICMP' => 1, 'Other' => ''), array($filter->IP_PROTO, ''), 'IP_PROTO', array('style' => 'width: 7em;'))?></td></tr>
 	  <tr><td style="width: 50px;"><input name="ips_cb"  type="checkbox" onchange="updateIndex();" <?=$filter->ind&8   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;8</td><td class="label">IP_SRC  </td>    <td colspan="1"><input id="IP_SRC"   name="IP_SRC"   type="text" size="16" maxlength="16" onchange="filter_clear(this);" value="<?=$filter->IP_SRC   ?>" /></td>    <td class="label">IP_SRC_MASK  </td><td><input id="IP_SRC_MASK"   name="IP_SRC_MASK"   type="text" size="16" maxlength="16" value="<?=$filter->IP_SRC_MASK	?>" /></td><td><?=select('ipsmask_selection',    array('255.255.255.255', '255.255.255.0', 'Other' => ''), array($filter->IP_SRC_MASK, ''), 'IP_SRC_MASK')?></td></tr>
 	  <tr><td style="width: 50px;"><input name="ipd_cb"  type="checkbox" onchange="updateIndex();" <?=$filter->ind&4   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;4</td><td class="label">IP_DST  </td>    <td colspan="1"><input id="IP_DST"   name="IP_DST"   type="text" size="16" maxlength="16" onchange="filter_clear(this);" value="<?=$filter->IP_DST   ?>" /></td>    <td class="label">IP_DST_MASK  </td><td><input id="IP_DST_MASK"   name="IP_DST_MASK"   type="text" size="16" maxlength="16" value="<?=$filter->IP_DST_MASK	?>" /></td><td><?=select('ipdmask_selection',    array('255.255.255.255', '255.255.255.0', 'Other' => ''), array($filter->IP_DST_MASK, ''), 'IP_DST_MASK')?></td></tr>
 	  <tr><td style="width: 50px;"><input name="sprt_cb" type="checkbox" onchange="updateIndex();" <?=$filter->ind&2   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;2</td><td class="label">SRC_PORT</td>    <td colspan="1"><input id="SRC_PORT" name="SRC_PORT" type="text" size="5"  maxlength="5"  onchange="filter_clear(this);" value="<?=$filter->SRC_PORT ?>" /></td>    <td class="label">SRC_PORT_MASK</td><td><input id="SRC_PORT_MASK" name="SRC_PORT_MASK" type="text" size="5"  maxlength="5"  value="<?=$filter->SRC_PORT_MASK ?>" /></td><td><?=select('portsmask_selection',  array('0xffff', '0x0000', 'Other' => ''), array($filter->SRC_PORT_MASK, ''), 'SRC_PORT_MASK')?></td></tr>
@@ -119,13 +131,13 @@ function select($name, array $values, array $default=null, $update=null, array $
 
 	  <tr>
 	    <td colspan="6" style="text-align: right;">
-	      <input type="button" value="Parse" onclick="filter_submit();" />
-	      <input type="submit" name="cancel" onclick="filter_cancel();" value="Cancel" />
 <?php if ( $filter_exist ){ ?>
 	      <input type="submit" name="action" value="Update" />
 <?php } else { ?>
 	      <input type="submit" name="action" value="Add" />
 <?php } ?>
+	      <input type="button" value="Parse" onclick="filter_submit();" />
+	      <input type="submit" name="cancel" onclick="filter_cancel();" value="Cancel" />
 	    </td>
 	  </tr>
 	</table>
