@@ -1,7 +1,7 @@
 <?php //  -*- mode:html;  -*- ?>
-<h1><?=$mp->name?></h1>
+<h1><a href="<?=$index?>/MP">Measurement Points</a> &gt; <?=$mp->name?></h1>
 <p>
-  <?=strlen($mp->comment) > 0 ? $mp->comment : "&nbsp;" ?><br/>
+  Comment: <?=strlen($mp->comment) > 0 ? $mp->comment : "&nbsp;" ?><br/>
   Last heard from: <?=$mp->time?>
 </p>
 <style>
@@ -31,8 +31,8 @@
     <td><?=$mp->MAMPid?></td>
   </tr>
   <tr>
-    <th>Max filters</th>
-    <td><?=$mp->maxFilters?></td>
+    <th><a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>">Filters</a></th>
+    <td><?=$mp->filter_count()?> of <?=$mp->maxFilters?> filters present.</td>
   </tr>
   <tr>
     <th>CI</th>

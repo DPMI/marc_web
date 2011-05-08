@@ -41,6 +41,17 @@ class MP extends BasicObject {
     return strlen($this->MAMPid) > 0;
   }
 
+  public function filter_count(){
+    global $db;
+    
+    $result = $db->query("SELECT COUNT(*) FROM {$this->MAMPid}_filterlist");
+    if ( $result == null ){
+      return false; /* what is a good value to indicate this failure? */
+    }
+    $row = $result->fetch_row();
+    return $row[0];
+  }
+
   public function filters(){
     global $db;
     

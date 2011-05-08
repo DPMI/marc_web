@@ -46,7 +46,10 @@ body {
     list-style-type: none;
 }
 
-#menu a, a:link, a:active, a:visited {
+#menu a,
+#menu a:link,
+#menu a:active,
+#menu a:visited {
     text-decoration: none;
     font-size: 1.1em;
     font-weight: bold;
@@ -74,11 +77,14 @@ body {
 }
 
 #content h1 {
-    font-size: 1.5em;
-    text-transform: uppercase;
-    color: #666666;
+    margin: 0 0 0.4em 0;
+    font-size: 1.7em;
+    color: #336699;
     font-weight: bold;
-    text-decoration: underline;
+}
+
+#content h1 a {
+    text-decoration: underline !IMPORTANT;
 }
 
 #content h2 {
@@ -88,24 +94,10 @@ body {
     margin-bottom: 2px;
 }
 
-#content a {
-	text-decoration:none
-}
-
-#content a:link, a:active, a:visited {
-	font-weight: bold;
-	text-transform: none;
-	text-decoration: none;
-	color: #336699;
-}
-
+#content a,
+#content a:link,
+#content a:active,
 #content a:visited {
-	font-weight: bold;
-	color: #336699;
-	text-decoration: none;
-}
-
-#content a:active {
 	font-weight: bold;
 	text-transform: none;
 	text-decoration: none;
@@ -113,10 +105,8 @@ body {
 }
 
 #content a:hover {
-	font-weight: bold;
-	text-transform: none;
-	text-decoration: none;
-	color: #999966;
+    text-decoration: underline;
+    color: #999966;
 }
 
 #filter {
