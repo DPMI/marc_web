@@ -32,9 +32,12 @@ class MPController extends Controller {
   }
 
   public function filter($mampid, $filter_id=null){
-    trigger_error("No accesslevel specified");
+    parent::validate_access(1);
 
     $mp = MP::from_mampid($mampid);
+    if ( !$mp ){
+      return template('mp/invalid.php', array());
+    }
 
     if ( $filter_id == null ){
       $data['mps'] = array($mp);
@@ -48,7 +51,7 @@ class MPController extends Controller {
   }
 
   public function filter_add($mampid){
-    trigger_error("No accesslevel specified");
+    parent::validate_access(1);
 
     $data['mp'] = MP::from_mampid($mampid);
     $data['filter'] = Filter::placeholder($mp);
@@ -57,7 +60,7 @@ class MPController extends Controller {
   }
 
   public function filter_update($mampid){
-    trigger_error("No accesslevel specified");
+    parent::validate_access(1);
 
     $mp = MP::from_mampid($mampid);
     if ( !$mp ){
