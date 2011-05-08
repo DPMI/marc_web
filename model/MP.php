@@ -23,6 +23,10 @@ class MP extends BasicObject {
       return "Not Auth";
     }
 
+    if ( $this->status == 4 ){
+      return "Distress";
+    }
+
     $result = $db->query("SELECT COUNT(*) FROM {$this->MAMPid}_filterlist");
     if ( !$result ){
       return "Invalid";
@@ -93,7 +97,6 @@ class MP extends BasicObject {
     $message = pack("Na16N", 66, $this->MAMPid, $id);
     $this->send($message);
   }
-
   
   public function generate_mampid(){
     $this->MAMPid = $this->name . substr($this->mac,15,2);
