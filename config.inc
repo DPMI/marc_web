@@ -34,7 +34,8 @@ foreach ( array('posix', 'mysqli', 'gd') as $ext ){
   }
 }
 
-$usergroup = posix_getgrnam($usergroup);
+$groupname = $usergroup;
+$usergroup = posix_getgrnam($groupname);
 $groupinfo = posix_getpwuid(posix_geteuid());
 
 /* Ensure $rrdbase is writable and owned by the correct group */
@@ -47,6 +48,13 @@ if ( !is_writable($rrdbase) ){
 
 /* extended checks, only testing when a previous error is detected or if manually testing */
 if ( $config_check ){
+  if ( !$usergroup ){
+    $config_error[] = array(
+			    'message' => "The specified usergroup does not exist",
+			    'group' => $groupname
+			    );
+  }
+
   if ( is_writable($rrdbase) && filegroup($rrdbase) != $usergroup['gid'] ){
     $tmp = posix_getgrgid(filegroup($rrdbase));
     $config_error[] = array(
@@ -62,7 +70,7 @@ if ( $config_check ){
     $config_error[] = array(
 			    'message' => "User does not belong to the specified usergroup.",
 			    'user' => $groupinfo['name'],
-			    'group' => $usergroup['name']
+			    'group' => $groupname
 			    );
   }
 }
