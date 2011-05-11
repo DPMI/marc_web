@@ -9,8 +9,8 @@ $password='konko';
 $path='uploadedfiles/';
 
 /* RRDtool config */
-$prefix = '/home/ext/temp/NPLDP-prefix';
-$rrdbase = "$prefix/var/lib/marc";
+$prefix = '/var/local';
+$rrdbase = "$prefix/lib/marc";
 $usergroup = 'marc';
 
 /* Path configuration */
