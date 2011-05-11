@@ -1,5 +1,5 @@
 <?
-require("config.inc");
+require("config.php");
 
 print "<h2>Content 2</h2>\n";
 

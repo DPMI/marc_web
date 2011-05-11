@@ -47,7 +47,7 @@ function gd_die($str){
 ob_start();
 
 require("sessionCheck.php");
-require("config.inc");
+require("config.php");
 require_once('model/MP.php');
 require_once('model/MPStatus.php');
 

@@ -1,5 +1,5 @@
 <?
-require("config.inc");
+require("config.php");
 header("Content-type: image/png");
 
 $im=imagecreatefromjpeg("huvud-rubrik-inga.jpg");

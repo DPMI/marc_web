@@ -1,6 +1,6 @@
 <?
 
-require("config.inc");
+require("config.php");
 
 ?>
 <html>

@@ -2,7 +2,7 @@
 <?php
 
 require("sessionCheck.php");
-require("config.inc");
+require("config.php");
 require_once('model/MP.php');
 
 $order = isset($_GET['order']) ? $_GET['order'] : 'name';

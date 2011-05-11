@@ -1,7 +1,7 @@
 <?php
 
 require("sessionCheck.php");
-require("config.inc");
+require("config.php");
 require('model/MP.php');
 
 $mampid = $_GET['mampid'];

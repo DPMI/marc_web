@@ -1,6 +1,6 @@
 <?php
 require("sessionCheck.php");
-require("config.inc");
+require("config.php");
 
 print "action = " . $HTTP_POST_VARS["action1"] . "eol <br>\n";
 if ($HTTP_POST_VARS["action1"]==1) { 

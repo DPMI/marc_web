@@ -5,7 +5,7 @@ require("sessionCheck.php");
 if ( isset($_SESSION['config_error']) ){ /* redirected */
   $config_error = $_SESSION['config_error'];
 } else {
-  require('config.inc');
+  require('config.php');
 }
 
 unset($_SESSION['config_error']);

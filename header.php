@@ -1,5 +1,5 @@
 <?
-require("config.inc");
+require("config.php");
 
 ?>
 

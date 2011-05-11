@@ -1,6 +1,6 @@
 <?
 require("sessionCheck.php");
-require("config.inc");
+require("config.php");
 
 include ("jpgraph.php");
 include ("jpgraph_log.php");

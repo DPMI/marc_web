@@ -1,6 +1,6 @@
 <?
 require("sessionCheck.php");
-require("config.inc");
+require("config.php");
 
 $ID=		$HTTP_POST_VARS["id"];
 

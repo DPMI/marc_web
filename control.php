@@ -1,7 +1,7 @@
 <?php
 
 require("sessionCheck.php");
-require("config.inc");
+require("config.php");
 require_once('model/MP.php');
 
 if ( !(isset($_GET['id']) && isset($_GET['action'])) ){

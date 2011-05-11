@@ -1,6 +1,6 @@
 <?
 require("sessionCheck.php");
-require("config.inc");
+require("config.php");
 
 $url=		$HTTP_POST_VARS["url"];
 $accesslevel=	$HTTP_POST_VARS["accesslevel"];

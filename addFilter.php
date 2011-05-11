@@ -1,6 +1,6 @@
 <?php
 require("sessionCheck.php");
-require("config.inc");
+require("config.php");
 ?>
 <SCRIPT LANGUAGE="JavaScript">
 function updateIPproto() {

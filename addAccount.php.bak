@@ -1,6 +1,6 @@
 <?
 require("sessionCheck.php");
-require("config.inc");
+require("config.php");
 
 $sid=$_GET["SID"];
 session_start();

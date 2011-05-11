@@ -1,6 +1,6 @@
 <?php
 require("sessionCheck.php");
-require("config.inc");
+require("config.php");
 require("model/MP.php");
 
 $mp = MP::from_id($_GET['id']);

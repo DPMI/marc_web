@@ -1,6 +1,6 @@
 <?
 require("sessionCheck.php");
-require("config.inc");
+require("config.php");
 
 $Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
 mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");

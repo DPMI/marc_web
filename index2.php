@@ -1,7 +1,7 @@
 <?php
 
 require("sessionCheck.php");
-require("config.inc");
+require("config.php");
 require_once('model/Menu.php');
 
 $menu = Menu::selection(array('accesslevel:<=' => $u_access, 'type:!=' => 3));

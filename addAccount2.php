@@ -1,6 +1,6 @@
 <?
 require("sessionCheck.php");
-require("config.inc");
+require("config.php");
 $uname=		$HTTP_POST_VARS["uname"];
 $passwd=	$HTTP_POST_VARS["passwd"];
 $status=	$HTTP_POST_VARS["status"];

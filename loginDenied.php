@@ -6,7 +6,7 @@
    <meta name="GENERATOR" content="Mozilla/4.78 [en] (Windows NT 5.0; U) [Netscape]">
 </head>
 <? 
-require("config.inc");
+require("config.php");
 print $pageStyleBad;
 ?>
 

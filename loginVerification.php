@@ -2,7 +2,7 @@
 $uname=$_POST["uName"];
 $pass=$_POST["pWord"];
 
-require("config.inc");
+require("config.php");
 
 $sql_query = sprintf("SELECT * FROM access WHERE uname='%s' and passwd=PASSWORD('%s') LIMIT 1",
 		     mysql_real_escape_string($uname), mysql_real_escape_string($pass));

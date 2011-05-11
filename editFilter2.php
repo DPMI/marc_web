@@ -1,6 +1,6 @@
 <?
 require("sessionCheck.php");
-require("config.inc");
+require("config.php");
 require_once('model/MP.php');
 require_once('model/Filter.php');
 
