@@ -95,8 +95,8 @@ CREATE TABLE `measurementpoints` (
 
   -- 0.7 additions
   `status` int(11) NOT NULL DEFAULT '0',  -- MP status (e.g. distress)
-  `drivers` int(11) NOT NULL DEFAULT '0', -- bitmask of capture drivers
-  `version` text NOT NULL DEFAULT '',     -- semicolon separated list of version-numbers (for presentation)
+  `drivers` int(11) NOT NULL,             -- bitmask of capture drivers
+  `version` text NOT NULL,                -- semicolon separated list of version-numbers (for presentation)
   `CI_iface` text NOT NULL DEFAULT '',    -- semicolon separated list of CI ifaces (for presentation)
 
   PRIMARY KEY (`id`),
