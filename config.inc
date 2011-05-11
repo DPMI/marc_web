@@ -108,13 +108,13 @@ if ( count($config_error) > 0 ){
     }
     if(mysql_num_rows($result)>0) {
       $row = mysql_fetch_array($result);
+      $pageStyle=$row["pageStyle"];
+      $pageStyleBad=$row["pageStyleBad"];
+      $projectName=$row["projectName"];
+      $selectedID=$row["id"];
     } else { // PRoblems. Use some default
       
     }
-    $pageStyle=$row["pageStyle"];
-    $pageStyleBad=$row["pageStyleBad"];
-    $projectName=$row["projectName"];
-    $selectedID=$row["id"];
   }
 }
 
