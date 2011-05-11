@@ -38,13 +38,13 @@ CREATE TABLE `access` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-INSERT INTO `ACCESS` SET
+INSERT INTO `access` SET
        `uname` = 'root',
        `passwd` = PASSWORD('0000'),
        `status` = 99,
        `comment` = 'default user (please remove after creating a new admin account)',
        `Name` = 'admin',
-       'Email' = '';
+       `Email` = '';
 
 --
 -- Table structure for table `greeting`
