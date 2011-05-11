@@ -75,6 +75,24 @@ CREATE TABLE `guiconfig` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `mainmenu`
+--
+
+DROP TABLE IF EXISTS `mainmenu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mainmenu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `string` text NOT NULL,
+  `url` text NOT NULL,
+  `accesslevel` int(11) NOT NULL DEFAULT '0',
+  `comment` text NOT NULL,
+  `type` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `measurementpoints`
 --
 
