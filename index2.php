@@ -101,8 +101,8 @@ if ( $handler == '' ){
 	<li><a href="addGUI.php">Add GUI config</a></li>
 	<li><a href="listMenu.php">List Menu</a></li>
 	<li><a href="addMenu.php">Add Menu Entry</a></li>
-	<li><a href="listAccounts.php">List Accounts</a></li>
-	<li><a href="addAccount.php">Add Account</a></li>
+	<li><a href="<?=$index?>/account">List Accounts</a></li>
+	<li><a href="<?=$index?>/account/add">Add Account</a></li>
       </ul>
 <?php } /* if $u_access > 1 */ ?>
 
