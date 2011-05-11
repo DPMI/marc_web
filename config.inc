@@ -1,23 +1,12 @@
 <?php
-//CONFIGURATION FILE// Edit with care
 
-/* Database configuration */
-$DB_SERVER="localhost";
-$DATABASE='marc';
-$user='marc';
-$password='konko';
-$path='uploadedfiles/';
+/* NOTE! User configuration is now added in `config.local.php`. See
+ * `config.default.php` for help. */
 
-/* RRDtool config */
-$prefix = '/var/local';
-$rrdbase = "$prefix/lib/marc";
-$usergroup = 'marc';
-
-/* Path configuration */
-$root = '/marc/'; /* if installing into a subdirectory, set the path here. Must end in trailing slash */
-$index = $root . 'index2.php';
-
-/* --------- END OF USER CONFIGURATION --------------- */
+require('config.default.php');
+if ( file_exists('config.local.php') ){
+  require('config.local.php');
+}
 
 $version = "0.7.0";
 
