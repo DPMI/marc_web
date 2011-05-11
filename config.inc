@@ -113,7 +113,10 @@ if ( count($config_error) > 0 ){
       $projectName=$row["projectName"];
       $selectedID=$row["id"];
     } else { // PRoblems. Use some default
-      
+      $pageStyle="";
+      $pageStyleBad="";
+      $projectName='MArCd';
+      $selectedID=-1;      
     }
   }
 }
