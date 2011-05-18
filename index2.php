@@ -83,6 +83,8 @@ if ( $handler == '' ){
 <?php foreach($menu as $item){ ?>
         <li><a href="<?=$root?><?=$item->href()?>"><?=$item->string?></a></li>
 <?php } ?>
+        <li><a href="<?=$index?>/MP">List MPs</a></li>
+        <li><a href="<?=$index?>/FilterReadable">List filters</a></li>
       </ul>
 
 <?php if ( $u_id > 0 ){ ?>
