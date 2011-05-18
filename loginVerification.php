@@ -24,7 +24,9 @@ $_SESSION["ip"]=$ip;
 $_SESSION['user_id'] = $account->id;
 $_SESSION["accesslevel"] = $account->status;
 $_SESSION["username"] = $account->uname;
-$_SESSION['passwd_warning'] = true;
+if ( strlen($account->password) < 100 ){ /* 100 is just arbitrary, PASSWORD() hash is less than 100 at least */
+  $_SESSION['passwd_warning'] = true;
+}
 
 header("Location: {$root}index2.php");
 
