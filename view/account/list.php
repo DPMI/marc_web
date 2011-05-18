@@ -1,4 +1,6 @@
+<?php //  -*- mode:html;  -*- ?>
 <h1>Accounts</h1>
+<a href="<?=$index?>/account/add"><img width="12" height="13"  border="0" alt="Add account" title="Add account" src="<?=$root?>button_insert.png" /></a>
 
 <table border="0" cellspacing="0" width="100%" class="list">
   <tr>

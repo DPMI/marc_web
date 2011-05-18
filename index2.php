@@ -109,6 +109,7 @@ if ( $handler == '' ){
       <h1>User</h1>
       <ul>
 <?php if ( $u_id > 0 ){ ?>
+	<li><a href="<?=$index?>/account/self">Account</a></li>
 	<li><a href="<?=$root?>logout.php">Logout</a></li>
 <?php } else { ?>
 	<li><a href="<?=$root?>login.php">Login</a></li>

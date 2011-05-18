@@ -93,7 +93,7 @@ function select($name, array $values, array $default=null, $update=null, array $
   Add
 <?php } ?>
 </h1>
-<div id="filter">
+<div id="filter" class="form">
   <noscript>
     <p class="filter_notice">This page requires javascript to function properly!</p>
     <p class="filter_notice">You need to manually update index bitmask. Non-decimal values are NOT supported!</p>

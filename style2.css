@@ -117,7 +117,7 @@ body {
     border: 0 !IMPORTANT;
 }
 
-#filter td.label {
+td.label {
     background: #d3dce3;
     text-align: right;
     padding-left: 1em;
@@ -128,12 +128,13 @@ body {
     vertical-align: text-top;
 }
 
-#filter input[type="text"] {
+.form input[type="text"],
+.form input[type="password"] {
     font-family: monospace;
     width: 13em;
 }
 
-#filter select {
+.form select {
     font-family: monospace;
     width: 13em;
 }
