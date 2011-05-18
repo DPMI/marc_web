@@ -7,6 +7,12 @@
 <h1><a href="<?=$index?>/account">Account</a> &gt Add new account</h1>
 <?php } ?>
 
+<?php if ( isset($error) ){ ?>
+<?php foreach ( $error as $msg ){ ?>
+<p class="filter_notice"><?=$msg?></p>
+<?php } /* foreach $errors */ ?>
+<?php } ?>
+
 <form action="<?=$index?>/account/submit" method="post">
   <table border="0" class="form">
 <?php if ( $admin ){ ?>

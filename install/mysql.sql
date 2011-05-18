@@ -23,18 +23,15 @@ DROP TABLE IF EXISTS `access`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `access` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uname` text NOT NULL,
-  `passwd` text NOT NULL,
+  `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+  `uname` varchar(64) NOT NULL UNIQUE,
+  `passwd` varchar(512) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
   `comment` text NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Name` text NOT NULL,
   `Email` text NOT NULL,
   `active` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_2` (`id`),
-  KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

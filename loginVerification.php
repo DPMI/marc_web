@@ -1,14 +1,13 @@
 <?php
+require('config.php');
+require('model/account.php');
+
 $uname=$_POST["uName"];
 $pass=$_POST["pWord"];
 
-require("config.php");
+$account = Account::validate_login($uname, $pass);
 
-$sql_query = sprintf("SELECT * FROM access WHERE uname='%s' and passwd=PASSWORD('%s') LIMIT 1",
-		     mysql_real_escape_string($uname), mysql_real_escape_string($pass));
-$result = $db->query($sql_query) or die ("Erro query: " . mysql_error() . "<br>\n");
-
-if ( $result->num_rows == 0 ) {
+if ( !$account ){
   header("Location: loginDenied.php");
   exit;
 }
@@ -19,15 +18,14 @@ if (getenv('HTTP_X_FORWARDED_FOR')){
   $ip=getenv('REMOTE_ADDR');
 }
 
-$row = $result->fetch_assoc();
-
 session_start();
 $_SESSION["OK"]="OK";
-$_SESSION["ip"]=$ip;;
-$_SESSION['user_id'] = $row['id'];
-$_SESSION["accesslevel"]=$row["status"];
-$_SESSION["username"]=$uname;
+$_SESSION["ip"]=$ip;
+$_SESSION['user_id'] = $account->id;
+$_SESSION["accesslevel"] = $account->status;
+$_SESSION["username"] = $account->uname;
+$_SESSION['passwd_warning'] = true;
 
-header("Location: framesMgnt.php");
+header("Location: {$root}index2.php");
 
 ?>

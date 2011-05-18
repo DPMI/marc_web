@@ -47,38 +47,73 @@ class AccountController extends Controller {
   }
 
   public function submit(){
+    global $u_id;
     $id = (int)$_POST['id'];
-
+    $error = array();
+   
     if ( $id == -1 ){ /* new account */
       parent::validate_access(2);
+      
+      if ( Account::from_username($_POST['uname']) != null ){
+	$error[] = 'Username already taken.';
+      }
       $account = new Account();
+      $exist = false;
     } else if ( $id == $u_id ){ /* user edit */
       parent::validate_access(1);
       if ( isset($_POST['status']) ){ /* prevent spoof */
-	throw new HTTPError403();
+	parent::validate_access(2);
       }
       $account = Account::from_id($id);
+      $exist = true;
     } else { /* admin edit */
       parent::validate_access(2);
       $account = Account::from_id($id);
+      $exist = true;
     }
 
-    $account->uname = $_POST['uname'];
+    /* validate password before making any changes */
+    $p1 = $_POST['passwd-1'];
+    $p2 = $_POST['passwd-2'];
+    if ( strlen($p1) > 0 && ( $p1 != $p2 ) ){
+      $error[] = 'Passwords does not match.';
+    }
+
     $account->Name = $_POST['name'];
     $account->Email = $_POST['email'];
 
-    $p1 = $_POST['passwd-1'];
-    $p2 = $_POST['passwd-2'];
-    if ( strlen($p1) > 0 && $p1 == $p2 ){
-      $account->passwd = $p1;
+    if ( isset($_POST['status']) ){ /* admin edit */
+      if ( $account->uname != $_POST['uname'] && strlen($p1) == 0 ){
+	$error[] = 'When changing username, a new password must be set.';
+      }
+
+      $account->uname = $_POST['uname'];
+      $account->status = $_POST['status'];
+      $account->comment = $_POST['comment'];
     }
 
-    if ( isset($_POST['status']) ){ /* admin edit */
-      $account->status = $_POST['status'];
-	$account->comment = $_POST['comment'];
+    /* show errors (fields are set first so it can fill in the fields in the form) */
+    if ( count($error) > 0 ){
+      if ( !$exist ){
+	$account->id = -1; /* hard-coded id */
+      }
+
+      $data['account'] = $account;
+      $data['exist'] = $exist;
+      $data['admin'] = isset($_POST['status']);
+      $data['error'] = $error;
+      return template('account/view.php', $data);
     }
     
     $account->commit();
+
+    /* The password cannot be set until a user id exists, so the account must
+     * be committed before setting it. */
+    if ( strlen($p1) > 0 ){
+      $account->set_password($p1);
+      $account->commit();
+    }
+
     return "<h1>Account saved</h1>";
   }
 
