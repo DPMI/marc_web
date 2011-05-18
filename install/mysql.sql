@@ -15,12 +15,12 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-DROP TABLE IF EXISTS `meta`
+DROP TABLE IF EXISTS `meta`;
 CREATE TABLE `meta` (
        `key` varchar(16) PRIMARY KEY,
        `value` blob
 );
-INSERT INTO `meta` SET (`key` = 'version', `value` = 7);
+INSERT INTO `meta` SET `key` = 'version', `value` = 7;
 
 --
 -- Table structure for table `access`
@@ -38,7 +38,7 @@ CREATE TABLE `access` (
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Name` text NOT NULL,
   `Email` text NOT NULL,
-  `active` int(11) NOT NULL DEFAULT '0',
+  `active` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
