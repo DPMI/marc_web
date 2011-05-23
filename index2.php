@@ -83,7 +83,9 @@ if ( $handler == '' ){
 <?php foreach($menu as $item){ ?>
         <li><a href="<?=$root?><?=$item->href()?>"><?=$item->string?></a></li>
 <?php } ?>
+<?php if ( $u_access >= 1 ) { ?>
         <li><a href="<?=$index?>/MP">List MPs</a></li>
+<?php } ?>
         <li><a href="<?=$index?>/FilterReadable">List filters</a></li>
       </ul>
 
