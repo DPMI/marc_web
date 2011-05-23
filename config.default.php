@@ -27,6 +27,6 @@ $usergroup = 'marc';
 
 /* Path configuration */
 $root = '/'; /* if installing into a subdirectory, set the path here. Must end in trailing slash */
-$index = $root . 'index2.php';
+$index = $root . 'index.php';
 
 ?>

@@ -79,9 +79,9 @@ if ( $handler == '' ){
     <div id="menu">
       <h1>MArC - Member</h1>
       <ul>
-        <li><a href="<?=$root?>index2.php">Home</a></li>
+        <li><a href="<?=$index?>">Home</a></li>
 <?php foreach($menu as $item){ ?>
-        <li><a href="<?=$root?><?=$item->href()?>"><?=$item->string?></a></li>
+        <li><a href="<?=$item->href()?>"><?=$item->string?></a></li>
 <?php } ?>
 <?php if ( $u_access >= 1 ) { ?>
         <li><a href="<?=$index?>/MP">List MPs</a></li>

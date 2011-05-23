@@ -8,9 +8,10 @@ class Menu extends BasicObject {
   }
 
   public function href(){
+    global $index;
     switch ( $this->type ){
-    case 0:  return "index2.php/display/{$this->url}";
-    default: return "index2.php/{$this->url}";
+    case 0:  return "{$index}/display/{$this->url}";
+    default: return "{$index}/{$this->url}";
     }
   }
 }

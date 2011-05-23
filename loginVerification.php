@@ -28,6 +28,6 @@ if ( strlen($account->password) < 100 ){ /* 100 is just arbitrary, PASSWORD() ha
   $_SESSION['passwd_warning'] = true;
 }
 
-header("Location: {$root}index2.php");
+header("Location: {$root}index.php");
 
 ?>
