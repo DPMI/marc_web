@@ -24,7 +24,7 @@ $_SESSION["ip"]=$ip;
 $_SESSION['user_id'] = $account->id;
 $_SESSION["accesslevel"] = $account->status;
 $_SESSION["username"] = $account->uname;
-if ( strlen($account->password) < 100 ){ /* 100 is just arbitrary, PASSWORD() hash is less than 100 at least */
+if ( strlen($account->passwd) < 100 ){ /* 100 is just arbitrary, PASSWORD() hash is less than 100 at least */
   $_SESSION['passwd_warning'] = true;
 }
 
