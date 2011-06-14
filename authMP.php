@@ -134,6 +134,6 @@ foreach ( $rrd as $filename => $cmd ){
 $mp->auth();
 
 /* go back to MP list */
-header("Location: listMPs.php");
+header("Location: $index/MP");
 
 ?>
