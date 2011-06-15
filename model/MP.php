@@ -59,7 +59,7 @@ class MP extends BasicObject {
   public function filters(){
     global $db;
     
-    $result = $db->query("SELECT * FROM {$this->MAMPid}_filterlist");
+    $result = $db->query("SELECT * FROM {$this->MAMPid}_filterlist ORDER BY filter_id ASC");
     if ( $result == null ){
       return array();
     }
