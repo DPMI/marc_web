@@ -17,8 +17,13 @@
 <?php foreach ( $mps as $mp ){ ?>
   <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
     <td><?=$mp->status()?></td>
+<?php if ( $mp->is_authorized() ){ ?>
     <td><a href="<?=$index?>/MP/view/<?=$mp->MAMPid?>"><?=$mp->id?></a></td>
     <td><a href="<?=$index?>/MP/view/<?=$mp->MAMPid?>"><?=$mp->name?></a></td>
+<?php } else { ?>
+    <td><?=$mp->id?></td>
+    <td><?=$mp->name?></td>
+<? } ?>
     <td><?=$mp->ip?>:<?=$mp->port?></td>
     <td><?=$mp->mac?></td>
     <td><?=strlen($mp->comment) > 0 ? $mp->comment : "&nbsp;" ?></td>
