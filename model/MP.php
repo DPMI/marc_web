@@ -20,7 +20,7 @@ class MP extends BasicObject {
   public function status(){
     global $db;
     if ( !$this->is_authorized() ){
-      return "Not Auth";
+      return "Not authorized";
     }
 
     if ( $this->status == 4 ){
