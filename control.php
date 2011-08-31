@@ -17,7 +17,8 @@ if ( !$mp ){
 }
 
 $verify = array(
-  'remove' => "Are you sure you want to remove measurement point \"{$mp->name}\" and all its data?<br/>This action is unreversable."
+  'remove' => "Are you sure you want to remove measurement point \"{$mp->name}\" and all its data?<br/>This action is irreversable.",
+  'stop' => "Are you sure you want to stop the measurement point \"{$mp->name}\"? It is not possible to restart it using the webgui."
 );
 
 $need_verify = array_key_exists($action, $verify) && !isset($_GET['verify']);
@@ -25,6 +26,8 @@ $need_verify = array_key_exists($action, $verify) && !isset($_GET['verify']);
 if ( !$need_verify ){
   if ( $action == 'remove' ){
     $mp->delete();
+  } else if ( $action == 'stop' ){
+    $mp->stop();
   } else {
     die("unknown action");
   }

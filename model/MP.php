@@ -137,6 +137,12 @@ class MP extends BasicObject {
     $this->send($message);
   }
 
+  public function stop(){
+    /* 130 is termination request */
+    $message = pack("N", 130);
+    $this->send($message);
+  }
+
   public function send($message){
     $ip = $this->ip;
     $port = $this->port;
