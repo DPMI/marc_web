@@ -32,7 +32,7 @@ if ( !$need_verify ){
     die("unknown action");
   }
 
-  header("Location: listMPs.php");
+  header("Location: ${index}/MP");
   exit;
 }
 
