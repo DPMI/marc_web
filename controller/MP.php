@@ -113,6 +113,13 @@ class MPController extends Controller {
     unset($fields['old_filter_id']);
     unset($fields['mp']);
     unset($fields['action']);
+
+    /* special case for discard with isn't a real type */
+    if ( $fields['TYPE'] == '4' ){
+      $fields['TYPE'] = 0;
+      $fields['DESTADDR'] = '/dev/null';
+    }
+
     foreach ($fields as $key => $value){
       if ( strcmp(substr($key, -10), '_selection') == 0 || strcmp(substr($key, -3), '_cb') == 0 ){
 	unset($fields[$key]);
