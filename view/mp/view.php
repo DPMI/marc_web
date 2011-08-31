@@ -40,7 +40,7 @@
   </tr>
   <tr>
     <th>Drivers</th>
-    <td>raw, pcap [PLACEHOLDER]</td>
+    <td><?=$mp->drivers_str()?></td>
   </tr>
   <tr>
     <th>Versions</th>

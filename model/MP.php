@@ -4,6 +4,10 @@ require_once('BasicObject.php');
 require_once('Filter.php');
 require_once('MPStatus.php');
 
+define('DRIVER_RAW', 1);
+define('DRIVER_PCAP', 2);
+define('DRIVER_DAG', 4);
+
 class MP extends BasicObject {
   static protected function table_name(){
     return 'measurementpoints';
@@ -39,6 +43,14 @@ class MP extends BasicObject {
     } else {
       return "Idle";
     }
+  }
+
+  public function drivers_str(){
+    $drivers = array();
+    if ( $this->drivers & DRIVER_RAW  ) $drivers[] = 'raw';
+    if ( $this->drivers & DRIVER_PCAP ) $drivers[] = 'pcap';
+    if ( $this->drivers & DRIVER_DAG  ) $drivers[] = 'dag';
+    return implode($drivers,', ');
   }
 
   public function is_authorized(){
