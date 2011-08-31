@@ -36,7 +36,7 @@
   </tr>
   <tr>
     <th>CI</th>
-    <td><?=$mp->noCI?> (br0 [PLACEHOLDER])</td>
+    <td><?=$mp->noCI?> (<?=$mp->ifaces()?>)</td>
   </tr>
   <tr>
     <th>Drivers</th>

@@ -53,6 +53,10 @@ class MP extends BasicObject {
     return implode($drivers,', ');
   }
 
+  public function ifaces(){
+    return str_replace(";", ", ", $this->CI_iface);
+  }
+
   public function is_authorized(){
     return strlen($this->MAMPid) > 0;
   }
