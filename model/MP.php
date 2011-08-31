@@ -29,6 +29,8 @@ class MP extends BasicObject {
 
     if ( $this->status == 4 ){
       return "Distress";
+    } else if ( $this->status == 5 ){
+      return "Stopped";
     }
 
     $result = $db->query("SELECT COUNT(*) FROM {$this->MAMPid}_filterlist");
