@@ -57,6 +57,10 @@ class MP extends BasicObject {
     return str_replace(";", ", ", $this->CI_iface);
   }
 
+  public function version_str(){
+    return str_replace(";", ", ", $this->version);
+  }
+
   public function is_authorized(){
     return strlen($this->MAMPid) > 0;
   }

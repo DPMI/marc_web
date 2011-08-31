@@ -44,7 +44,7 @@
   </tr>
   <tr>
     <th>Versions</th>
-    <td>caputils-0.7.1 libmarc-0.7.0 mp-0.7.0 [placeholder]</td>
+    <td><?=$mp->version_str()?></td>
   </tr>
 </table>
 
