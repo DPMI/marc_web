@@ -46,7 +46,7 @@ if ( $fp ){
 /* tell browser to expect png image */
 header('Content-Type: image/png');
 
-$im = imagecreatefrompng("./{$root}gfx/ping_bar_{$group}.png");
+$im = imagecreatefrompng("gfx/ping_bar_{$group}.png");
 imagealphablending($im, false);
 imagesavealpha($im, true);
 imagepng($im);
