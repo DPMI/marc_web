@@ -8,6 +8,10 @@ define('DRIVER_RAW', 1);
 define('DRIVER_PCAP', 2);
 define('DRIVER_DAG', 4);
 
+if ( $use_ping ){
+	require_once "Net/Ping.php";
+}
+
 class MP extends BasicObject {
   static protected function table_name(){
     return 'measurementpoints';
@@ -48,7 +52,9 @@ class MP extends BasicObject {
   }
 
   public function ping(){
-	  return -1;
+	  global $use_ping, $root;
+	  if ( !$use_ping ){ return ''; }
+	  return "<img src=\"{$root}gfx/ping_bar_1.png\" alt=\"ping: -1ms\" title=\"-1ms\" />";
   }
 
   public function drivers_str(){
