@@ -29,7 +29,7 @@ $usergroup = 'marc';
 $root = '/'; /* if installing into a subdirectory, set the path here. Must end in trailing slash */
 $index = $root . 'index.php';
 
-/* Ping (requires PEAR Net_Ping) */
-$use_ping = false;
+/* show ping time for MPs */
+$use_ping = true;
 
 ?>
