@@ -8,6 +8,10 @@ if ( !$use_ping ){
 	exit;
 }
 
+if ( !isset($_GET['MAMPid']) ){
+	die("no mampid set");
+}
+
 /* allow cache for 5 min */
 $age = 5;
 header('Cache-Control: max-age=' . $age * 60 . ',public, must-revalidate');
