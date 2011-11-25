@@ -50,7 +50,7 @@ class MP extends BasicObject {
   public function ping(){
 	  global $use_ping, $root;
 	  if ( !$use_ping ){ return ''; }
-	  return "<img src=\"{$root}ping.php?MAMPid={this->MAMPid}\" alt=\"\" />";
+	  return "<img src=\"{$root}ping.php?MAMPid={$this->MAMPid}\" alt=\"\" />";
   }
 
   public function drivers_str(){
