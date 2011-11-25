@@ -16,7 +16,11 @@
   
 <?php foreach ( $mps as $mp ){ ?>
   <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
-    <td><?=$mp->status()?></td>
+    <td>
+		<?=$mp->status()?>
+		<?=$mp->ping()?>
+	</td>
+
 <?php if ( $mp->is_authorized() ){ ?>
     <td><a href="<?=$index?>/MP/view/<?=$mp->MAMPid?>"><?=$mp->id?></a></td>
     <td><a href="<?=$index?>/MP/view/<?=$mp->MAMPid?>"><?=$mp->name?></a></td>

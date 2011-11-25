@@ -47,6 +47,10 @@ class MP extends BasicObject {
     }
   }
 
+  public function ping(){
+	  return -1;
+  }
+
   public function drivers_str(){
     $drivers = array();
     if ( $this->drivers & DRIVER_RAW  ) $drivers[] = 'raw';
