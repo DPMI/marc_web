@@ -14,7 +14,7 @@
     <th align="left" valign="bottom">Control</th>
   </tr>
   
-<?php foreach ( $mps as $mp ){ ?>
+<?php foreach ( $mps as $mp ){ $toggle = 0; ?>
   <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
     <td>
 		<?=$mp->status()?>
