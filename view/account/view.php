@@ -71,8 +71,8 @@
     
     <tr>
       <td colspan="3">
-	<input type="submit" value="<?=$exist ? "Update user" : "Add" ?>"/>
-	<input type="submit" value="Cancel" />
+	<input type="submit" name="submit" value="<?=$exist ? "Update user" : "Add" ?>"/>
+	<input type="submit" name="cancel" value="Cancel" />
       </td>
     </tr>
 

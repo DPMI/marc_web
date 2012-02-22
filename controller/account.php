@@ -47,9 +47,13 @@ class AccountController extends Controller {
 	}
 
 	public function submit(){
-		global $u_id;
+		global $u_id, $index;
 		$id = (int)$_POST['id'];
 		$error = array();
+
+		if ( isset($_POST['cancel']) ){
+			throw new HTTPRedirect("$index");
+		}
 
 		if ( $id == -1 ){ /* new account */
 			parent::validate_access(2);
