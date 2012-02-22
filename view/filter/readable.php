@@ -4,7 +4,7 @@
 <p>No MPs found!</p>
 <?php } else { ?>
 <?php foreach ( $mps as $mp ){ ?>
-<h2><?=$mp->name?></h2>
+<h2><a href="<?=$index?>/MP/view/<?=$mp->MAMPid?>"><?=$mp->name?></a></h2>
 
 <table border="0" cellspacing="0" width="100%" class="list">
   <tr>
@@ -12,7 +12,6 @@
     <th>Filter Description</th>
     <th width="300">Consumer Information</th>
   </tr>
-  
 <?php foreach ( $mp->filters() as $filter ){ ?>
   <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
     <td><?=$filter->filter_id?></td>
