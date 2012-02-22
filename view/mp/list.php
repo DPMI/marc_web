@@ -8,7 +8,7 @@
     <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=ip&amp;asc=<?=$ascinv?>">ip:port</a></th>
     <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=mac&amp;asc=<?=$ascinv?>">mac</a></th>
     <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=comment&amp;asc=<?=$ascinv?>">comment</a></th>
-    <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=time&amp;asc=<?=$ascinv?>">time</a></th>
+    <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=time&amp;asc=<?=$ascinv?>">last heard from</a></th>
     <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=MAMPid&amp;asc=<?=$ascinv?>">MAMPid</a></th>
     <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=maxFilters&amp;asc=<?=$ascinv?>">max<br/>filters</a></th>
     <th align="left" valign="bottom">Control</th>
