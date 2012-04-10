@@ -15,8 +15,8 @@ if ( !$mp ){
 $MAMPid = $mp->generate_mampid();
 $mp->commit();
 
-$tables[] = "CREATE TABLE IF NOT EXISTS `{$MAMPid}_filterlist` (
-  `filter_id` int(11) PRIMARY KEY,
+$tables[] = "CREATE TABLE IF NOT EXISTS `{$MAMPid}_filterlist` (  `filter_id` int(11) PRIMARY KEY,
+  `mode` ENUM('AND', 'OR') NOT NULL DEFAULT 'AND',
   `ind` bigint(20) NOT NULL default '0',
   `CI_ID` varchar(8) NOT NULL default '',
   `VLAN_TCI` int(11) NOT NULL default '0',
@@ -69,7 +69,7 @@ $tables[] = "CREATE TABLE IF NOT EXISTS `{$MAMPid}_filterlistverify` (
   `CAPLEN` int(11) NOT NULL default '0',
   `consumer` int(11) NOT NULL default '0'
 ) TYPE=MyISAM";
-    
+
 $tables[] = "CREATE TABLE IF NOT EXISTS `{$MAMPid}_ci` ( `id` INT NOT NULL AUTO_INCREMENT ,
         `ci` INT NOT NULL ,
         `type` TEXT NOT NULL ,
@@ -99,7 +99,7 @@ foreach ( $tables as $query ){
 }
 
 $heartbeat = 180; /* can miss two updates */
-$databases = 
+$databases =
   "--step 60 " . /* 60s steps */
   "DS:total:COUNTER:$heartbeat:0:U " .
   "DS:matched:COUNTER:$heartbeat:0:U " .

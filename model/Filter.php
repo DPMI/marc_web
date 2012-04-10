@@ -8,7 +8,7 @@ class Filter {
   private $mp;
   private $data;
   private static $columns = array(
-	'filter_id', 'ind',
+	'filter_id', 'mode', 'ind',
 	'CI_ID',
 	'VLAN_TCI', 'VLAN_TCI_MASK',
 	'ETH_TYPE', 'ETH_TYPE_MASK',
@@ -35,6 +35,7 @@ class Filter {
     $data = array_fill_keys(Filter::$columns, null);
     $data['ind'] = 0;
     $data['filter_id'] = 10;
+    $data['mode'] = 'AND';
     $data['VLAN_TCI_MASK'] = '0xffff';
     $data['ETH_TYPE_MASK'] = '0xffff';
     $data['ETH_SRC'] = str_replace(':', '', $mp->mac);
@@ -104,7 +105,8 @@ class Filter {
       $parts[] = "(DPORT = {$this->DST_PORT})";
     }
 
-    return implode(" and ", $parts);
+    $glue = $this->mode == 'AND' ? 'and' : 'or';
+    return implode(" $glue ", $parts);
   }
 
   public function destination_description(){

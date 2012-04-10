@@ -112,6 +112,8 @@ function select($name, array $values, array $default=null, $update=null, array $
 	<p>
 	  INDEX     <input id="ind"       name="ind"       type="text" size="14" value="<?=$filter->ind?>" />
 	  FILTER ID <input id="filter_id" name="filter_id" type="text" size="14" value="<?=$filter->filter_id?>" maxlength="14" />
+	  <input type="radio" id="mode_and" name="mode" value="AND" <?=$filter->mode == 'AND' ? 'checked="checked"' : ''?>/><label for="mode_and">AND</label>
+	  <input type="radio" id="mode_or"  name="mode" value="OR"  <?=$filter->mode == 'OR'  ? 'checked="checked"' : ''?>/><label for="mode_or">OR</label>
 	</p>
 
 	<h2>Packet specification</h2>

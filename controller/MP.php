@@ -21,7 +21,7 @@ class MPController extends Controller {
 
   public function view($id){
     parent::validate_access(1);
-    
+
     $mp = MP::from_mampid($id);
     if ( !$mp ){
       return template('mp/invalid.php', array());
@@ -105,10 +105,10 @@ class MPController extends Controller {
     if ( isset($_POST['cancel']) ){
       throw new HTTPRedirect("$index/MP/view/{$mp->MAMPid}");
     }
-    
+
     $FILTER_ID=$_POST["filter_id"];
     $OLD_FILTER_ID=$_POST["old_filter_id"];
-    
+
     $fields = $_POST;
     unset($fields['old_filter_id']);
     unset($fields['mp']);
@@ -122,7 +122,7 @@ class MPController extends Controller {
 
     foreach ($fields as $key => $value){
       if ( strcmp(substr($key, -10), '_selection') == 0 || strcmp(substr($key, -3), '_cb') == 0 ){
-	unset($fields[$key]);
+	      unset($fields[$key]);
       }
     }
 
@@ -140,7 +140,7 @@ class MPController extends Controller {
     }
 
     $filter->commit($OLD_FILTER_ID > 0 ? $OLD_FILTER_ID : null);
-    
+
     $mp->reload_filter($FILTER_ID);
     throw new HTTPRedirect("$index/MP/filter/{$mp->MAMPid}");
   }
