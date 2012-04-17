@@ -105,7 +105,7 @@ if ( $Connect ){
 
 	} else {
 		$config_error[] = array(
-			"message" => "MySQL schema too old, please upgrade using upgrade/v0.7.1.php (and subsequential files in order) in a shell.",
+			"message" => "MySQL schema too old, please upgrade using upgrade/v0.7.1.sql,php} (and subsequential files in order) in a shell.",
 			"error" => "version too old",
 		);
 	}
