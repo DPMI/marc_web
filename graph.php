@@ -26,7 +26,7 @@ $regen = $stat == false || (time() - $stat['mtime'] > 5*60);
 
 if ( $regen ){
   $argv = array(
-    "rrdtool", "graph", 
+    "rrdtool", "graph",
     "$filename",
     "-a", "PNG",
     "--title", $title,
