@@ -118,6 +118,16 @@ body {
     border: 0 !IMPORTANT;
 }
 
+#help {
+		width: 320px;
+		height: 270px;
+		margin-top: 50px;
+		float: right;
+		background: #efefef;
+		padding: 7px;
+		text-align: justify;
+}
+
 td.label {
     background: #d3dce3;
     text-align: right;

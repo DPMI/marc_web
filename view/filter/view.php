@@ -99,6 +99,15 @@ $(document).ready(function(){
   Add
 <?php } ?>
 </h1>
+<div id="help">
+	<h2>Description</h2>
+	<span id="description">
+		<p>Measurement points process filters in the order specified by filter ID with a lower ID having higher priority. Packets will be matched in order and is processed as soon as a match is found and not by subsequent filters.</p>
+		<p>By selecting OR only one field must match but selecting AND requires all fields to match. Fields which isn't enabled will implicitly match. A filter without any enabled rows will always match.</p>
+		<p>All fields with a mask will apply the mask both to the selected value and the packets value.</p>
+		<p>By pressing "parse" all fields will be validated and converted to native format.</p>
+	</span>
+</div>
 <div id="filter" class="form">
   <noscript>
     <p class="filter_notice">This page requires javascript to function properly!</p>
@@ -123,10 +132,55 @@ $(document).ready(function(){
 	</p>
 
 	<h2>Filter specification</h2>
-	<table border="0" cellspacing="1" width="100%">
-	  <tr class="row"><td style="width: 50px;"><input name="ci_cb"   id="cb[9]" data-index="9" type="checkbox" <?=$filter->ind&512 ? 'checked="checked"' : '' ?> />512</td>          <td class="label" title="Capture Interface"             >CI</td>    <td colspan="4"><input id="CL_ID"    name="CI_ID"    type="text" size="8"  maxlength="8"  onchange="filter_clear(this);" value="<?=$filter->CI_ID    ?>" /></td></tr>
-	  <tr class="row"><td style="width: 50px;"><input name="vlan_cb" id="cb[8]" data-index="8" type="checkbox" <?=$filter->ind&256 ? 'checked="checked"' : '' ?> />256</td>          <td class="label" title="VLAN Tag Control Information"  >VLAN_TCI</td>    <td colspan="1"><input id="VLAN_TCI" name="VLAN_TCI" type="text" size="5"  maxlength="5"  onchange="filter_clear(this);" value="<?=$filter->VLAN_TCI ?>" /></td>    <td class="label">VLAN_TCI_MASK</td><td><input id="VLAN_TCI_MASK" name="VLAN_TCI_MASK" type="text" size="14" maxlength="14" value="<?=$filter->VLAN_TCI_MASK?>" /></td><td><?=select('vlanmask_selection',   array('0xffff', '0xff00', '0x00ff', 'Other' => ''), array($filter->VLAN_TCI_MASK, ''), 'VLAN_TCI_MASK')?></td></tr>
-	  <tr class="row"><td style="width: 50px;"><input name="etht_cb" id="cb[7]" data-index="7" type="checkbox" <?=$filter->ind&128 ? 'checked="checked"' : '' ?> />128</td>          <td class="label" title="Ethernet encapsulated protocol">ETH_TYPE</td>    <td colspan="1"><input id="ETH_TYPE" name="ETH_TYPE" type="text" size="5"  maxlength="5"  onchange="filter_clear(this);" value="<?=$filter->ETH_TYPE ?>" /></td>    <td class="label">ETH_TYPE_MASK</td><td><input id="ETH_TYPE_MASK" name="ETH_TYPE_MASK" type="text" size="14" maxlength="14" value="<?=$filter->ETH_TYPE_MASK?>" /></td><td><?=select('ethmask_selection',    array('0xffff', '0xff00', '0x00ff', 'Other' => ''), array($filter->ETH_TYPE_MASK, ''), 'ETH_TYPE_MASK')?></td></tr>
+	<table border="0" cellspacing="1">
+	  <tr class="row" data-description="<p>Matches capture interface by searching for string, e.g. &quot;d0&quot; will match both &quot;d00&quot; and &quot;d01&quot;.</p><p>Endace DAG cards use the format 'd' followed by device id and capture direction, e.g. &quot;d00&quot; indicating device dag0 in first direction.</p><p><b>Format</b>: ([a-z][A-Z][0-9]){0,8}">
+		  <td style="width: 50px;">
+			  <input name="ci_cb" id="cb[9]" data-index="9" type="checkbox" <?=$filter->ind&512 ? 'checked="checked"' : '' ?> />512
+		  </td>
+		  <td class="label" title="Capture Interface">
+			  CI
+		  </td>
+		  <td colspan="4">
+			  <input id="CL_ID" name="CI_ID" title="Capture Interface" type="text" size="8" maxlength="8" onchange="filter_clear(this);" value="<?=$filter->CI_ID?>" />
+		  </td>
+	  </tr>
+	  <tr class="row" data-description="<p>Filter packets with the 2-byte VLAN tag.</p><p>If you intend to filter only on VLAN ID select correct mask first. To test for presence of VLAN tag you can use ETH_TYPE instead.</p>">
+		  <td style="width: 50px;">
+			  <input name="vlan_cb" id="cb[8]" data-index="8" type="checkbox" <?=$filter->ind&256 ? 'checked="checked"' : '' ?> />256
+		  </td>
+		  <td class="label" title="VLAN Tag Control Information"  >VLAN_TCI</td>
+		  <td colspan="1">
+			  <input id="VLAN_TCI" name="VLAN_TCI" type="text" size="5"  maxlength="5"  onchange="filter_clear(this);" value="<?=$filter->VLAN_TCI ?>" /></td>
+		  <td class="label">
+			  VLAN_TCI_MASK
+		  </td>
+		  <td>
+			  <input id="VLAN_TCI_MASK" name="VLAN_TCI_MASK" type="text" size="14" maxlength="14" value="<?=$filter->VLAN_TCI_MASK?>" />
+		  </td>
+		  <td>
+			  <?=select('vlanmask_selection',   array('' => '0xffff', 'User priority' => '0xe000', 'CFI' => '0x1000', 'VLAN ID' => '0x0fff', 'Other' => ''), array($filter->VLAN_TCI_MASK, ''), 'VLAN_TCI_MASK')?>
+		  </td>
+	  </tr>
+	  <tr class="row" data-description="<p>Filter on selected encapsulated protocol (h_proto)</p><p><b>Format</b>: 0x0000 - 0xFFFF</p><p>List of common protocols:</p><ul><li>IP: 0x0800</li><li>ARP: 0x0806</li><li>VLAN: 0x8100</li></ul>">
+		  <td style="width: 50px;">
+			  <input name="etht_cb" id="cb[7]" data-index="7" type="checkbox" <?=$filter->ind&128 ? 'checked="checked"' : '' ?> />128
+		  </td>
+		  <td class="label" title="Ethernet encapsulated protocol">
+			  ETH_TYPE
+		  </td>
+		  <td colspan="1">
+			  <input id="ETH_TYPE" name="ETH_TYPE" type="text" size="5" maxlength="5" onchange="filter_clear(this);" value="<?=$filter->ETH_TYPE ?>" />
+		  </td>
+		  <td class="label">
+			  ETH_TYPE_MASK
+		  </td>
+		  <td>
+			  <input id="ETH_TYPE_MASK" name="ETH_TYPE_MASK" type="text" size="14" maxlength="14" value="<?=$filter->ETH_TYPE_MASK?>" />
+		  </td>
+		  <td>
+			  <?=select('ethmask_selection',    array('0xffff', '0xff00', '0x00ff', 'Other' => ''), array($filter->ETH_TYPE_MASK, ''), 'ETH_TYPE_MASK')?>
+		  </td>
+	  </tr>
 	  <tr class="row"><td style="width: 50px;"><input name="eths_cb" id="cb[6]" data-index="6" type="checkbox" <?=$filter->ind&64  ? 'checked="checked"' : '' ?> />&nbsp;64</td>     <td class="label" title="Ethernet source address">ETH_SRC </td>    <td colspan="1"><input id="ETH_SRC"  name="ETH_SRC"  type="text" size="17" maxlength="17" onchange="filter_clear(this);" value="<?=$filter->ETH_SRC  ?>" /></td>    <td class="label">ETH_SRC_MASK </td><td><input id="ETH_SRC_MASK"  name="ETH_SRC_MASK"  type="text" size="17" maxlength="17" value="<?=$filter->ETH_SRC_MASK ?>" /></td><td><?=select('ethsrcmask_selection', array('ffffffffffff', '000000000000', 'Other' => ''), array($filter->ETH_SRC_MASK, ''), 'ETH_SRC_MASK')?></td></tr>
 	  <tr class="row"><td style="width: 50px;"><input name="ethd_cb" id="cb[5]" data-index="5" type="checkbox" <?=$filter->ind&32  ? 'checked="checked"' : '' ?> />&nbsp;32</td>     <td class="label" title="Ethernet destination address">ETH_DST </td>    <td colspan="1"><input id="ETH_DST"  name="ETH_DST"  type="text" size="17" maxlength="17" onchange="filter_clear(this);" value="<?=$filter->ETH_DST  ?>" /></td>    <td class="label">ETH_DST_MASK </td><td><input id="ETH_DST_MASK"  name="ETH_DST_MASK"  type="text" size="17" maxlength="17" value="<?=$filter->ETH_DST_MASK ?>" /></td><td><?=select('ethdstmask_selection', array('ffffffffffff', '000000000000', 'Other' => ''), array($filter->ETH_DST_MASK, ''), 'ETH_DST_MASK')?></td></tr>
 	  <tr class="row"><td style="width: 50px;"><input name="ipp_cb"  id="cb[4]" data-index="4" type="checkbox" <?=$filter->ind&16  ? 'checked="checked"' : '' ?> />&nbsp;16</td>     <td class="label" title="IP transport protocol">IP_PROTO</td>    <td colspan="4"><input id="IP_PROTO" name="IP_PROTO" type="text" size="5"  maxlength="5"  onchange="filter_clear(this);" value="<?=$filter->IP_PROTO ?>" style="width: 6em;" /> <?=select('ipproto_selection', array('UDP' => 17, 'TCP' => 6, 'ICMP' => 1, 'Other' => ''), array($filter->IP_PROTO, ''), 'IP_PROTO', array('style' => 'width: 7em;'))?></td></tr>

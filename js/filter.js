@@ -116,4 +116,16 @@ function filter_init(){
 				$row.find('input:text').attr('disabled', en);
 				$row.find('select').attr('disabled', en);
 		});
+
+		/* enable help for input fields */
+		var default_description = $('#description').html();
+		$('.row input:text')
+				.focusin(function(){
+						var $row = $(this).parent().parent();
+						var text = $row.data('description');
+						if ( text == undefined ) text = 'No description available';
+						$('#description').html(text);
+				}).focusout(function(){
+						$('#description').html(default_description);
+				});
 }
