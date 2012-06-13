@@ -1,3 +1,4 @@
+<?php global $u_access ?>
 <h1>Filters</h1>
 
 <?php if ( count($mps) == 0 ){ ?>
@@ -14,7 +15,11 @@
   </tr>
 <?php foreach ( $mp->filters() as $filter ){ ?>
   <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
+<?php if ( $u_access >= 1 ) { ?>
+    <td><a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>/<?=$filter->filter_id?>"><?=$filter->filter_id?></a></td>
+<?php } else { ?>
     <td><?=$filter->filter_id?></td>
+<?php } ?>
     <td><?=$filter->description()?></td>
     <td><?=$filter->destination_description()?></td>
   </tr>
