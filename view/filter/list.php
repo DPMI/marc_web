@@ -27,7 +27,7 @@
   
   <?php foreach ( $mp->filters() as $filter ){ ?>
   <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
-    <td valign="top"><?=$filter->filter_id?></td>
+    <td valign="top"><a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>/<?=$filter->filter_id?>"><?=$filter->filter_id?></a></td>
     <td valign="top"><?=$filter->ind & 512 ? $filter->CI_ID : '-' ?></td>
     <td valign="top"><?=$filter->ind & 256 ? "$filter->VLAN_TCI<br/>/$filter->VLAN_TCI_MASK" : '-' ?></td>
     <td valign="top"><?=$filter->ind & 128 ? "$filter->ETH_TYPE<br/>/$filter->ETH_TYPE_MASK" : '-' ?></td>
