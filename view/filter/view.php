@@ -122,7 +122,7 @@ $(document).ready(function(){
 	  <input type="radio" id="mode_or"  name="mode" value="OR"  <?=$filter->mode == 'OR'  ? 'checked="checked"' : ''?>/><label for="mode_or">OR</label>
 	</p>
 
-	<h2>Packet specification</h2>
+	<h2>Filter specification</h2>
 	<table border="0" cellspacing="1" width="100%">
 	  <tr class="row"><td style="width: 50px;"><input name="ci_cb"   id="cb[9]" data-index="9" type="checkbox" <?=$filter->ind&512 ? 'checked="checked"' : '' ?> />512</td>          <td class="label" title="Capture Interface"             >CI</td>    <td colspan="4"><input id="CL_ID"    name="CI_ID"    type="text" size="8"  maxlength="8"  onchange="filter_clear(this);" value="<?=$filter->CI_ID    ?>" /></td></tr>
 	  <tr class="row"><td style="width: 50px;"><input name="vlan_cb" id="cb[8]" data-index="8" type="checkbox" <?=$filter->ind&256 ? 'checked="checked"' : '' ?> />256</td>          <td class="label" title="VLAN Tag Control Information"  >VLAN_TCI</td>    <td colspan="1"><input id="VLAN_TCI" name="VLAN_TCI" type="text" size="5"  maxlength="5"  onchange="filter_clear(this);" value="<?=$filter->VLAN_TCI ?>" /></td>    <td class="label">VLAN_TCI_MASK</td><td><input id="VLAN_TCI_MASK" name="VLAN_TCI_MASK" type="text" size="14" maxlength="14" value="<?=$filter->VLAN_TCI_MASK?>" /></td><td><?=select('vlanmask_selection',   array('0xffff', '0xff00', '0x00ff', 'Other' => ''), array($filter->VLAN_TCI_MASK, ''), 'VLAN_TCI_MASK')?></td></tr>
