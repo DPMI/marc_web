@@ -10,7 +10,7 @@
     <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=comment&amp;asc=<?=$ascinv?>">comment</a></th>
     <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=time&amp;asc=<?=$ascinv?>">last heard from</a></th>
     <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=MAMPid&amp;asc=<?=$ascinv?>">MAMPid</a></th>
-    <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=maxFilters&amp;asc=<?=$ascinv?>">max<br/>filters</a></th>
+    <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=maxFilters&amp;asc=<?=$ascinv?>">Filters</a></th>
     <th align="left" valign="bottom">Control</th>
   </tr>
   
@@ -33,7 +33,7 @@
     <td><?=strlen($mp->comment) > 0 ? $mp->comment : "&nbsp;" ?></td>
     <td><?=$mp->time?></td>
     <td><?=$mp->MAMPid?></td>
-    <td><?=$mp->maxFilters?></td>
+    <td><a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>?>"><?=$mp->filter_count()?> / <?=$mp->maxFilters?></a></td>
     <td>
 <?php if ( $mp->is_authorized() ){ ?>
       <a href="<?=$root?>control.php?id=<?=$mp->id?>&amp;action=stop">Stop</a>
