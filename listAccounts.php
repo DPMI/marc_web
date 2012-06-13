@@ -3,7 +3,7 @@ require("sessionCheck.php");
 require("config.php");
 ?>
 <html>
-<? 
+<?
 print $pageStyle;
 ?>
 
@@ -22,7 +22,7 @@ $order=$_GET["order"];
 $sql_query="SELECT * FROM access";
 if($order!=""){
 	$sql_query=$sql_query . " ORDER BY $order";
-}	
+}
 
 $result=mysql_query ($sql_query);
 if(!$result) {
@@ -49,7 +49,7 @@ if(mysql_num_rows($result)>0) {
 		} else {
 			$color="DDDDDD";
 			$toggle=0;
-		}	
+		}
 
 		print 	"<tr bgcolor='$color' ><td>". $row["uname"] . "</td><td>". $row["passwd"] . "</td><td>". $row["status"] ."</td>";
 		print "<td>". $row["comment"] . "</td><td>". $row["time"] . "</td><td>". $row["Name"] . "</td><td>". $row["Email"];

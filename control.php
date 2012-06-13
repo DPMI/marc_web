@@ -45,7 +45,7 @@ if ( !$need_verify ){
     <link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
     <title>MArC :: Measurement point control</title>
   </head>
-  
+
   <body>
     <div id="content">
       <div class="alert">

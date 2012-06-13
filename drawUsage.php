@@ -1,14 +1,14 @@
 <?php
 /*
 drawPDF.php  -- Copyright Patrik Carlsson (patrik.carlsson@bth.se) 2002
-Inputs. 
-	x - a string with comma separated values. 
+Inputs.
+	x - a string with comma separated values.
 	y - a string with comma separated values.
 	zoom - a zoom factor. (Only integers!!! 1,2,3,4)
 example:
 http://trantor/phpDemo/drawPDF.php?x=0,100,200,300,350,5000&y=0.0,1.0,0.5,0.75,0.9,1.0&zoom=3
 Output
-	PNG image. 
+	PNG image.
 example:
 <img src="drawPDF.php?x=0,100,200,300&y=0.0,0.5,0.75,1.0&zoom=1">
 
@@ -18,7 +18,7 @@ header ("Content-type: image/png");
 //header ("Content-type: image/png");
 
 $x=$_GET["x"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
-$y=$_GET["y"]; 
+$y=$_GET["y"];
 $zoom=isset($_GET["zoom"]) ? $_GET["zoom"] : 1.0;
 $logx=0;
 $logx=isset($_GET["log"]) ? $_GET["log"] : 0;
@@ -53,14 +53,14 @@ foreach ($x as $val){
 		$maxX=$val;
 	}
 	if ($minX > $val) {
-		$minX=$val;	
+		$minX=$val;
 	}
 }
 
 foreach ($y as $val){
 	if( $maxY < $val) {
 		$maxY=$val;
-	}	
+	}
 }
 $xScaleFactor=$maxX/($width);
 if($zoom==1) {
@@ -71,7 +71,7 @@ if($xScaleFactor>1) {
 if($xScaleFactor<1) {
 	$xScaleFactor=1/$xScaleFactor;
 }
-	
+
 }
 $yScaleFactor=$maxY/$heigth;
 if($yScaleFactor>1) {
@@ -82,19 +82,19 @@ $data=array();
 //print "data= [<br>\n";
 for($k=0;$k<sizeof($x);$k++){
 	if($logx==1){
-		array_push($data,($xZero+$xScaleFactor*log($x[$k])),($yZero-round($heigth*$y[$k])));		
+		array_push($data,($xZero+$xScaleFactor*log($x[$k])),($yZero-round($heigth*$y[$k])));
 
 	}
 	else {
-		array_push($data,($xZero+$xScaleFactor*$x[$k]),($yZero-round($heigth*$y[$k])));		
+		array_push($data,($xZero+$xScaleFactor*$x[$k]),($yZero-round($heigth*$y[$k])));
 	}
 }
 //print "sizeof data= " . sizeof($data) . "<br>\n";
 
 $im=imageCreate($width+40,$heigth+40);
 $background= imageColorAllocate($im, 230,230,230);
-$blue=imagecolorallocate($im,0,0,255); 
-$black=imagecolorallocate($im,0,0,0); 
+$blue=imagecolorallocate($im,0,0,255);
+$black=imagecolorallocate($im,0,0,0);
 imageline($im,$xZero-5,$yZero,$width+20,$yZero,$blue); // Xlinjen
 imageline($im,$xZero,$heigth+25,$xZero,10,$blue); // Ylinjen!!!
 
@@ -134,7 +134,7 @@ imagestring($im, $zoom*1, 5*($width-$xZero)/6-15, $yZero+5, "-60", $text_color);
 
 imagepng ($im);
 
- 
+
 imagePng($im);
 //imageDestroy($im);
 

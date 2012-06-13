@@ -5,14 +5,14 @@ include ("jpgraph_scatter.php");
 include ("jpgraph_line.php");
 /*
 drawPDF.php  -- Copyright Patrik Carlsson (patrik.carlsson@bth.se) 2002
-Inputs. 
-	x - a string with comma separated values. 
+Inputs.
+	x - a string with comma separated values.
 	y - a string with comma separated values.
 	zoom - a zoom factor. (Only integers!!! 1,2,3,4)
 example:
 http://trantor/phpDemo/drawPDF.php?x=0,100,200,300,350,5000&y=0.0,1.0,0.5,0.75,0.9,1.0&zoom=3
 Output
-	PNG image. 
+	PNG image.
 example:
 <img src="drawPDF.php?x=0,100,200,300&y=0.0,0.5,0.75,1.0&zoom=1">
 
@@ -64,7 +64,7 @@ if($logx==0){
 }
 if($logy==0){
 	$scale=$scale."lin";
-} else {	
+} else {
 	$scale=$scale."log";
 }
 $graph->SetScale($scale);
@@ -94,7 +94,7 @@ for($j=1;$j<$LEN;$j++){
 //	print "<br>\n";
 //	$sp[$j]= new ScatterPlot($datay[$j],$datax[$j]);
 	$sp[$j]= new LinePlot($datay[$j]);
-	
+
 	$theColor=sprintf("#%0XFFFF",$Color);
 //	print "Color = $theColor <br>\n";
 	$Color-=$colorStep;

@@ -1,14 +1,14 @@
 <?php
 /*
 drawPDF.php  -- Copyright Patrik Carlsson (patrik.carlsson@bth.se) 2002
-Inputs. 
-	x - a string with comma separated values. 
+Inputs.
+	x - a string with comma separated values.
 	y - a string with comma separated values.
 	zoom - a zoom factor. (Only integers!!! 1,2,3,4)
 example:
 http://trantor/phpDemo/drawPDF.php?x=0,100,200,300,350,5000&y=0.0,1.0,0.5,0.75,0.9,1.0&zoom=3
 Output
-	PNG image. 
+	PNG image.
 example:
 <img src="drawPDF.php?x=0,100,200,300&y=0.0,0.5,0.75,1.0&zoom=1">
 
@@ -32,8 +32,8 @@ $ymin = $height - $padding;
 
 $im=imageCreate($width, $height);
 $background= imageColorAllocate($im, 230,230,230);
-$blue=imagecolorallocate($im,0,0,255); 
-$black=imagecolorallocate($im,0,0,0); 
+$blue=imagecolorallocate($im,0,0,255);
+$black=imagecolorallocate($im,0,0,0);
 $background_color = imagecolorallocate ($im, 255, 255, 255);
 $text_color = imagecolorallocate ($im, 233, 14, 91);
 

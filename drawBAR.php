@@ -3,14 +3,14 @@ include ("jpgraph.php");
 include ("jpgraph_bar.php");
 /*
 drawPDF.php  -- Copyright Patrik Carlsson (patrik.carlsson@bth.se) 2002
-Inputs. 
-	x - a string with comma separated values. 
+Inputs.
+	x - a string with comma separated values.
 	y - a string with comma separated values.
 	zoom - a zoom factor. (Only integers!!! 1,2,3,4)
 example:
 http://trantor/phpDemo/drawPDF.php?x=0,100,200,300,350,5000&y=0.0,1.0,0.5,0.75,0.9,1.0&zoom=3
 Output
-	PNG image. 
+	PNG image.
 example:
 <img src="drawPDF.php?x=0,100,200,300&y=0.0,0.5,0.75,1.0&zoom=1">
 
@@ -40,11 +40,11 @@ $linkArray=array("0x0800" => "IPv4",
 		"0x8035" => "RARP",
 		"0x8137" => "Novell",
 		"0x8138" => "Novell",
-		"0x86dd" => "IPv6", 
+		"0x86dd" => "IPv6",
 		"0x809B" => "AppleTalk",
 		"0x880B" => "PPP",
 		"0x8847" => "MPLS Uni",
-		"0x8848" => "MPLS Multi",	
+		"0x8848" => "MPLS Multi",
 		"0x9000" => "Loopback",
 		"0xffff" => "Reserved");
 
@@ -62,7 +62,7 @@ $icmpArray=array("0" => "Echo Reply",
 		"15"=>  "Info. request(Ob)",
 		"16"=>  "Info. reply(ob)",
 		"17"=>  "Address mask request",
-		"18"=>  "Address mask reply"); 
+		"18"=>  "Address mask reply");
 
 
 $width=$zoom*450; // Plus 20, 10 to the left, 10 to the right
@@ -93,14 +93,14 @@ for($k=1;$k<sizeof($x);$k++){
 	if(strcmp($title,"icmp") == 0){
 		$value=$x[$k];
 		array_push($datax,sprintf("0x%0x - %s",($value-1),$icmpArray[$value-1]));
-	} else {	
+	} else {
 		if(strcmp($title,"network")==0){
 			$str=sprintf("0x%04x",$x[$k]);
 			$string=$linkArray["$str"];
 			if($string){
 				array_push($datax,sprintf("0x%0x-%s",$x[$k],$string));
 			} else {
-				array_push($datax,sprintf("0x%0x",$x[$k]));	
+				array_push($datax,sprintf("0x%0x",$x[$k]));
 			}
 		} elseif(strcmp($title,"transport")==0){
 			array_push($datax,sprintf("0x%0x - %s",$x[$k],getprotobynumber($x[$k])));
@@ -109,12 +109,12 @@ for($k=1;$k<sizeof($x);$k++){
 				array_push($datax, sprintf("Other"));
 			} else {
 				array_push($datax,sprintf("%0d - %s",$x[$k],getservbyport($x[$k],'tcp')));
-			}	
+			}
 		} elseif(strcmp($title,"vlan")==0){
 			if($x[$k]==5000) {
 				array_push($datax,sprintf("No VLAN"));
-			} else {	
-				array_push($datax,sprintf("%d ",$x[$k]));	
+			} else {
+				array_push($datax,sprintf("%d ",$x[$k]));
 			}
 		} else  {
 			array_push($datax,sprintf("0x%0x", $x[$k]));

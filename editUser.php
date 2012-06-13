@@ -3,7 +3,7 @@ require("sessionCheck.php");
 require("config.php");
 ?>
 <html>
-<? 
+<?
 print $pageStyle;
 ?>
 
@@ -12,7 +12,7 @@ print $pageStyle;
 //print "Accesslevel  = $accesslevel  || ". $_SESSION["accesslevel"] . "<br>\n";
 //print "IP = $ip || " . $_SESSION["ip"] ."<br>\n";
 
-if ($accesslevel > 1 ) { 
+if ($accesslevel > 1 ) {
 	// To low access.
 	print "<h1>UN-AUTHORIZED!</H1>";
 	print "Event has been logged, and sysadmin contacted.";

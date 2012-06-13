@@ -10,7 +10,7 @@ $text=		$HTTP_POST_VARS["text"];
 
 $Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
 mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
-	
+
 $sql_update="INSERT pages SET url='$url', accesslevel='$accesslevel', text='$text'";
 $result=mysql_query($sql_update);
 if(!$result) {
@@ -21,7 +21,7 @@ if(!$result) {
 
 ?>
 <html>
-<? 
+<?
 print $pageStyle;
 ?>
 

@@ -13,7 +13,7 @@ $type=		$HTTP_POST_VARS["type"];
 
 $Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
 mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
-	
+
 $sql_update="UPDATE mainmenu SET string='$string', url='$url', accesslevel='$accesslevel', comment='$comment', type='$type' WHERE id='$ID'";
 $result=mysql_query($sql_update);
 if(!$result) {
@@ -24,7 +24,7 @@ if(!$result) {
 
 ?>
 <html>
-<? 
+<?
 print $pageStyle;
 ?>
 Update complete

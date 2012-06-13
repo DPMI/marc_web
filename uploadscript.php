@@ -3,7 +3,7 @@ require("sessionCheck.php");
 require("config.php");
 
 print "action = " . $HTTP_POST_VARS["action1"] . "eol <br>\n";
-if ($HTTP_POST_VARS["action1"]==1) { 
+if ($HTTP_POST_VARS["action1"]==1) {
 if (!isset($HTTP_POST_FILES['file'])) exit;
 ?>
     <html>
@@ -12,10 +12,10 @@ if (!isset($HTTP_POST_FILES['file'])) exit;
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     </head>
 
-<? 
+<?
 print $pageStyle;
 ?>
-    
+
     <p><font face="Arial, Helvetica, sans-serif"><font size="+1">File Upload Results</font><br><br>
 
 <?
@@ -26,14 +26,14 @@ print $pageStyle;
 	if (!$res) { print "Upload failed.<br>\n"; exit; } else { print "Upload sucessfull. <br>\n"; }
        	$Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
  	mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
- 	
+
  	$sql_update="INSERT files SET username='". $_SESSION["username"] ."', accesslevel='" . $HTTP_POST_VARS["accesslevel"] ."', filename='" . $HTTP_POST_FILES['file']['name'] ."', filesize='" . $HTTP_POST_FILES['file']['size'] ."', description='" .$HTTP_POST_VARS["description"] . "'";
  	print "sql_update = $sql_update <br>\n";
- 	
+
  	$result=mysql_query($sql_update);
  	if(!$result) { print "MySQL error: " . mysql_error(); exit; }
     } else {
-    	print "file not uploaded.<br>\n"; 	
+    	print "file not uploaded.<br>\n";
     }
 
 phpinfo();
@@ -80,4 +80,4 @@ button. After the files have been uploaded, you will see a results screen.<br>
 
 <?
 }
-?> 
+?>

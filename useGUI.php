@@ -16,7 +16,7 @@ $Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to 
 mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 
 
-	
+
 $sql_update="UPDATE guiconfig SET selected='0' WHERE id='$selectedID'";
 $result=mysql_query($sql_update);
 if(!$result) {
@@ -31,7 +31,7 @@ if(!$result) {
 	exit;
 }
 
-	
+
 //header("Location: root.php?SID=$sidVAR");
 
 $sql_update="SELECT * FROM guiconfig WHERE selected=1";
@@ -56,7 +56,7 @@ $projectName=$row["projectName"];
 
 ?>
 <html>
-<? 
+<?
 print $pageStyle;
 //print "sql: $sql_update <br>\n";
 ?>

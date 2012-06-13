@@ -32,10 +32,10 @@ $stmt->close();
 
 /* ping host (half ugly solution found on the web) */
 $group = 4;
-$tB = microtime(true); 
+$tB = microtime(true);
 $fp = @fsockopen("udp://$ip", $port, $errno, $errstr, 500);
 if ( $fp ){
-	$tA = microtime(true); 
+	$tA = microtime(true);
 	$ping = round((($tA - $tB) * 1000), 0);
 	if ( $ping < 40 ) $group = 1;
 	else if ( $ping < 150 ) $group = 2;

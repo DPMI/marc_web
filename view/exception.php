@@ -15,7 +15,7 @@ pre {
 <p><?=$exception->getMessage()?></p>
 
 <h2>Traceback</h2>
-<pre>-- <?=$exception->getFile()?>(<?=$exception->getLine()?>): <?=get_class($exception)?> 
+<pre>-- <?=$exception->getFile()?>(<?=$exception->getLine()?>): <?=get_class($exception)?>
 <?=$exception->getTraceAsString()?></pre>
 
 <h2>GET</h2>
@@ -30,9 +30,9 @@ pre {
 <h2>Configuration</h2>
 <pre>
 <?php global $version, $DB_SERVER, $prefix, $root, $usergroup ?>
-Version: <?=$version?> 
-Database: <?=$DB_SERVER?> 
-Prefix: <?=$prefix?> 
-Root: <?=$root?> 
-Group: <?=print_r($usergroup, true)?> 
+Version: <?=$version?>
+Database: <?=$DB_SERVER?>
+Prefix: <?=$prefix?>
+Root: <?=$root?>
+Group: <?=print_r($usergroup, true)?>
 </pre>

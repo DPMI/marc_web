@@ -23,7 +23,7 @@ $mps = MP::selection(array(
     <link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
     <title>MArC :: Measurement points</title>
   </head>
-  
+
   <body class="bthcss">
     <div id="content">
       <h1>Measurement points</h1>
@@ -40,7 +40,7 @@ $mps = MP::selection(array(
 	  <th align="left" valign="bottom"><a href="listMPs.php?order=maxFilters&amp;asc=<?=$ascinv?>">max<br/>filters</a></th>
 	  <th align="left" valign="bottom">Control</th>
 	</tr>
-	
+
 <?php foreach ( $mps as $mp ){ ?>
 	<tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
 	  <td><?=$mp->status()?></td>

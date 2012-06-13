@@ -3,7 +3,7 @@ require("sessionCheck.php");
 require("config.php");
 ?>
 <html>
-<? 
+<?
 print $pageStyle;
 ?>
 
@@ -24,7 +24,7 @@ if(!$result) {
 }
 
 if(mysql_num_rows($result)>0) {
-?>	
+?>
 	<form action="updateGUI.php?SID=<? print $sid;?>&ID=<? print $_GET["ID"]; ?>" method="POST" target="view">
 
 <?

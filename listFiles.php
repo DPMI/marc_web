@@ -3,7 +3,7 @@ require("sessionCheck.php");
 require("config.php");
 ?>
 <html>
-<? 
+<?
 print $pageStyle;
 ?>
 
@@ -27,7 +27,7 @@ if (isset($_SESSION["accesslevel"])) {
 $sql_query="SELECT * FROM files WHERE accesslevel<= " . $level;
 if($order!=""){
 	$sql_query=$sql_query . " ORDER BY $order";
-}	
+}
 
 $result=mysql_query ($sql_query);
 if(!$result) {
@@ -53,7 +53,7 @@ if(mysql_num_rows($result)>0) {
 		} else {
 			$color="DDDDDD";
 			$toggle=0;
-		}	
+		}
 
 		print 	"<tr bgcolor='$color' >
 		<td><a href='uploadedfiles/". $row["filename"] . "'>" . $row["filename"] . "</a></td>

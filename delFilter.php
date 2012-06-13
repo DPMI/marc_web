@@ -3,7 +3,7 @@ require("sessionCheck.php");
 require("config.php");
 ?>
 <html>
-<? 
+<?
 print $pageStyle;
 
 $FILTER_ID=$_GET["filter_id"];

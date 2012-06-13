@@ -13,7 +13,7 @@ class MPStatus {
 
   public function __construct($mampid, $limit=null){
     global $db;
-    
+
     $sql = null;
     if ( $limit ){
       $sql = "

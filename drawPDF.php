@@ -4,14 +4,14 @@ include ("jpgraph_log.php");
 include ("jpgraph_scatter.php");
 /*
 drawPDF.php  -- Copyright Patrik Carlsson (patrik.carlsson@bth.se) 2002
-Inputs. 
-	x - a string with comma separated values. 
+Inputs.
+	x - a string with comma separated values.
 	y - a string with comma separated values.
 	zoom - a zoom factor. (Only integers!!! 1,2,3,4)
 example:
 http://trantor/phpDemo/drawPDF.php?x=0,100,200,300,350,5000&y=0.0,1.0,0.5,0.75,0.9,1.0&zoom=3
 Output
-	PNG image. 
+	PNG image.
 example:
 <img src="drawPDF.php?x=0,100,200,300&y=0.0,0.5,0.75,1.0&zoom=1">
 
@@ -21,14 +21,14 @@ example:
 //header ("Content-type: image/png");
 
 $x=$_GET["x"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
-$y=$_GET["y"]; 
+$y=$_GET["y"];
 $xtimes=1;
 $ytimes=1;
 if(is_scalar($_GET["xtimes"])) {
-	$xtimes=$_GET["xtimes"];	
+	$xtimes=$_GET["xtimes"];
 }
 if(is_scalar($_GET["ytimes"])) {
-	$ytimes=$_GET["ytimes"];	
+	$ytimes=$_GET["ytimes"];
 }
 $zoom=$_GET["zoom"];
 $logx=0;
@@ -57,13 +57,13 @@ $datay=array();
 //print "data= [<br>\n";
 $sumofY=0.0;
 for($k=0;$k<sizeof($x);$k++){
-	if($x1[$k]>$maxX) 
+	if($x1[$k]>$maxX)
 	  $maxX=$x[$k]*$xtimes;
-	if($x1[$k]<$minX) 
+	if($x1[$k]<$minX)
 	  $minX=$x[$k]*$xtimes;
 	array_push($datax,$x[$k]*$xtimes);
 	$sumofY=$sumofY+$y[$k]*$ytimes;
-	array_push($datay,$sumofY);		
+	array_push($datay,$sumofY);
 //	array_push($datay,$y[$k]);
 //	print "x= " . $x[$k] . " y = " . $sumofY . "<br>\n";
 
@@ -78,7 +78,7 @@ if($logx==0){
 }
 if($logy==0){
 	$scale=$scale."lin";
-} else {	
+} else {
 	$scale=$scale."log";
 }
 

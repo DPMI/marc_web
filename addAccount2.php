@@ -27,7 +27,7 @@ if(!$result) {
 //header("Location: root.php?SID=$sidVAR");
 
 ?>
-<? 
+<?
 print $pageStyle;
 ?>
 

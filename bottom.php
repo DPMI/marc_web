@@ -17,7 +17,7 @@ require("config.php");
 <link href="http://www.bth.se/bth/styles/bth.css" rel="stylesheet" type="text/css">
 </head>
 
-<? 
+<?
 print $pageStyle;
 ?>
 <center>

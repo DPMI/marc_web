@@ -3,30 +3,30 @@ require("sessionCheck.php");
 require("config.php");
 ?>
 <html>
-<? 
+<?
 print $pageStyle;
 
 $INDEX=$_POST["index"];
 $FILTER_ID=$_POST["filter_id"];
-$CI=$_POST["ci"]; 	
+$CI=$_POST["ci"];
 $VLAN_TCI=$_POST["vlan_tci"];
-$VLAN_TCI_MASK=$_POST["vlan_tci_mask"]; 
-$ETH_TYPE=$_POST["eth_type"]; 
-$ETH_TYPE_MASK=$_POST["eth_type_mask"]; 
-$ETH_SRC=$_POST["eth_src"];  
-$ETH_SRC_MASK=$_POST["eth_src_mask"]; 
-$ETH_DST=$_POST["eth_dst"];  
-$ETH_DST_MASK=$_POST["eth_dst_mask"]; 
-$IP_PROTO=$_POST["ip_proto"]; 
-$IP_SRC=$_POST["ip_src"]; 	
-$IP_SRC_MASK=$_POST["ip_src_mask"]; 
-$IP_DST=$_POST["ip_dst"]; 	
-$IP_DST_MASK=$_POST["ip_dst_mask"]; 
-$SRC_PORT=$_POST["src_port"];  
+$VLAN_TCI_MASK=$_POST["vlan_tci_mask"];
+$ETH_TYPE=$_POST["eth_type"];
+$ETH_TYPE_MASK=$_POST["eth_type_mask"];
+$ETH_SRC=$_POST["eth_src"];
+$ETH_SRC_MASK=$_POST["eth_src_mask"];
+$ETH_DST=$_POST["eth_dst"];
+$ETH_DST_MASK=$_POST["eth_dst_mask"];
+$IP_PROTO=$_POST["ip_proto"];
+$IP_SRC=$_POST["ip_src"];
+$IP_SRC_MASK=$_POST["ip_src_mask"];
+$IP_DST=$_POST["ip_dst"];
+$IP_DST_MASK=$_POST["ip_dst_mask"];
+$SRC_PORT=$_POST["src_port"];
 $SRC_PORT_MASK=$_POST["src_port_mask"];
-$DST_PORT=$_POST["dst_port"];  
+$DST_PORT=$_POST["dst_port"];
 $DST_PORT_MASK=$_POST["dst_port_mask"];
-$DESTADDR=$_POST["destaddr"]; 
+$DESTADDR=$_POST["destaddr"];
 $TYPE=$_POST["stream_type"];
 $CAPLEN=$_POST["caplen"];
 

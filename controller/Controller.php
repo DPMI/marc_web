@@ -28,7 +28,7 @@ class HTTPError404 extends HTTPError {
   public function __construct(){
     parent::__construct(404);
   }
-  
+
 }
 
 

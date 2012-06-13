@@ -3,13 +3,13 @@ require("sessionCheck.php");
 require("config.php");
 ?>
 <html>
-<? 
+<?
 print $pageStyle;
 ?>
 
 <?
 
-if ($accesslevel > 1 ) { 
+if ($accesslevel > 1 ) {
 	// To low access.
 	print "<h1>UN-AUTHORIZED!</H1>";
 	print "Event has been logged, and sysadmin contacted.";

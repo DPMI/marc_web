@@ -19,7 +19,7 @@ require("config.php");
 
 </head>
 
-<? 
+<?
 print $pageStyle;
 ?>
 
@@ -32,7 +32,7 @@ print $pageStyle;
 <table width=700 border=0 align="center" cellpadding=0 cellspacing=0><tr><td><img src="lighthuvud.jpg" alt="" width="700" height="41" usemap="#link" border="0"></td></tr>
 <tr><td width="700" style="background: #b9b3a7; border-style: none none solid none; border-bottom-width: 1px; border-color: #b9b3a7;">
 
-<img SRC="header_image.php" WIDTH=700 HEIGHT=59 ALT="Internet Next Generation Analysis - <? print $projectName; ?>"></td></tr> 
+<img SRC="header_image.php" WIDTH=700 HEIGHT=59 ALT="Internet Next Generation Analysis - <? print $projectName; ?>"></td></tr>
 
 </table>
 

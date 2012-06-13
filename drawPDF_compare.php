@@ -4,14 +4,14 @@ include ("jpgraph_log.php");
 include ("jpgraph_scatter.php");
 /*
 drawPDF.php  -- Copyright Patrik Carlsson (patrik.carlsson@bth.se) 2002
-Inputs. 
-	x - a string with comma separated values. 
+Inputs.
+	x - a string with comma separated values.
 	y - a string with comma separated values.
 	zoom - a zoom factor. (Only integers!!! 1,2,3,4)
 example:
 http://trantor/phpDemo/drawPDF.php?x=0,100,200,300,350,5000&y=0.0,1.0,0.5,0.75,0.9,1.0&zoom=3
 Output
-	PNG image. 
+	PNG image.
 example:
 <img src="drawPDF.php?x=0,100,200,300&y=0.0,0.5,0.75,1.0&zoom=1">
 
@@ -24,7 +24,7 @@ $x1=$_GET["x1"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
 $y1=$_GET["y1"];
 $x2=$_GET["x2"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
 $y2=$_GET["y2"];
- 
+
 $zoom=$_GET["zoom"];
 $logx=0;
 $logx=$_GET["logx"];
@@ -68,28 +68,28 @@ $minX=10;
 //print "data= [<br>\n";
 $sumofY1=0.0;
 for($k=0;$k<sizeof($x1);$k++){
-	if($x1[$k]>$maxX) 
+	if($x1[$k]>$maxX)
 	  $maxX=$x1[$k];
-	if($x1[$k]<$minX) 
+	if($x1[$k]<$minX)
 	  $minX=$x1[$k];
 	array_push($datax1,$x1[$k]);
 	$sumofY1=$sumofY1+$y1[$k];
 //	array_push($datay1,$sumofY1);
-	array_push($datay1,$y1[$k]);		
-//	print "[$k] x1= " . $x1[$k] . " y1 = " . $sumofY1 . "<br>\n"; 
+	array_push($datay1,$y1[$k]);
+//	print "[$k] x1= " . $x1[$k] . " y1 = " . $sumofY1 . "<br>\n";
 }
 //print "data= [<br>\n";
 $sumofY2=0.0;
 for($k=0;$k<sizeof($x2);$k++){
-	if($x2[$k]>$maxX) 
+	if($x2[$k]>$maxX)
 	  $maxX=$x2[$k];
-	if($x2[$k]<$minX) 
+	if($x2[$k]<$minX)
 	  $minX=$x2[$k];
 	array_push($datax2,$x2[$k]);
 	$sumofY2=$sumofY2+$y2[$k];
 //	array_push($datay2,$sumofY2);
-	array_push($datay2,$y2[$k]);				
-//	print "[$k] x2= " . $x2[$k] . " y2 = " . $sumofY2 . "<br>\n"; 
+	array_push($datay2,$y2[$k]);
+//	print "[$k] x2= " . $x2[$k] . " y2 = " . $sumofY2 . "<br>\n";
 }
 
 $graph=new Graph($width, $heigth, "auto");
@@ -101,7 +101,7 @@ if($logx==0){
 }
 if($logy==0){
 	$scale=$scale."lin";
-} else {	
+} else {
 	$scale=$scale."log";
 }
 //print "x1[0] = " . $x1[0] . " x1[1] - x1[0] = " . ($x1[1]-$x1[0]) . "<br>\n";

@@ -4,14 +4,14 @@ include ("jpgraph_log.php");
 include ("jpgraph_scatter.php");
 /*
 drawPDF.php  -- Copyright Patrik Carlsson (patrik.carlsson@bth.se) 2002
-Inputs. 
-	x - a string with comma separated values. 
+Inputs.
+	x - a string with comma separated values.
 	y - a string with comma separated values.
 	zoom - a zoom factor. (Only integers!!! 1,2,3,4)
 example:
 http://trantor/phpDemo/drawPDF.php?x=0,100,200,300,350,5000&y=0.0,1.0,0.5,0.75,0.9,1.0&zoom=3
 Output
-	PNG image. 
+	PNG image.
 example:
 <img src="drawPDF.php?x=0,100,200,300&y=0.0,0.5,0.75,1.0&zoom=1">
 
@@ -31,7 +31,7 @@ $x4=$_GET["x4"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
 $y4=$_GET["y4"];
 
 
- 
+
 $zoom=$_GET["zoom"];
 $logx=0;
 $logx=$_GET["logx"];
@@ -98,55 +98,55 @@ $minX=10;
 //print "data= [<br>\n";
 $sumofY1=0.0;
 for($k=0;$k<sizeof($x1);$k++){
-	if($x1[$k]>$maxX) 
+	if($x1[$k]>$maxX)
 	  $maxX=$x1[$k];
-	if($x1[$k]<$minX) 
+	if($x1[$k]<$minX)
 	  $minX=$x1[$k];
 	array_push($datax1,$x1[$k]);
 	$sumofY1=$sumofY1+$y1[$k];
 //	array_push($datay1,$sumofY1);
-	array_push($datay1,$y1[$k]);		
-//	print "[$k] x1= " . $x1[$k] . " y1 = " . $sumofY1 . "<br>\n"; 
+	array_push($datay1,$y1[$k]);
+//	print "[$k] x1= " . $x1[$k] . " y1 = " . $sumofY1 . "<br>\n";
 }
 //print "data= [<br>\n";
 $sumofY2=0.0;
 for($k=0;$k<sizeof($x2);$k++){
-	if($x2[$k]>$maxX) 
+	if($x2[$k]>$maxX)
 	  $maxX=$x2[$k];
-	if($x2[$k]<$minX) 
+	if($x2[$k]<$minX)
 	  $minX=$x2[$k];
 	array_push($datax2,$x2[$k]);
 	$sumofY2=$sumofY2+$y2[$k];
 //	array_push($datay2,$sumofY2);
-	array_push($datay2,$y2[$k]);				
-//	print "[$k] x2= " . $x2[$k] . " y2 = " . $sumofY2 . "<br>\n"; 
+	array_push($datay2,$y2[$k]);
+//	print "[$k] x2= " . $x2[$k] . " y2 = " . $sumofY2 . "<br>\n";
 }
 
 $sumofY3=0.0;
 for($k=0;$k<sizeof($x3);$k++){
-	if($x3[$k]>$maxX) 
+	if($x3[$k]>$maxX)
 	  $maxX=$x3[$k];
-	if($x3[$k]<$minX) 
+	if($x3[$k]<$minX)
 	  $minX=$x3[$k];
 	array_push($datax3,$x3[$k]);
 	$sumofY3=$sumofY3+$y3[$k];
 //	array_push($datay3,$sumofY3);
-	array_push($datay3,$y3[$k]);				
-//	print "[$k] x3= " . $x3[$k] . " y3 = " . $sumofY3 . "<br>\n"; 
+	array_push($datay3,$y3[$k]);
+//	print "[$k] x3= " . $x3[$k] . " y3 = " . $sumofY3 . "<br>\n";
 }
 
 
 $sumofY4=0.0;
 for($k=0;$k<sizeof($x4);$k++){
-	if($x4[$k]>$maxX) 
+	if($x4[$k]>$maxX)
 	  $maxX=$x4[$k];
-	if($x3[$k]<$minX) 
+	if($x3[$k]<$minX)
 	  $minX=$x4[$k];
 	array_push($datax4,$x4[$k]);
 	$sumofY4=$sumofY4+$y4[$k];
 //	array_push($datay4,$sumofY4);
-	array_push($datay4,$y4[$k]);				
-//	print "[$k] x4= " . $x4[$k] . " y4 = " . $sumofY4 . "<br>\n"; 
+	array_push($datay4,$y4[$k]);
+//	print "[$k] x4= " . $x4[$k] . " y4 = " . $sumofY4 . "<br>\n";
 }
 
 
@@ -161,7 +161,7 @@ if($logx==0){
 }
 if($logy==0){
 	$scale=$scale."lin";
-} else {	
+} else {
 	$scale=$scale."log";
 }
 //print "x1[0] = " . $x1[0] . " x1[1] - x1[0] = " . ($x1[1]-$x1[0]) . "<br>\n";

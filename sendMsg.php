@@ -36,7 +36,7 @@ $mps = MP::selection(array(
 	  <th><a href="sendMsg.php?SID=<?=$sid?>&amp;order=MAMPid&amp;asc=<?=$ascinv?>">MAMPid</a></th>
 	  <th>Send to MP</th>
 	</tr>
-	
+
 <?php foreach ( $mps as $mp ){ ?>
 	<tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
 	  <td><?=$mp->id?></td>

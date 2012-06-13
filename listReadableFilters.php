@@ -16,7 +16,7 @@ $toggle = 0;
     <link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
     <title>MArC :: Filters</title>
   </head>
-  
+
   <body class="bthcss">
     <div id="content">
       <h1>Filters</h1>

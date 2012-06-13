@@ -18,7 +18,7 @@ unset($_SESSION['config_error']);
     <link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
     <title>MArC :: Configuration error</title>
   </head>
-  
+
   <body>
     <div id="content">
 <?php if ( count($config_error) > 0 ){ ?>

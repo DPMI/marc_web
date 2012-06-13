@@ -3,7 +3,7 @@ require("sessionCheck.php");
 require("config.php");
 ?>
 <html>
-<? 
+<?
 print $pageStyle;
 ?>
 
@@ -27,7 +27,7 @@ if (isset($_SESSION["accesslevel"])) {
 $sql_query="SELECT * FROM access";
 if($order!=""){
 	$sql_query=$sql_query . " ORDER BY $order";
-}	
+}
 
 $result=mysql_query ($sql_query);
 if(!$result) {
@@ -48,7 +48,7 @@ if(mysql_num_rows($result)>0) {
 		} else {
 			$color="DDDDDD";
 			$toggle=0;
-		}	
+		}
 
 		print 	"<tr bgcolor='$color' >
 		<td>". $row["Name"] . "</td>

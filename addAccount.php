@@ -5,11 +5,11 @@ require("config.php");
 <html>
 <head>
   <title>Add account</title>
-                                         
+
   <meta http-equiv="content-type"
  content="text/html; charset=ISO-8859-1">
 </head>
-<? 
+<?
 print $pageStyle;
 ?>
 

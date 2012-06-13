@@ -18,5 +18,5 @@ require("config.php");
     </frameset>
     <frame src="bottom.php" name="bottom" scrolling="no" noresize="noresize" />
   </frameset>
- 
+
 </html>

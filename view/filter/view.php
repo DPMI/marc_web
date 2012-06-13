@@ -78,7 +78,7 @@ function select($name, array $values, array $default=null, $update=null, array $
   $head = "<select name=\"$name\" size=\"1\" $js $extra_str>";
   $foot = "</select>";
   $options = array_map('build_options', array_keys($normalized), array_values($normalized));
- 
+
   return $head . implode('', $options) . $foot;
 }
 

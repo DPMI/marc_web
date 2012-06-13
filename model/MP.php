@@ -75,7 +75,7 @@ class MP extends BasicObject {
 
   public function filter_count(){
     global $db;
-    
+
     $result = $db->query("SELECT COUNT(*) FROM {$this->MAMPid}_filterlist");
     if ( $result == null ){
       return false; /* what is a good value to indicate this failure? */
@@ -86,7 +86,7 @@ class MP extends BasicObject {
 
   public function filters(){
     global $db;
-    
+
     $result = $db->query("SELECT * FROM {$this->MAMPid}_filterlist ORDER BY filter_id ASC");
     if ( $result == null ){
       return array();
@@ -102,7 +102,7 @@ class MP extends BasicObject {
 
   public function filter($id){
     global $db;
-    
+
     $sql = "SELECT * FROM {$this->MAMPid}_filterlist WHERE filter_id = '" . mysql_real_escape_string($id) . "' LIMIT 1";
     $result = $db->query($sql);
     $row = $result->fetch_assoc();
@@ -131,7 +131,7 @@ class MP extends BasicObject {
     $message = pack("Na16N", 69, $this->MAMPid, $id);
     $this->send($message);
   }
-  
+
   public function generate_mampid(){
     $this->MAMPid = $this->name . substr($this->mac,15,2);
     return $this->MAMPid;

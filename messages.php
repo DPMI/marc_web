@@ -4,7 +4,7 @@ require("config.php");
 
 ?>
 <html>
-<? 
+<?
 print $pageStyle;
 ?>
 <h2>Messages</h2>

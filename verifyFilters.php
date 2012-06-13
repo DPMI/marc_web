@@ -3,7 +3,7 @@ require("sessionCheck.php");
 require("config.php");
 ?>
 <html>
-<? 
+<?
 print $pageStyle;
 
 $MAMPid=$_GET["MAMPid"];
@@ -75,7 +75,7 @@ if(!$result2) {
 	    } else {
 		$color="bbbbbb";
 		$toggle=0;
-	    }	
+	    }
  	    print "<tr bgcolor='$color' >";
 	    print "<td>".$row2["ind"] . "</td>";
 	    print "<td>".$row2["filter_id"] . "</td>";
@@ -105,7 +105,7 @@ print "</table>\n";
 <form action="verifyFilters2.php?SID=<? print $sid;?>&ID=<? print $ID; ?>" method="POST" name=myForm target="view">
 <table border=1 width=50%>
 <tr><td colspan=4>By clicking Replace below, you will replace any and all filters that are not found on the particular MP. This is good when you are only missing a few rules, it is BAD when you are missing a LOT of rules. It is up to you. NOT IMPLEMENTED!<td></tr>
-<input type=hidden name=MAMPid value=<? print $row["MAMPid"]; ?>> 
+<input type=hidden name=MAMPid value=<? print $row["MAMPid"]; ?>>
 <tr><td colspan=2><div align=center><input type="submit" value="Replace"></div></td><td colspan=2><div align=center><input type="reset" value="Reset"></div></td></tr>
 </table>
 </form>

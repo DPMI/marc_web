@@ -31,26 +31,26 @@ if(!$result) {
 $n=mysql_num_rows($result);
 //print "sql: $sql_select <br>\n";
 //print "n  : $n <br>\n";
-if ($n==0) { 
-	// New password 
+if ($n==0) {
+	// New password
 	print "Changing passwd..<br>\n";
 	$sql_update="UPDATE access SET uname='$uname', passwd=PASSWORD('$passwd'), status='$status', comment='$comment', Name='$name', Email='$email', time=NOW() WHERE id='$ID'";
 } else {
-// No change to password.	
+// No change to password.
 	$sql_update="UPDATE access SET uname='$uname', status='$status', comment='$comment', Name='$name', Email='$email', time=NOW() WHERE id='$ID'";
 	print "Not changing passwd..<br>\n";
-}	
+}
 $result=mysql_query($sql_update);
 if(!$result) {
 	print "MySQL error: " . mysql_error();
 	exit;
 }
-	
+
 //header("Location: root.php?SID=$sidVAR");
 
 ?>
 <html>
-<? 
+<?
 print $pageStyle;
 //print "sql: $sql_update <br>\n";
 ?>

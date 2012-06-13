@@ -30,7 +30,7 @@ if ( $row["accesslevel"] > $accesslevel ) {
     <link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
     <title>MArC</title>
   </head>
-  
+
   <body class="bthcss">
     <div id="content">
       <?=$row['text']?>

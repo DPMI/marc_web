@@ -3,20 +3,20 @@ include ("jpgraph.php");
 include ("jpgraph_canvas.php");
 /*
 drawPDF.php  -- Copyright Patrik Carlsson (patrik.carlsson@bth.se) 2002
-Inputs. 
-	x - a string with comma separated values. 
+Inputs.
+	x - a string with comma separated values.
 	y - a string with comma separated values.
 	zoom - a zoom factor. (Only integers!!! 1,2,3,4)
 example:
 Output
-	PNG image. 
+	PNG image.
 example:
 
 
 */
 
 $x=$_GET["x"]; // Comma separated. i.e. drawPDF.php?x=1,5.6,9&y=0.1,0.2,1
-$y=$_GET["y"]; 
+$y=$_GET["y"];
 $zoom=$_GET["zoom"];
 $logx=0;
 $logx=$_GET["logx"];
@@ -87,9 +87,9 @@ $t2->Stroke($graph->img);
 
 
 for($k=0;$k<sizeof($dataSRC);$k++){
-// print "(".$dataSRC[$k] . ",30) - (" . $dataDST[$k] . "," . ($heigth-30) .")<br>\n";	
- $graph->img->Line($dataSRC[$k],30,$dataDST[$k],$heigth-30);	
-} 
+// print "(".$dataSRC[$k] . ",30) - (" . $dataDST[$k] . "," . ($heigth-30) .")<br>\n";
+ $graph->img->Line($dataSRC[$k],30,$dataDST[$k],$heigth-30);
+}
 
 
 /* Draw markers source */

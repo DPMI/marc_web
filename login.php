@@ -7,7 +7,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
     <title>MArC :: Login</title>
   </head>
-  
+
   <body class="bthcss">
     <h1>Login</h1>
     <p>This site uses cookies and sessions.</p>

@@ -35,7 +35,7 @@ if ( $handler == '' ){
   require("controller/$handler.php");
   $classname = "{$handler}Controller";
   $controller = new $classname();
-  
+
   try {
     $content = $controller->_path($path);
   } catch ( HTTPError403 $e ){
@@ -48,7 +48,7 @@ if ( $handler == '' ){
   } catch( Exception $e ){
     $content = template('exception.php', array('exception' => $e));
   }
-  
+
 } else {
   $content = template('404.php', array());
 }
@@ -64,7 +64,7 @@ if ( $handler == '' ){
     <script type="text/javascript" src="<?=$root?>js/filter.js"></script>
     <title>Network Performance Lab -- MArC</title>
   </head>
-  
+
   <body>
 
     <div id="header">

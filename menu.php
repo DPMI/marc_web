@@ -10,7 +10,7 @@ require("config.php");
    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Windows NT 5.0; U) [Netscape]">
    <title>Root</title>
 </head>
-<? 
+<?
 print $pageStyle;
 
 ?>

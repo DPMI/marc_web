@@ -3,7 +3,7 @@ require("sessionCheck.php");
 require("config.php");
 ?>
 <html>
-<? 
+<?
 print $pageStyle;
 
 $Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
@@ -21,7 +21,7 @@ if (isset($_SESSION["accesslevel"])) {
 $sql_query="SELECT * FROM measurementpoints";
 if($order!=""){
 	$sql_query=$sql_query . " ORDER BY $order";
-}	
+}
 
 $result=mysql_query ($sql_query);
 if(!$result) {
@@ -40,12 +40,12 @@ if(mysql_num_rows($result)>0) {
 		} else {
 			$color="DDDDDD";
 			$toggle=0;
-		}	
+		}
 
 		print 	"<tr bgcolor='$color' >";
-	
+
 	print "<tr><td colspan=2><h3>" . $row["name"] . "</h3><td colspan=2>";
-	
+
 	if(strlen($row["MAMPid"])>0) {
 		$sql2="SELECT * FROM " . $row["MAMPid"] ."_filterlist";
 		$result2=mysql_query($sql2);
@@ -65,8 +65,8 @@ if(mysql_num_rows($result)>0) {
 
 	print	"<tr bgcolor='$color'><td>" . $row["ip"] . "</td><td>". $row["port"] . "</td>";
 	print 	"<td>". $row["comment"] . "</td><td>". $row["maxFilters"] ."</td></tr>\n";
-	
-	
+
+
 	$sql2="SELECT * FROM " . $row["MAMPid"] ."_CIload";// ORDER BY id DESC LIMIT 0, 366";
 	$result2=mysql_query($sql2);
 	if(!$result2){
@@ -117,8 +117,8 @@ if(mysql_num_rows($result)>0) {
 
 			$lastMatch=$dmatchedPkts[($i-1)]/60;
 			$lastPKT0=$dPKT0[($i-1)]/60;
-			$lastBU0=$usageBU[($i-1)]/60;			
-			
+			$lastBU0=$usageBU[($i-1)]/60;
+
 			$first=0;
 			if($dnoFilters==0 || $maxFilt==0) {
 				$noFilters=0;
@@ -165,8 +165,8 @@ if(mysql_num_rows($result)>0) {
 			 }
 
 			 $time=$time ."," . $i;
-			}			  
-			
+			}
+
 			$LEVELS=array('noFilters','matchedPkts','PKT0');
 ?>
 			<tr><td colspan=5>
@@ -194,12 +194,12 @@ if(mysql_num_rows($result)>0) {
 			</table>
 			</td></tr>
 <?
-				
+
 		} else {
 			print "Idle</td>";
 		}
 	}
-	
+
 
 	}
 	print "</table>";

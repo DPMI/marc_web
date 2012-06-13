@@ -80,7 +80,7 @@ function updateType(){
   <title>Add Filter</title>
   <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 </head>
-<? 
+<?
 print $pageStyle;
 ?>
 
@@ -136,7 +136,7 @@ if(mysql_num_rows($result)>0) {
 		} else {
 			$color="DDDDDD";
 			$toggle=0;
-		}	
+		}
 
 		print 	"<tr bgcolor='$color' ><td><input type=radio name=mp value=". $row["MAMPid"];
 		if($first==0) {

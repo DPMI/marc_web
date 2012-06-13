@@ -68,7 +68,7 @@
       <td><input name="email" type="text" size="30" maxlength="80" value="<?=$account->Email?>"></td>
       <td>&nbsp;</td>
     </tr>
-    
+
     <tr>
       <td colspan="3">
 	<input type="submit" name="submit" value="<?=$exist ? "Update user" : "Add" ?>"/>

@@ -12,9 +12,9 @@ if ( !$account ){
   exit;
 }
 
-if (getenv('HTTP_X_FORWARDED_FOR')){ 
-  $ip=getenv('HTTP_X_FORWARDED_FOR'); 
-} else { 
+if (getenv('HTTP_X_FORWARDED_FOR')){
+  $ip=getenv('HTTP_X_FORWARDED_FOR');
+} else {
   $ip=getenv('REMOTE_ADDR');
 }
 

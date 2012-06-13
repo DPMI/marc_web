@@ -15,7 +15,7 @@ require("config.php");
         margin-right: 2em;
       }
       #sendtable {
-      
+
       }
     </style>
     <script type="text/javascript">
@@ -25,7 +25,7 @@ require("config.php");
       }
     </script>
   </head>
-  
+
   <body class="bthcss">
     <div id="content">
       <table border="1" id="msgtable">
@@ -41,7 +41,7 @@ require("config.php");
 	<tr><td> 9</td><td><a href="javascript:fill( 9);">Flush Consumer Buffers</td><td>void</td></tr>
 	<tr><td>10</td><td><a href="javascript:fill(10);">Flush Consumer X Buffer</td><td>Consumer ID</td></tr>
       </table>
-      
+
       <form action="sndMsg3.php?SID=<?=$sid?>&amp;id=<?=$_GET['id']?>" method="post">
 	<table border="1" id="sendtable">
 	  <tr>

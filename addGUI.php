@@ -4,7 +4,7 @@ require("config.php");
 
 ?>
 <html>
-<? 
+<?
 print $pageStyle;
 ?>
 
@@ -25,7 +25,7 @@ if(!$result) {
 }
 
 if(mysql_num_rows($result)>0) {
-?>	
+?>
 	<form action="addGUI2.php?SID=<? print $sid;?>&ID=<? print $_GET["ID"]; ?>" method="POST" target="view">
 
 <?

@@ -2,7 +2,7 @@
 
 /**
  * {@example BasicObjectExample.php}
- */ 
+ */
 abstract class BasicObject {
 
 	protected $_data;
@@ -71,7 +71,7 @@ abstract class BasicObject {
 	private static function primary_key($class_name = null) {
 		global $db;
 		static $column_ids = array();
-			
+
 		if(class_exists($class_name) && is_subclass_of($class_name, 'BasicObject')){
 			$table_name = $class_name::table_name();
 		} elseif($class_name == null) {
@@ -96,7 +96,7 @@ abstract class BasicObject {
 			$stmt->execute();
 			$stmt->store_result();
 			$stmt->bind_result($index);
-			
+
 			while($stmt->fetch()) {
 				$column_ids[$table_name][] = $index;
 			}
@@ -122,7 +122,7 @@ abstract class BasicObject {
 			return 'concat(`'.$table_name.'`.`'.implode("`, '¤', `$table_name`.`", $pk).'`)';
 		}
 	}
-	
+
 	public function __construct($array = null) {
 		$this->_exists = !empty($array);
 		$this->_data = $array;
@@ -364,13 +364,13 @@ abstract class BasicObject {
 	}
 
 	public static function from_id($id){
-		$id_name = static::id_name(); 
+		$id_name = static::id_name();
 		return static::from_field($id_name, $id);
 	}
 
 	protected static function from_field($field, $value, $type='s'){
 		global $db;
-		$table_name = static::table_name(); 
+		$table_name = static::table_name();
 		if(!self::in_table($field, $table_name)){
 			throw new Exception("No such column '$field' in table '$table_name'");
 		}
@@ -419,7 +419,7 @@ abstract class BasicObject {
 					throw new Exception("No such column '$f' in table '".static::table_name()."'");
 				}
 				$exp .= "`$f`";
-			}	
+			}
 			$query = "SELECT SUM($exp) FROM ($query) q";
 		} else {
 			if(!self::in_table($field, static::table_name())){
@@ -506,8 +506,8 @@ abstract class BasicObject {
 	}
 
 	private static function build_query($params, $select){
-		$table_name = static::table_name(); 
-		$id_name = static::id_name(); 
+		$table_name = static::table_name();
+		$id_name = static::id_name();
 		$joins = array();
 		$wheres = '';
 		$order = array();
@@ -524,7 +524,7 @@ abstract class BasicObject {
 				$group = "";
 				break;
 		}
-		$query .= 
+		$query .=
 			"FROM\n".
 			"	`".$table_name."`";
 		foreach($joins as $table => $join){
@@ -774,7 +774,7 @@ abstract class BasicObject {
 		} else {
 			if(in_array($first_id, $parent_columns)){
 				$joins[$first] = array(
-					"to" => $parent, 
+					"to" => $parent,
 					"on" => "`$parent`.`$first_id` = `$first`.`$first_id`");
 			} elseif(in_array($parent_id, $columns)) {
 				$joins[$first] = array(
@@ -788,7 +788,7 @@ abstract class BasicObject {
 			$key = array_shift($path);
 			if(!in_array($key, $columns)){
 				throw new Exception("No such column '$key' in table '$first'");
-			} 
+			}
 			return $first.'`.`'.$key;
 		} else {
 			return self::fix_join($path, $joins, $columns, $first);
@@ -819,7 +819,7 @@ abstract class BasicObject {
 					`COLUMN_NAME`,
 					`REFERENCED_TABLE_NAME`,
 					`REFERENCED_COLUMN_NAME`
-				FROM 
+				FROM
 					`information_schema`.`table_constraints` join
 					`information_schema`.`key_column_usage` using (`CONSTRAINT_NAME`, `CONSTRAINT_SCHEMA`)
 				WHERE

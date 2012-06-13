@@ -203,7 +203,7 @@ input.searchbutton {
 }
 
 .container {
-	width:98%; 
+	width:98%;
 	margin:0%;
 	position:absolute;
 	top:0px;
@@ -437,7 +437,7 @@ input.searchbutton {
 
 .utb_program_fritextruta	{
 	width: 340px;
-	
+
 }
 
 .utb_ktbenamning	{
@@ -453,7 +453,7 @@ input.searchbutton {
 /* Här följer stilar för VEGA (Master Students) */
 
 .prgDropDown	{
-	width: 550px; 
-	font-family: Verdana; 
+	width: 550px;
+	font-family: Verdana;
 	font-size: 9px;
 }

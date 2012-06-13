@@ -16,7 +16,7 @@ $toggle = 0;
     <link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
     <title>MArC :: Filters</title>
   </head>
-  
+
   <body class="bthcss">
     <div id="content">
       <h1>Filters</h1>
@@ -47,7 +47,7 @@ $toggle = 0;
 	  <th valign="bottom">Capture<br/>length</th>
 	  <th valign="bottom">&nbsp;</th>
 	</tr>
-      
+
 <?php foreach ( $mp->filters() as $filter ){ ?>
 	<tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
 	  <td valign="top"><?=$filter->filter_id?></td>
