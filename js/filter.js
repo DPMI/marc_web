@@ -94,6 +94,15 @@ function filter_cancel(){
 
 function filter_init(){
 		$('#ind').attr('readonly', true);
+
+		/* remove row index from view, final mask is calculated anyway */
+		$('.row input:checkbox').each(function(){
+				var $td = $(this).parent();
+				var $children = $td.children();
+				$td.text('').append($children);
+				$td.width(25);
+		});
+
 		$('.row input:checkbox').each(function(){
 				var $row = $(this).parent().parent();
 				var en = !$(this).attr('checked');
