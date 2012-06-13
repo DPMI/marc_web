@@ -117,7 +117,7 @@ class Filter {
       $destination = "Local to ";
       break;
     case 1:
-      $destination = "Ethernet to 0x";
+      $destination = "Ethernet to \"0x";
       break;
     case 2:
       $destination = "UDP to ";
@@ -130,7 +130,7 @@ class Filter {
       break;
     }
 
-    $destination .= "\"{$this->DESTADDR}\" length {$this->CAPLEN} bytes.";
+    $destination .= "{$this->DESTADDR}\" length {$this->CAPLEN} bytes.";
     return $destination;
   }
 
