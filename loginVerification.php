@@ -29,8 +29,8 @@ if ( strlen($account->passwd) < 100 ){ /* 100 is just arbitrary, PASSWORD() hash
 }
 
 $return = $root . 'index.php';
-if ( isset($_POST['return']) ){
-	$return = base64_decode($_POST['return']);
+if ( isset($_SESSION['return']) ){
+	$return = $_SESSION['return'];
 }
 header("Location: $return");
 

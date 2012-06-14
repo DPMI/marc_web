@@ -14,7 +14,6 @@
 
     <div style="margin: auto; width: 260px; background: green; border: 1px solid black;">
       <form action="loginVerification.php" method="post">
-	 <input type="hidden" name="return" value="<?=$_GET['return']?>" />
 	<table width="100%">
 	  <tr>
 	    <td>User Name</td>
