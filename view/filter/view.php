@@ -100,8 +100,8 @@ $(document).ready(function(){
 <?php } ?>
 </h1>
 <div id="help">
-	<h2>Description</h2>
 	<span id="description">
+		<h2>Description</h2>
 		<p>Measurement points process filters in the order specified by filter ID with a lower ID having higher priority. Packets will be matched in order and is processed as soon as a match is found and not by subsequent filters.</p>
 		<p>By selecting OR only one field must match but selecting AND requires all fields to match. Fields which isn't enabled will implicitly match. A filter without any enabled rows will always match.</p>
 		<p>All fields with a mask will apply the mask both to the selected value and the packets value.</p>
@@ -132,8 +132,9 @@ $(document).ready(function(){
 	</p>
 
 	<h2>Filter specification</h2>
-	<table border="0" cellspacing="1">
-	  <tr class="row" data-description="<p>Matches capture interface by searching for string, e.g. &quot;d0&quot; will match both &quot;d00&quot; and &quot;d01&quot;.</p><p>Endace DAG cards use the format 'd' followed by device id and capture direction, e.g. &quot;d00&quot; indicating device dag0 in first direction.</p><p><b>Format</b>: ([a-z][A-Z][0-9]){0,8}">
+	<table border="0" cellspacing="0">
+
+	  <tr class="row" data-description="<h2>Capture interface</h2><p><b>Format</b>: [a-zA-Z0-9]{1,8}</p><p>Matches capture interface by searching for string, e.g. &quot;d0&quot; will match both &quot;d00&quot; and &quot;d01&quot;.</p><p>Endace DAG cards use the format 'd' followed by device id and capture direction, e.g. &quot;d00&quot; indicating device dag0 in first direction.</p>">
 		  <td style="width: 50px;">
 			  <input name="ci_cb" id="cb[9]" data-index="9" type="checkbox" <?=$filter->ind&512 ? 'checked="checked"' : '' ?> />512
 		  </td>
@@ -144,15 +145,18 @@ $(document).ready(function(){
 			  <input id="CL_ID" name="CI_ID" title="Capture Interface" type="text" size="8" maxlength="8" onchange="filter_clear(this);" value="<?=$filter->CI_ID?>" />
 		  </td>
 	  </tr>
-	  <tr class="row" data-description="<p>Filter packets with the 2-byte VLAN tag.</p><p>If you intend to filter only on VLAN ID select correct mask first. To test for presence of VLAN tag you can use ETH_TYPE instead.</p>">
+
+	  <tr class="row" data-description="<h2>VLAN Tag Control Information</h2><p>Filter packets with the 2-byte VLAN tag.</p><p>If you intend to filter only on VLAN ID select correct mask first. To test for presence of VLAN tag you can use ETH_TYPE instead.</p>">
 		  <td style="width: 50px;">
 			  <input name="vlan_cb" id="cb[8]" data-index="8" type="checkbox" <?=$filter->ind&256 ? 'checked="checked"' : '' ?> />256
 		  </td>
-		  <td class="label" title="VLAN Tag Control Information"  >VLAN_TCI</td>
+		  <td class="label" title="VLAN Tag Control Information"  >
+			  VLAN TCI
+		  </td>
 		  <td colspan="1">
 			  <input id="VLAN_TCI" name="VLAN_TCI" type="text" size="5"  maxlength="5"  onchange="filter_clear(this);" value="<?=$filter->VLAN_TCI ?>" /></td>
 		  <td class="label">
-			  VLAN_TCI_MASK
+			  VLAN TCI mask
 		  </td>
 		  <td>
 			  <input id="VLAN_TCI_MASK" name="VLAN_TCI_MASK" type="text" size="14" maxlength="14" value="<?=$filter->VLAN_TCI_MASK?>" />
@@ -161,18 +165,19 @@ $(document).ready(function(){
 			  <?=select('vlanmask_selection',   array('' => '0xffff', 'User priority' => '0xe000', 'CFI' => '0x1000', 'VLAN ID' => '0x0fff', 'Other' => ''), array($filter->VLAN_TCI_MASK, ''), 'VLAN_TCI_MASK')?>
 		  </td>
 	  </tr>
-	  <tr class="row" data-description="<p>Filter on selected encapsulated protocol (h_proto)</p><p><b>Format</b>: 0x0000 - 0xFFFF</p><p>List of common protocols:</p><ul><li>IP: 0x0800</li><li>ARP: 0x0806</li><li>VLAN: 0x8100</li></ul>">
+
+	  <tr class="row" data-description="<h2>Ethernet encapsulated protocol</h2><p><b>Format</b>: 0x0000 - 0xFFFF</p><p>Filter on selected encapsulated protocol (h_proto)</p><p>List of common protocols:</p><ul><li>IP: 0x0800</li><li>ARP: 0x0806</li><li>VLAN: 0x8100</li></ul>">
 		  <td style="width: 50px;">
 			  <input name="etht_cb" id="cb[7]" data-index="7" type="checkbox" <?=$filter->ind&128 ? 'checked="checked"' : '' ?> />128
 		  </td>
 		  <td class="label" title="Ethernet encapsulated protocol">
-			  ETH_TYPE
+			  ETH type
 		  </td>
 		  <td colspan="1">
 			  <input id="ETH_TYPE" name="ETH_TYPE" type="text" size="5" maxlength="5" onchange="filter_clear(this);" value="<?=$filter->ETH_TYPE ?>" />
 		  </td>
 		  <td class="label">
-			  ETH_TYPE_MASK
+			  ETH type mask
 		  </td>
 		  <td>
 			  <input id="ETH_TYPE_MASK" name="ETH_TYPE_MASK" type="text" size="14" maxlength="14" value="<?=$filter->ETH_TYPE_MASK?>" />
@@ -181,15 +186,174 @@ $(document).ready(function(){
 			  <?=select('ethmask_selection',    array('0xffff', '0xff00', '0x00ff', 'Other' => ''), array($filter->ETH_TYPE_MASK, ''), 'ETH_TYPE_MASK')?>
 		  </td>
 	  </tr>
-	  <tr class="row"><td style="width: 50px;"><input name="eths_cb" id="cb[6]" data-index="6" type="checkbox" <?=$filter->ind&64  ? 'checked="checked"' : '' ?> />&nbsp;64</td>     <td class="label" title="Ethernet source address">ETH_SRC </td>    <td colspan="1"><input id="ETH_SRC"  name="ETH_SRC"  type="text" size="17" maxlength="17" onchange="filter_clear(this);" value="<?=$filter->ETH_SRC  ?>" /></td>    <td class="label">ETH_SRC_MASK </td><td><input id="ETH_SRC_MASK"  name="ETH_SRC_MASK"  type="text" size="17" maxlength="17" value="<?=$filter->ETH_SRC_MASK ?>" /></td><td><?=select('ethsrcmask_selection', array('ffffffffffff', '000000000000', 'Other' => ''), array($filter->ETH_SRC_MASK, ''), 'ETH_SRC_MASK')?></td></tr>
-	  <tr class="row"><td style="width: 50px;"><input name="ethd_cb" id="cb[5]" data-index="5" type="checkbox" <?=$filter->ind&32  ? 'checked="checked"' : '' ?> />&nbsp;32</td>     <td class="label" title="Ethernet destination address">ETH_DST </td>    <td colspan="1"><input id="ETH_DST"  name="ETH_DST"  type="text" size="17" maxlength="17" onchange="filter_clear(this);" value="<?=$filter->ETH_DST  ?>" /></td>    <td class="label">ETH_DST_MASK </td><td><input id="ETH_DST_MASK"  name="ETH_DST_MASK"  type="text" size="17" maxlength="17" value="<?=$filter->ETH_DST_MASK ?>" /></td><td><?=select('ethdstmask_selection', array('ffffffffffff', '000000000000', 'Other' => ''), array($filter->ETH_DST_MASK, ''), 'ETH_DST_MASK')?></td></tr>
-	  <tr class="row"><td style="width: 50px;"><input name="ipp_cb"  id="cb[4]" data-index="4" type="checkbox" <?=$filter->ind&16  ? 'checked="checked"' : '' ?> />&nbsp;16</td>     <td class="label" title="IP transport protocol">IP_PROTO</td>    <td colspan="4"><input id="IP_PROTO" name="IP_PROTO" type="text" size="5"  maxlength="5"  onchange="filter_clear(this);" value="<?=$filter->IP_PROTO ?>" style="width: 6em;" /> <?=select('ipproto_selection', array('UDP' => 17, 'TCP' => 6, 'ICMP' => 1, 'Other' => ''), array($filter->IP_PROTO, ''), 'IP_PROTO', array('style' => 'width: 7em;'))?></td></tr>
-	  <tr class="row"><td style="width: 50px;"><input name="ips_cb"  id="cb[3]" data-index="3" type="checkbox" <?=$filter->ind&8   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;8</td><td class="label" title="IP source address">IP_SRC  </td>    <td colspan="1"><input id="IP_SRC"   name="IP_SRC"   type="text" size="16" maxlength="16" onchange="filter_clear(this);" value="<?=$filter->IP_SRC   ?>" /></td>    <td class="label">IP_SRC_MASK  </td><td><input id="IP_SRC_MASK"   name="IP_SRC_MASK"   type="text" size="16" maxlength="16" value="<?=$filter->IP_SRC_MASK	?>" /></td><td><?=select('ipsmask_selection',    array('255.255.255.255', '255.255.255.0', 'Other' => ''), array($filter->IP_SRC_MASK, ''), 'IP_SRC_MASK')?></td></tr>
-	  <tr class="row"><td style="width: 50px;"><input name="ipd_cb"  id="cb[2]" data-index="2" type="checkbox" <?=$filter->ind&4   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;4</td><td class="label" title="IP destination address">IP_DST  </td>    <td colspan="1"><input id="IP_DST"   name="IP_DST"   type="text" size="16" maxlength="16" onchange="filter_clear(this);" value="<?=$filter->IP_DST   ?>" /></td>    <td class="label">IP_DST_MASK  </td><td><input id="IP_DST_MASK"   name="IP_DST_MASK"   type="text" size="16" maxlength="16" value="<?=$filter->IP_DST_MASK	?>" /></td><td><?=select('ipdmask_selection',    array('255.255.255.255', '255.255.255.0', 'Other' => ''), array($filter->IP_DST_MASK, ''), 'IP_DST_MASK')?></td></tr>
-	  <tr class="row"><td style="width: 50px;"><input name="sprt_cb" id="cb[1]" data-index="1" type="checkbox" <?=$filter->ind&2   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;2</td><td class="label" title="Source port">SRC_PORT</td>    <td colspan="1"><input id="SRC_PORT" name="SRC_PORT" type="text" size="5"  maxlength="5"  onchange="filter_clear(this);" value="<?=$filter->SRC_PORT ?>" /></td>    <td class="label">SRC_PORT_MASK</td><td><input id="SRC_PORT_MASK" name="SRC_PORT_MASK" type="text" size="5"  maxlength="5"  value="<?=$filter->SRC_PORT_MASK ?>" /></td><td><?=select('portsmask_selection',  array('0xffff', '0x0000', 'Other' => ''), array($filter->SRC_PORT_MASK, ''), 'SRC_PORT_MASK')?></td></tr>
-	  <tr class="row"><td style="width: 50px;"><input name="dprt_cb" id="cb[0]" data-index="0" type="checkbox" <?=$filter->ind&1   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;1</td><td class="label" title="Destination port">DST_PORT</td>    <td colspan="1"><input id="DST_PORT" name="DST_PORT" type="text" size="5"  maxlength="5"  onchange="filter_clear(this);" value="<?=$filter->DST_PORT ?>" /></td>    <td class="label">DST_PORT_MASK</td><td><input id="DST_PORT_MASK" name="DST_PORT_MASK" type="text" size="5"   maxlength="5" value="<?=$filter->DST_PORT_MASK ?>" /></td><td><?=select('portdmask_selection',  array('0xffff', '0x0000', 'Other' => ''), array($filter->DST_PORT_MASK, ''), 'DST_PORT_MASK')?></td></tr>
-	  <tr><td>&nbsp;</td><td class="label" title="Destination address">DESTADDR</td><td><input id="DESTADDR" name="DESTADDR" type="text" size="23" maxlength="23" onchange="filter_clear(this);" value="<?=$filter->DESTADDR?>"/></td><td class="label" title="Destination type">TYPE</td><td colspan="2"><?=select('TYPE', array('File' => 0, 'Ethernet multicast' => 1, 'UDP' => 2, 'TCP' => 3, 'Discard' => 4), array($filter->TYPE))?><p>Note: TCP requires a running TCP consumer!</p></td></tr>
-	  <tr><td>&nbsp;</td><td class="label" title="Capture length">CAPLEN</td><td colspan="4"><input id="CAPLEN" name="CAPLEN" type="text" size="14" maxlength="4" onchange="filter_clear(this);" value="<?=$filter->CAPLEN?>" /></td></tr>
+
+	  <tr class="row" data-description="<h2>Ethernet source address</h2><p><b>Format</b>: XX:XX:XX:XX:XX:XX</p>">
+		  <td style="width: 50px;">
+			  <input name="eths_cb" id="cb[6]" data-index="6" type="checkbox" <?=$filter->ind&64  ? 'checked="checked"' : '' ?> />&nbsp;64
+		  </td>
+		  <td class="label" title="Ethernet source address">
+			  ETH SRC
+		  </td>
+		  <td colspan="1">
+			  <input id="ETH_SRC" name="ETH_SRC" type="text" size="17" maxlength="17" onchange="filter_clear(this);" value="<?=$filter->ETH_SRC  ?>" />
+		  </td>
+		  <td class="label">
+			  ETH SRC mask
+		  </td>
+		  <td>
+			  <input id="ETH_SRC_MASK" name="ETH_SRC_MASK" type="text" size="17" maxlength="17" value="<?=$filter->ETH_SRC_MASK ?>" />
+		  </td>
+		  <td>
+			  <?=select('ethsrcmask_selection', array('' => 'ffffffffffff', 'Multicast' => '010000000000', 'OUI' => 'ffffff000000', 'NIC' => '000000ffffff', '000000000000', 'Other' => ''), array($filter->ETH_SRC_MASK, ''), 'ETH_SRC_MASK')?>
+		  </td>
+	  </tr>
+
+	  <tr class="row" data-description="<h2>Ethernet destination address</h2><p><b>Format</b>: XX:XX:XX:XX:XX:XX</p>">
+		  <td style="width: 50px;">
+			  <input name="ethd_cb" id="cb[5]" data-index="5" type="checkbox" <?=$filter->ind&32  ? 'checked="checked"' : '' ?> />&nbsp;32
+		  </td>
+		  <td class="label" title="Ethernet destination address">
+			  ETH DST
+		  </td>
+		  <td colspan="1">
+			  <input id="ETH_DST" name="ETH_DST" type="text" size="17" maxlength="17" onchange="filter_clear(this);" value="<?=$filter->ETH_DST  ?>" />
+		  </td>
+		  <td class="label">
+			  ETH DST mask
+		  </td>
+		  <td>
+			  <input id="ETH_DST_MASK" name="ETH_DST_MASK" type="text" size="17" maxlength="17" value="<?=$filter->ETH_DST_MASK ?>" />
+		  </td>
+		  <td>
+			  <?=select('ethdstmask_selection', array('' => 'ffffffffffff', 'Multicast' => '010000000000', 'OUI' => 'ffffff000000', 'NIC' => '000000ffffff', '000000000000', 'Other' => ''), array($filter->ETH_DST_MASK, ''), 'ETH_DST_MASK')?>
+		  </td>
+	  </tr>
+
+	  <tr class="row" data-description="<h2>IP transport protocol</h2><p><b>Format</b>: 0x00 - 0xFF</p><p><a href=&quot;http://en.wikipedia.org/wiki/List_of_IP_protocol_numbers&quot; target=&quot;_blank&quot;>List of IP protocol numbers</a>.</p>">
+		  <td style="width: 50px;">
+			  <input name="ipp_cb"  id="cb[4]" data-index="4" type="checkbox" <?=$filter->ind&16  ? 'checked="checked"' : '' ?> />&nbsp;16
+		  </td>
+		  <td class="label" title="IP transport protocol">
+			  IP proto
+		  </td>
+		  <td colspan="4">
+			  <input id="IP_PROTO" name="IP_PROTO" type="text" size="5"  maxlength="5"  onchange="filter_clear(this);" value="<?=$filter->IP_PROTO ?>" style="width: 6em;" />
+			  <?=select('ipproto_selection', array('UDP' => 17, 'TCP' => 6, 'ICMP' => 1, 'Other' => ''), array($filter->IP_PROTO, ''), 'IP_PROTO', array('style' => 'width: 7em;'))?>
+		  </td>
+	  </tr>
+
+	  <tr class="row" data-description="<h2>IP source address</h2>">
+		  <td style="width: 50px;">
+			  <input name="ips_cb"  id="cb[3]" data-index="3" type="checkbox" <?=$filter->ind&8   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;8
+		  </td>
+		  <td class="label" title="IP source address">
+			  IP SRC
+		  </td>
+		  <td colspan="1">
+			  <input id="IP_SRC" name="IP_SRC" type="text" size="16" maxlength="16" onchange="filter_clear(this);" value="<?=$filter->IP_SRC   ?>" />
+		  </td>
+		  <td class="label">
+			  IP SRC mask
+		  </td>
+		  <td>
+			  <input id="IP_SRC_MASK" name="IP_SRC_MASK" type="text" size="16" maxlength="16" value="<?=$filter->IP_SRC_MASK	?>" />
+		  </td>
+		  <td>
+			  <?=select('ipsmask_selection',    array('255.255.255.255', '255.255.255.0', 'Other' => ''), array($filter->IP_SRC_MASK, ''), 'IP_SRC_MASK')?>
+		  </td>
+	  </tr>
+
+	  <tr class="row" data-description="<h2>IP destination address</h2>">
+		  <td style="width: 50px;">
+			  <input name="ipd_cb"  id="cb[2]" data-index="2" type="checkbox" <?=$filter->ind&4   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;4
+		  </td>
+		  <td class="label" title="IP destination address">
+			  IP DST
+		  </td>
+		  <td colspan="1">
+			  <input id="IP_DST" name="IP_DST" type="text" size="16" maxlength="16" onchange="filter_clear(this);" value="<?=$filter->IP_DST   ?>" />
+		  </td>
+		  <td class="label">
+			  IP DST mask
+		  </td>
+		  <td>
+			  <input id="IP_DST_MASK" name="IP_DST_MASK" type="text" size="16" maxlength="16" value="<?=$filter->IP_DST_MASK	?>" />
+		  </td>
+		  <td>
+			  <?=select('ipdmask_selection', array('255.255.255.255', '255.255.255.0', 'Other' => ''), array($filter->IP_DST_MASK, ''), 'IP_DST_MASK')?>
+		  </td>
+	  </tr>
+
+	  <tr class="row" data-description="<h2>Transport source port</h2><p><b>Format</b>: 0x0000 - 0xffff</p>">
+		  <td style="width: 50px;">
+			  <input name="sprt_cb" id="cb[1]" data-index="1" type="checkbox" <?=$filter->ind&2   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;2
+		  </td>
+		  <td class="label" title="Source port">
+			  SRC port
+		  </td>
+		  <td colspan="1">
+			  <input id="SRC_PORT" name="SRC_PORT" type="text" size="5"  maxlength="5"  onchange="filter_clear(this);" value="<?=$filter->SRC_PORT ?>" /></td>
+		  <td class="label">
+			  SRC port mask
+		  </td>
+		  <td>
+			  <input id="SRC_PORT_MASK" name="SRC_PORT_MASK" type="text" size="5"  maxlength="5" value="<?=$filter->SRC_PORT_MASK ?>" />
+		  </td>
+		  <td>
+			  <?=select('portsmask_selection',  array('0xffff', '0x0000', 'Other' => ''), array($filter->SRC_PORT_MASK, ''), 'SRC_PORT_MASK')?>
+		  </td>
+	  </tr>
+
+	  <tr class="row" data-description="<h2>Transport destination port</h2><p><b>Format</b>: 0x0000 - 0xffff</p>">
+		  <td style="width: 50px;">
+			  <input name="dprt_cb" id="cb[0]" data-index="0" type="checkbox" <?=$filter->ind&1   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;1
+		  </td>
+		  <td class="label" title="Destination port">
+			  DST port
+		  </td>
+		  <td colspan="1">
+			  <input id="DST_PORT" name="DST_PORT" type="text" size="5"  maxlength="5"  onchange="filter_clear(this);" value="<?=$filter->DST_PORT ?>" />
+		  </td>
+		  <td class="label">
+			  DST port mask
+		  </td>
+		  <td>
+			  <input id="DST_PORT_MASK" name="DST_PORT_MASK" type="text" size="5"   maxlength="5" value="<?=$filter->DST_PORT_MASK ?>" />
+		  </td>
+		  <td>
+			  <?=select('portdmask_selection',  array('0xffff', '0x0000', 'Other' => ''), array($filter->DST_PORT_MASK, ''), 'DST_PORT_MASK')?>
+		  </td>
+	  </tr>
+
+	  <tr class="row" data-description="<h2>Destination address</h2><p>Where the MP should send the matching packets.</p><p>Usually you select <b>ethernet multicasting</b> and use an address where the least significant bit in the first octet is 1. <b>File</b> output stores into a local trace-file using the DPMI capture format. <b>Discard</b> will cause the filter to drop all matching packets, e.g. to filter out all SSH traffic you can first add a filter which matches SSH with a discard destination and then a real filter capturing packets. <b>TCP and UDP</b> destinations encapsulates and forwards packets to the entered destination.</p><p>Note: TCP requires a running TCP consumer and will not capture any packets until it has successfully connected!</p>">
+		  <td>
+			  &nbsp;
+		  </td>
+		  <td class="label" title="Destination address">
+			  Destination
+		  </td>
+		  <td>
+			  <input id="DESTADDR" name="DESTADDR" type="text" size="23" maxlength="23" onchange="filter_clear(this);" value="<?=$filter->DESTADDR?>"/>
+		  </td>
+		  <td class="label" title="Destination type">
+			  Address type
+		  </td>
+		  <td colspan="2">
+			  <?=select('TYPE', array('File' => 0, 'Ethernet multicast' => 1, 'UDP' => 2, 'TCP' => 3, 'Discard' => 4), array($filter->TYPE))?>
+		  </td>
+	  </tr>
+
+	  <tr class="row" data-description="<h2>Capture length</h2><p>How many bytes of the captured packet to save, excluding metadata such as timestamp and wirelength.</p><p>Note: the MP should be able to transfer packets to the destination without fragmentation. Each packet is encapsulated with a 36 byte capture header and possibly a 16 byte send header. For ethernet multicasting on a network with a MTU of 1500 the maximum caplen will be 1500-14-16-36=1434 bytes.</p>">
+		  <td>
+			  &nbsp;
+		  </td>
+		  <td class="label" title="Capture length">
+			  Caplen
+		  </td>
+		  <td colspan="4">
+			  <input id="CAPLEN" name="CAPLEN" type="text" size="14" maxlength="4" onchange="filter_clear(this);" value="<?=$filter->CAPLEN?>" />
+		  </td>
+	  </tr>
 
 	  <tr>
 	    <td colspan="6" style="text-align: right;">

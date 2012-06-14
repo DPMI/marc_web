@@ -118,14 +118,28 @@ function filter_init(){
 		});
 
 		/* enable help for input fields */
+		f = function($row){
+				var text = $row.data('description');
+				if ( text == undefined ) text = 'No description available';
+				$('#description').html(text);
+		}
+		$('.row input:text, .row select').focus(function(){
+				f($(this).parent().parent());
+		});
+		$('.row .label').click(function(){
+				console.log('derp');
+				f($(this).parent());
+		});
+
+		/* show default help when clicking somewhere else */
 		var default_description = $('#description').html();
-		$('.row input:text')
-				.focusin(function(){
-						var $row = $(this).parent().parent();
-						var text = $row.data('description');
-						if ( text == undefined ) text = 'No description available';
-						$('#description').html(text);
-				}).focusout(function(){
-						$('#description').html(default_description);
-				});
+		$(document).click(function(){
+				$('#description').html(default_description);
+		});
+
+		/* prevent default description over certain elements */
+		$('.row input:text, .row select, .row .label, #help').click(function(e){
+				e.stopPropagation();
+		});
+
 }
