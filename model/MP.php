@@ -76,6 +76,11 @@ class MP extends BasicObject {
   public function filter_count(){
     global $db;
 
+    /* MPs which isn't authorized cannot have filters */
+    if ( !$this->is_authorized() ){
+	    return 0;
+    }
+
     $result = $db->query("SELECT COUNT(*) FROM {$this->MAMPid}_filterlist");
     if ( $result == null ){
       return false; /* what is a good value to indicate this failure? */
