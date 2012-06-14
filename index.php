@@ -28,7 +28,7 @@ if ( isset($_SERVER['PATH_INFO']) ){
 $handler = array_shift($path);
 
 /* for returning to previous page when logging in */
-if ( $handler != 'login' ){
+if ( $handler != 'account' ){
 	$_SESSION['return'] = $_SERVER['PHP_SELF'] . '?'. $_SERVER['QUERY_STRING'];
 }
 
@@ -120,9 +120,9 @@ if ( $handler == '' ){
       <ul>
 <?php if ( $u_id > 0 ){ ?>
 	<li><a href="<?=$index?>/account/self">Account</a></li>
-	<li><a href="<?=$root?>logout.php">Logout</a></li>
+	<li><a href="<?=$index?>/account/logout">Logout</a></li>
 <?php } else { ?>
-	<li><a href="<?=$root?>login.php">Login</a></li>
+	<li><a href="<?=$index?>/account/login">Login</a></li>
 <?php } ?>
       </ul>
 

@@ -138,6 +138,43 @@ class AccountController extends Controller {
 
 		return confirm("Are you sure you want to delete account \"{$account->uname}\"?", array("delete", "cancel"));
 	}
+
+	function login(){
+		$submit = isset($_GET['submit']);
+
+		if ( $submit ){
+			$uname=$_POST["uName"];
+			$pass=$_POST["pWord"];
+
+			$account = Account::validate_login($uname, $pass);
+			if ( !$account ){
+				return template('account/login.php', array('msg' => 'Invalid username or password.'));
+			}
+
+			$_SESSION["OK"]="OK";
+			$_SESSION['user_id'] = $account->id;
+			$_SESSION["accesslevel"] = $account->status;
+			$_SESSION["username"] = $account->uname;
+			if ( strlen($account->passwd) < 100 ){ /* 100 is just arbitrary, PASSWORD() hash is less than 100 at least. New password hashes are 128 bytes. */
+				$_SESSION['passwd_warning'] = true;
+			}
+
+			global $root;
+			$return = $root . 'index.php';
+			if ( isset($_SESSION['return']) ){
+				$return = $_SESSION['return'];
+			}
+			throw new HTTPRedirect($return);
+		}
+
+		return template('account/login.php', array());
+	}
+
+	function logout(){
+		session_destroy();
+		global $index;
+		throw new HTTPRedirect($index);
+	}
 }
 
 ?>
