@@ -117,7 +117,7 @@ if ( $handler == '' ){
 	<li><a href="<?=$index?>/account/self">Account</a></li>
 	<li><a href="<?=$root?>logout.php">Logout</a></li>
 <?php } else { ?>
-	<li><a href="<?=$root?>login.php">Login</a></li>
+	<li><a href="<?=$root?>login.php?return=<?=urlencode(base64_encode($_SERVER['PHP_SELF'] . '?'. $_SERVER['QUERY_STRING']))?>">Login</a></li>
 <?php } ?>
       </ul>
 
