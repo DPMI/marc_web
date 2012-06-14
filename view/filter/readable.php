@@ -13,6 +13,7 @@
     <th>Filter Description</th>
     <th width="300">Consumer Information</th>
   </tr>
+<?php $toggle = 0; ?>
 <?php foreach ( $mp->filters() as $filter ){ ?>
   <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
 <?php if ( $u_access >= 1 ) { ?>

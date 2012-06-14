@@ -25,6 +25,7 @@
     <th valign="bottom">&nbsp;</th>
   </tr>
 
+  <?php $toggle = 0; ?>
   <?php foreach ( $mp->filters() as $filter ){ ?>
   <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
     <td valign="top"><a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>/<?=$filter->filter_id?>"><?=$filter->filter_id?></a></td>
