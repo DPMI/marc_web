@@ -80,6 +80,10 @@ function filter_submit(){
 				}
     }
 
+		/* #42: re-enable all fields to make sure they are transferred */
+		$('.row input:text').attr('disabled', false);
+		$('.row select').attr('disabled', false);
+
     return ret;
 }
 
