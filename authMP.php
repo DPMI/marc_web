@@ -13,6 +13,7 @@ if ( !$mp ){
 }
 
 $MAMPid = $mp->generate_mampid();
+$iface = explode(";", $mp->CI_iface);
 $mp->commit();
 
 $tables[] = "CREATE TABLE IF NOT EXISTS `{$MAMPid}_filterlist` (  `filter_id` int(11) PRIMARY KEY,
@@ -109,7 +110,7 @@ $databases =
 $filename = "$rrdbase/{$MAMPid}.rrd";
 $rrd[$filename] = "rrdtool create {$filename} " . $databases;
 for($i=0;$i<$mp->noCI;$i++){
-  $filename = "$rrdbase/{$MAMPid}_CI{$i}.rrd";
+  $filename = "$rrdbase/{$MAMPid}_{$iface[$i]}.rrd";
   $rrd[$filename] = "rrdtool create {$filename} " . $databases;
 }
 

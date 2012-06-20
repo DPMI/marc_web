@@ -14,9 +14,11 @@ chdir($rrdbase);
 
 $filebase = "$mampid";
 $title = $mp->name;
+$iface = explode(';', $mp->CI_iface);
 if ( $ci !== false ){
-  $filebase = "{$mampid}_CI$ci";
-  $title = "{$mp->name} CI$ci";
+	$x = $iface[$ci];
+  $filebase = "{$mampid}_$x";
+  $title = "{$mp->name} $x";
 }
 
 $filename = "{$filebase}_{$span}.png";
