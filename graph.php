@@ -13,12 +13,12 @@ $mp = MP::from_mampid($mampid);
 chdir($rrdbase);
 
 $filebase = "$mampid";
-$title = $mp->name;
+$title = "$mp->name ($span)";
 $iface = explode(';', $mp->CI_iface);
 if ( $ci !== false ){
 	$x = $iface[$ci];
   $filebase = "{$mampid}_$x";
-  $title = "{$mp->name} $x";
+  $title = "{$mp->name} $x ($span)";
 }
 
 $filename = "{$filebase}_{$span}.png";
