@@ -68,7 +68,7 @@ if ( $handler == '' ){
     <link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
     <script type="text/javascript" src="<?=$root?>js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="<?=$root?>js/filter.js"></script>
-    <title>Network Performance Lab -- MArC</title>
+    <title><?=$title?> -- MArC</title>
   </head>
 
   <body>
@@ -83,6 +83,9 @@ if ( $handler == '' ){
     </div>
 
     <div id="menu">
+<? if ( isset($subtitle) ){ ?>
+      <h1><?=$subtitle?></h1>
+<? } ?>
       <h1>MArC - Member</h1>
       <ul>
         <li><a href="<?=$index?>">Home</a></li>

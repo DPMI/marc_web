@@ -32,4 +32,8 @@ $index = $root . 'index.php';
 /* show ping time for MPs */
 $use_ping = true;
 
+/* General */
+$title = 'Network Performance Labs';        /* title prepended in<title> */
+/* $subtitle = 'Research'; */               /* title in menu (if unset nothing is shown) */
+
 ?>
