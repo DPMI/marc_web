@@ -27,7 +27,6 @@ $usergroup = 'marc';
 
 /* Path configuration */
 $root = '/'; /* if installing into a subdirectory, set the path here. Must end in trailing slash */
-$index = $root . 'index.php';
 
 /* show ping time for MPs */
 $use_ping = true;

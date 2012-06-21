@@ -7,7 +7,7 @@ require_once('model/Menu.php');
 $menu = Menu::selection(array('accesslevel:<=' => $u_access, 'type:!=' => 3));
 
 function template($view, $data){
-  global $root, $index;
+	global $root, $index, $ajax;
   extract($data);
   ob_start();
   require("view/$view");

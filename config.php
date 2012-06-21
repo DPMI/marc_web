@@ -7,6 +7,8 @@ require('config.default.php');
 if ( file_exists('config.local.php') ){
   require('config.local.php');
 }
+$index = $root . 'index.php';
+$ajax = $root . 'ajax.php';
 
 $version = "0.7.1";
 
