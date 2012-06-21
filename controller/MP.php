@@ -31,6 +31,19 @@ class MPController extends Controller {
 		return template('mp/view.php', $data);
 	}
 
+	public function comment($mampid){
+		parent::validate_access(1);
+		$mp = MP::from_mampid($mampid);
+		if ( !$mp ) return "no such mp";
+
+		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ){
+			$mp->comment = htmlentities($_POST['value']);
+			$mp->commit();
+		}
+
+		return $mp->comment;
+	}
+
 	public function filter($mampid, $filter_id=null){
 		parent::validate_access(1);
 

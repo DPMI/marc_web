@@ -1,8 +1,18 @@
 <?php //  -*- mode:html;  -*- ?>
 <?php require_once('helper/age.php'); ?>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#comment').editable('<?=$ajax?>/MP/comment/<?=$mp->MAMPid?>', {
+		tooltip: 'Click to edit',
+		loadurl: '<?=$ajax?>/MP/comment/<?=$mp->MAMPid?>',
+		style: 'inherit',
+		width: 300,
+	});
+});
+</script>
 <h1><a href="<?=$index?>/MP">Measurement Points</a> &gt; <?=$mp->name?></h1>
 <p>
-  Comment: <?=strlen($mp->comment) > 0 ? $mp->comment : '<span style="color: #ccc;">(unset)</span>' ?><br/>
+  Comment: <span id="comment" style="min-width: 300px;"><?=strlen($mp->comment) > 0 ? $mp->comment : "(unset)" ?></span><br/>
   Last heard from: <?=$mp->time?> (<?=age($mp->time)?>)
 </p>
 <style>
