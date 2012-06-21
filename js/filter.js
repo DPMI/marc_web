@@ -65,6 +65,11 @@ function filter_validate(){
 						continue;
 				}
 
+				/* ignore disabled fields */
+				if ( $(elem).attr('disabled') ){
+						continue;
+				}
+
 				value = elem.value;
 				try {
 						pipes = fields[id];
