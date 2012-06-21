@@ -1,4 +1,5 @@
 <?php //  -*- mode:html;  -*- ?>
+<?php require_once('helper/age.php'); ?>
 <h1>Measurement Points</h1>
 <table border="0" cellspacing="0" width="100%" class="list">
   <tr>
@@ -31,7 +32,7 @@
     <td><?=$mp->ip?>:<?=$mp->port?></td>
     <td><?=$mp->mac?></td>
     <td><?=strlen($mp->comment) > 0 ? $mp->comment : "&nbsp;" ?></td>
-    <td><?=$mp->time?></td>
+    <td><?=age($mp->time)?></td>
     <td><?=$mp->MAMPid?></td>
     <td><a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>"><?=$mp->filter_count()?> / <?=$mp->maxFilters?></a></td>
     <td>
