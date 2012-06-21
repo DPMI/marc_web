@@ -1,8 +1,24 @@
 <?php //  -*- mode:html;  -*- ?>
+<?php
+function age($t){
+	$diff = time() - strtotime($t);
+	if ( $diff == 0 ) return 'just now';
+	$day_diff = floor($diff / 86400);
+
+	if($day_diff == 0){
+		if ( $diff < 60) return "$diff seconds ago";
+		if ( $diff < 3600) return floor($diff / 60) . ' minutes ago';
+		if ( $diff < 86400) return floor($diff / 3600) . ' hours ago';
+	}
+	if($day_diff == 1) return 'Yesterday';
+	if($day_diff < 7) return $day_diff . ' days ago';
+	return ceil($day_diff / 7) . ' weeks ago';
+}
+?>
 <h1><a href="<?=$index?>/MP">Measurement Points</a> &gt; <?=$mp->name?></h1>
 <p>
   Comment: <?=strlen($mp->comment) > 0 ? $mp->comment : "&nbsp;" ?><br/>
-  Last heard from: <?=$mp->time?>
+  Last heard from: <?=$mp->time?> (<?=age($mp->time)?>)
 </p>
 <style>
   th { text-align: right; }
