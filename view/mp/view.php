@@ -2,7 +2,7 @@
 <?php require_once('helper/age.php'); ?>
 <h1><a href="<?=$index?>/MP">Measurement Points</a> &gt; <?=$mp->name?></h1>
 <p>
-  Comment: <?=strlen($mp->comment) > 0 ? $mp->comment : "&nbsp;" ?><br/>
+  Comment: <?=strlen($mp->comment) > 0 ? $mp->comment : '<span style="color: #ccc;">(unset)</span>' ?><br/>
   Last heard from: <?=$mp->time?> (<?=age($mp->time)?>)
 </p>
 <style>
