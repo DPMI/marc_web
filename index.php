@@ -129,6 +129,11 @@ if ( $handler == '' ){
 <?php } ?>
       </ul>
 
+		 <p style="padding-left: 1em;">
+			 Server time:<br/>
+			 <?=gmstrftime("%d-%b-%y %T %z", time ())?><br/>
+			 <?=strftime("%d-%b-%y %T %z", time ())?>
+		 </p>
     </div>
 
     <div id="content">
