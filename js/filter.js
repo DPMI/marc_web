@@ -84,13 +84,15 @@ function filter_validate(){
 }
 
 function filter_submit(){
-		var ret = filter_validate();
+		if ( !filter_validate() ){
+				return false;
+		}
 
 		/* #42: re-enable all fields to make sure they are transferred */
 		$('.row input:text').attr('disabled', false);
 		$('.row select').attr('disabled', false);
 
-    return ret;
+    return true;
 }
 
 function filter_cancel(){
