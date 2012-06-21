@@ -362,7 +362,7 @@ $(document).ready(function(){
 <?php } else { ?>
 	      <input type="submit" name="action" value="Add" />
 <?php } ?>
-	      <input type="button" value="Parse" onclick="filter_submit();" />
+	      <input type="button" value="Parse" onclick="filter_validate();" />
 	      <input type="submit" name="cancel" onclick="filter_cancel();" value="Cancel" />
 	    </td>
 	  </tr>

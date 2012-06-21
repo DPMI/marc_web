@@ -44,7 +44,7 @@ function filter_clear(elem){
 		elem.title = "";
 }
 
-function filter_submit(){
+function filter_validate(){
     fields = {
 				'VLAN_TCI': [trim, parse_hex, validate_numeric],
 				'VLAN_TCI_MASK': [trim, parse_hex, validate_numeric],
@@ -79,6 +79,12 @@ function filter_submit(){
 						ret = false;
 				}
     }
+
+		return ret;
+}
+
+function filter_submit(){
+		var ret = filter_validate();
 
 		/* #42: re-enable all fields to make sure they are transferred */
 		$('.row input:text').attr('disabled', false);
