@@ -34,7 +34,11 @@
     <td><?=strlen($mp->comment) > 0 ? $mp->comment : "&nbsp;" ?></td>
     <td><?=age($mp->time)?></td>
     <td><?=$mp->MAMPid?></td>
-    <td><a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>"><?=$mp->filter_count()?> / <?=$mp->maxFilters?></a></td>
+	<td>
+<?php if ( $mp->is_authorized() ){ ?>
+    <a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>"><?=$mp->filter_count()?> / <?=$mp->maxFilters?></a>
+<?php } ?>
+	</td>
     <td>
 <?php if ( $mp->is_authorized() ){ ?>
       <a href="<?=$root?>control.php?id=<?=$mp->id?>&amp;action=stop">Stop</a>
