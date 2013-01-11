@@ -115,7 +115,6 @@ if ( $Connect ){
 
 if ( count($config_error) > 0 ){
   if ( !$config_check ){
-    $_SESSION['config_error'] = $config_error;
     header("Location: {$root}config_error.php");
     exit;
   }

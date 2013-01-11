@@ -2,13 +2,9 @@
 <?php
 require("sessionCheck.php");
 
-if ( isset($_SESSION['config_error']) ){ /* redirected */
-  $config_error = $_SESSION['config_error'];
-} else {
-  require('config.php');
-}
+$config_check = true;
+require('config.php');
 
-unset($_SESSION['config_error']);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en-US" xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
@@ -40,6 +36,7 @@ unset($_SESSION['config_error']);
 	<p><a href="<?=$root?>">Return</a></p>
       </div>
 <?php } /* if ( count > 0 ) */ ?>
+      <a href="<?=dirname($_SERVER['REQUEST_URI'])?>">Retry</a>
     </div>
   </body>
 </html>
