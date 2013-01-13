@@ -37,7 +37,12 @@ class MPController extends Controller {
 		if ( !$mp ) return "no such mp";
 
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ){
+			$old_time = $mp->time;
 			$mp->comment = htmlentities($_POST['value']);
+			$mp->commit();
+
+			/* workaround for basicobject which tests for updated fields by comparing old value */
+			$mp->time = $old_time;
 			$mp->commit();
 		}
 
