@@ -207,7 +207,7 @@ $stmt->close();
 		  </td>
 	  </tr>
 
-	  <tr class="row" data-description="<h2>Ethernet source address</h2><p><b>Format</b>: XX:XX:XX:XX:XX:XX</p>">
+	  <tr class="row" data-description="<h2>Ethernet source address</h2><p><b>Format</b>: XX:XX:XX:XX:XX:XX</p><p>Either - or : may be used as optional delimiter.</p>">
 		  <td style="width: 50px;">
 			  <input name="eths_cb" id="cb[6]" data-index="6" type="checkbox" <?=$filter->ind&64  ? 'checked="checked"' : '' ?> />&nbsp;64
 		  </td>
@@ -228,7 +228,7 @@ $stmt->close();
 		  </td>
 	  </tr>
 
-	  <tr class="row" data-description="<h2>Ethernet destination address</h2><p><b>Format</b>: XX:XX:XX:XX:XX:XX</p>">
+	  <tr class="row" data-description="<h2>Ethernet destination address</h2><p><b>Format</b>: XX:XX:XX:XX:XX:XX</p><p>Either - or : may be used as optional delimiter.</p>">
 		  <td style="width: 50px;">
 			  <input name="ethd_cb" id="cb[5]" data-index="5" type="checkbox" <?=$filter->ind&32  ? 'checked="checked"' : '' ?> />&nbsp;32
 		  </td>
@@ -262,7 +262,7 @@ $stmt->close();
 		  </td>
 	  </tr>
 
-	  <tr class="row" data-description="<h2>IP source address</h2>">
+	  <tr class="row" data-description="<h2>IP source address</h2><p><b>Format</b>: AAA.BBB.CCC.DDD</p>">
 		  <td style="width: 50px;">
 			  <input name="ips_cb"  id="cb[3]" data-index="3" type="checkbox" <?=$filter->ind&8   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;8
 		  </td>
@@ -283,7 +283,7 @@ $stmt->close();
 		  </td>
 	  </tr>
 
-	  <tr class="row" data-description="<h2>IP destination address</h2>">
+	  <tr class="row" data-description="<h2>IP destination address</h2><p><b>Format</b>: AAA.BBB.CCC.DDD</p>">
 		  <td style="width: 50px;">
 			  <input name="ipd_cb"  id="cb[2]" data-index="2" type="checkbox" <?=$filter->ind&4   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;4
 		  </td>
@@ -304,7 +304,7 @@ $stmt->close();
 		  </td>
 	  </tr>
 
-	  <tr class="row" data-description="<h2>Transport source port</h2><p><b>Format</b>: 0x0000 - 0xffff</p>">
+	  <tr class="row" data-description="<h2>Transport source port</h2><p><b>Format</b>: 0x0000 - 0xffff</p><p>Parsed as decimal by default or hex if using 0x prefix.</p>">
 		  <td style="width: 50px;">
 			  <input name="sprt_cb" id="cb[1]" data-index="1" type="checkbox" <?=$filter->ind&2   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;2
 		  </td>
@@ -324,7 +324,7 @@ $stmt->close();
 		  </td>
 	  </tr>
 
-	  <tr class="row" data-description="<h2>Transport destination port</h2><p><b>Format</b>: 0x0000 - 0xffff</p>">
+	  <tr class="row" data-description="<h2>Transport destination port</h2><p><b>Format</b>: 0x0000 - 0xffff</p><p>Parsed as decimal by default or hex if using 0x prefix.</p>">
 		  <td style="width: 50px;">
 			  <input name="dprt_cb" id="cb[0]" data-index="0" type="checkbox" <?=$filter->ind&1   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;1
 		  </td>
@@ -363,7 +363,7 @@ $stmt->close();
 		  </td>
 	  </tr>
 
-	  <tr class="row" data-description="<h2>Capture length</h2><p>How many bytes of the captured packet to save, excluding metadata such as timestamp and wirelength.</p><p>Note: the MP should be able to transfer packets to the destination without fragmentation. Each packet is encapsulated with a 36 byte capture header and possibly a 16 byte send header. For ethernet multicasting on a network with a MTU of 1500 the maximum caplen will be 1500-14-16-36=1434 bytes.</p>">
+	  <tr class="row" data-description="<h2>Capture length</h2><p>How many bytes of the captured packet to save, excluding metadata such as timestamp and wirelength.</p><p>Note: the MP should be able to transfer packets to the destination without fragmentation. Each packet is encapsulated with a 36 byte capture header and possibly a 16 byte send header. For ethernet multicasting on a network with a MTU of 1500 the maximum caplen will be 1500-14-16-36=1434 bytes.</p><p>For full-size packet capture on a network with MTU 1500 use 1514 (requires MTU greater than 1566 on MA network, e.g. 9000).">
 		  <td>
 			  &nbsp;
 		  </td>
