@@ -39,6 +39,13 @@ if ( !is_writable($rrdbase) ){
 
 /* extended checks, only testing when a previous error is detected or if manually testing */
 if ( $config_check ){
+	if ( !file_exists('/usr/bin/rrdtool') ){
+		$config_error[] = array(
+			'message' => "RRDtool is missing",
+			'bin' => '/usr/bin/rrdtool'
+		);
+	}
+
   if ( !$usergroup ){
     $config_error[] = array(
 			    'message' => "The specified usergroup does not exist",
