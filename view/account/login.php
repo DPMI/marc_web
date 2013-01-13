@@ -13,7 +13,7 @@
 		<table width="100%">
 			<tr>
 				<td>Username</td>
-				<td><input type="text" name="uName" /></td>
+				<td><input type="text" name="uName" autofocus /></td>
 			</tr>
 			<tr>
 				<td>Password</td>
