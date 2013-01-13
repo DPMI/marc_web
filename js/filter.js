@@ -144,7 +144,6 @@ function filter_init(){
 		f($(this).parent().parent());
 	});
 	$('.row .label').click(function(){
-		console.log('derp');
 		f($(this).parent());
 	});
 
