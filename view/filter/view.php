@@ -82,11 +82,31 @@ function select($name, array $values, array $default=null, $update=null, array $
   return $head . implode('', $options) . $foot;
 }
 
+/* get all multicast addresses currently in use */
+global $db;
+$address = array();
+$stmt = $db->prepare("SELECT mampid FROM measurementpoints");
+$stmt->bind_result($mampid);
+$stmt->execute();
+$stmt->store_result();
+while ( $stmt->fetch() ){
+	$inner = $db->prepare("SELECT filter_id, DESTADDR FROM {$mampid}_filterlist WHERE TYPE=1 ORDER BY DESTADDR");
+	if ( !$inner ){ die($db->error); };
+	$inner->bind_result($id, $addr);
+	$inner->execute();
+	while ( $inner->fetch() ){
+		$address[] = "{addr: '$addr', 'mampid': '$mampid', id: $id}";
+	}
+	$inner->close();
+}
+$stmt->close();
+
 ?>
 <script type="text/javascript" />
-$(document).ready(function(){
-	filter_init();
-});
+	var ethernet_addr = [<?=implode(',', $address)?>];
+	$(document).ready(function(){
+		filter_init();
+	});
 </script>
 
 <h1>
@@ -325,7 +345,7 @@ $(document).ready(function(){
 		  </td>
 	  </tr>
 
-	  <tr class="row" data-description="<h2>Destination address</h2><p>Where the MP should send the matching packets.</p><p>Usually you select <b>ethernet multicasting</b> and use an address where the least significant bit in the first octet is 1. <b>File</b> output stores into a local trace-file using the DPMI capture format. <b>Discard</b> will cause the filter to drop all matching packets, e.g. to filter out all SSH traffic you can first add a filter which matches SSH with a discard destination and then a real filter capturing packets. <b>TCP and UDP</b> destinations encapsulates and forwards packets to the entered destination.</p><p>Note: TCP requires a running TCP consumer and will not capture any packets until it has successfully connected!</p>">
+	  <tr class="row address" data-description="<h2>Destination address</h2><p>Where the MP should send the matching packets.</p><p>Usually you select <b>ethernet multicasting</b> and use an address where the least significant bit in the first octet is 1. <b>File</b> output stores into a local trace-file using the DPMI capture format. <b>Discard</b> will cause the filter to drop all matching packets, e.g. to filter out all SSH traffic you can first add a filter which matches SSH with a discard destination and then a real filter capturing packets. <b>TCP and UDP</b> destinations encapsulates and forwards packets to the entered destination.</p><p>Note: TCP requires a running TCP consumer and will not capture any packets until it has successfully connected!</p><h2>Adresses table</h2><div class='address'></div>">
 		  <td>
 			  &nbsp;
 		  </td>

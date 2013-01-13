@@ -120,12 +120,20 @@ body {
 
 #help {
 		width: 300px;
-		height: 270px;
+		min-height: 270px;
 		margin-top: 50px;
 		float: right;
 		background: #efefef;
 		padding: 7px;
 		text-align: justify;
+}
+
+#help ul {
+		padding-left: 2em;
+}
+
+#help .address {
+		font-family: monospace;
 }
 
 td.label {

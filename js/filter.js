@@ -136,9 +136,23 @@ function filter_init(){
 
 	/* enable help for input fields */
 	f = function($row){
+		/* show new help */
 		var text = $row.data('description');
 		if ( text == undefined ) text = 'No description available';
 		$('#description').html(text);
+
+		/* update addresstable */
+		var addresstable = $.inArray('address', $row.attr('class').split(' ')) >= 0;
+		if ( addresstable ){
+			if ( ethernet_addr.length > 0 ){
+				var existing = ethernet_addr.map(function(x){
+					return '<li>' + x.addr + ' ' + x.mampid + ' ' + x.id + '</li>';
+				});
+				$('#description').find('.address').html('<ul>'+existing.join('')+'</ul>');
+			} else {
+				$('#description').find('.address').html('<p>No addresses is currently used</p>');
+			}
+		}
 	}
 	$('.row input:text, .row select').focus(function(){
 		f($(this).parent().parent());
