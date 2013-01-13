@@ -58,16 +58,19 @@ header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() + $age * 60));
 header_remove('Pragma');
 
 /* get ip of MP */
-$stmt = $db->prepare("SELECT ip, port FROM measurementpoints WHERE mampid=?");
+$stmt = $db->prepare("SELECT ip, port, status FROM measurementpoints WHERE mampid=?");
 $stmt->bind_param('s', $mampid);
-$stmt->bind_result($ip, $port);
+$stmt->bind_result($ip, $port, $status);
 $stmt->execute();
 if ( !$stmt->fetch() ){
 	die("no such mp $mampid");
 }
 $stmt->close();
 
-$group = ping($ip, $port, $mampid);
+$group = 4;
+if ( $status < 4 /* distress/stopped */ ){
+	$group = ping($ip, $port, $mampid);
+}
 
 /* tell browser to expect png image */
 header('Content-Type: image/png');
