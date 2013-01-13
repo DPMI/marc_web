@@ -145,6 +145,10 @@ td.label {
     width: 13em;
 }
 
+#filter input[type="text"] {
+		width: 12em;
+}
+
 .form select {
     font-family: monospace;
     width: 13em;
