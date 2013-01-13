@@ -44,10 +44,18 @@ if ( $regen ){
   $cmd = "'" . implode("' '", $argv) . "'";
   exec("$cmd 2>&1", $output, $rc);
   if ( $rc != 0 ){
-    echo "<h1>RRDtool error</h1>\n";
-    echo "<p>Command: \"$cmd\"<br/>Returncode: $rc<p>\n";
-    echo "<p>Output:</p>\n";
-    echo "<pre>" . implode("\n", $output) . "</pre>";
+	  $im = imagecreate(497, 173);
+	  $bg = imagecolorallocate($im, 255, 255, 255);
+	  $fg = imagecolorallocate($im, 0, 0, 0);
+	  imagestring($im, 5, 5,  5, "RRDtool error", $fg);
+	  imagestring($im, 2, 5, 20, "Returncode: $rc", $fg);
+	  imagestring($im, 2, 5, 35, "Command:", $fg);
+	  imagestring($im, 2, 5, 50, $cmd, $fg);
+	  imagestring($im, 2, 5, 65, "Output:", $fg);
+	  imagestring($im, 2, 5, 80, implode("\n",$output), $fg);
+	  header('Content-type: image/png');
+	  imagepng($im);
+	  imagedestroy($im);
     exit;
   }
 }
