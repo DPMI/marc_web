@@ -31,10 +31,28 @@ class Filter {
     }
   }
 
+  static private function next_id($mp){
+	  global $db;
+	  $mampid = $mp->MAMPid;
+	  $stmt = $db->prepare("SELECT MAX(filter_id) FROM {$mampid}_filterlist");
+	  if ( !$stmt ) die($db->error);
+	  $stmt->bind_result($id);
+	  $stmt->execute();
+	  if ( !$stmt->fetch() ){
+		  $stmt->close();
+		  return 10;
+	  }
+	  $stmt->close();
+
+	  /* 10-19 -> 20 etc */
+	  $id = (int)($id / 10);
+	  return ($id+1) * 10;
+  }
+
   static public function placeholder($mp){
     $data = array_fill_keys(Filter::$columns, null);
     $data['ind'] = 0;
-    $data['filter_id'] = 10;
+    $data['filter_id'] = static::next_id($mp);
     $data['mode'] = 'AND';
     $data['VLAN_TCI_MASK'] = '0xffff';
     $data['ETH_TYPE_MASK'] = '0xffff';
