@@ -28,8 +28,9 @@ $usergroup = 'marc';
 /* Path configuration */
 $root = '/'; /* if installing into a subdirectory, set the path here. Must end in trailing slash */
 
-/* show ping time for MPs */
-$use_ping = true;
+/* misc */
+$use_ping = true;                           /* show ping time for MPs */
+$mp_timeout = 60*60;                        /* after how many seconds an MP should be considered non-responsive */
 
 /* General */
 $title = 'Network Performance Labs';        /* title prepended in<title> */

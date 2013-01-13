@@ -22,9 +22,13 @@ class MP extends BasicObject {
   }
 
   public function status(){
-    global $db;
+	  global $db, $mp_timeout;
     if ( !$this->is_authorized() ){
       return "Not authorized";
+    }
+
+    if ( time()-strtotime($this->time) > $mp_timeout ){
+	    return "Timeout";
     }
 
     if ( $this->status == 4 ){
