@@ -2,7 +2,7 @@
 <?php foreach ( $mps as $mp ){ ?>
 <h1><a href="<?=$index?>/MP">Measurement Points</a> &gt; <a href="<?=$index?>/MP/view/<?=$mp->MAMPid?>"><?=$mp->name?></a> &gt; Filters</h1>
 <h2>
-  <?=$mp->name?>
+  <span class="mampid"><?=$mp->name?></span>
   <a href="<?=$index?>/MP/verify/<?=$mp->MAMPid?>"><img width="12" height="13" border="0" alt="Verify all filters" title="Verify all filters" src="<?=$root?>button_properties.png" /></a>
   <a href="<?=$index?>/MP/filter_add/<?=$mp->MAMPid?>"><img width="12" height="13"  border="0" alt="Add filter" title="Add filter" src="<?=$root?>button_insert.png" /></a>
 </h2>
@@ -28,7 +28,7 @@
   <?php $toggle = 0; ?>
   <?php foreach ( $mp->filters() as $filter ){ ?>
   <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
-    <td valign="top"><a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>/<?=$filter->filter_id?>"><?=$filter->filter_id?></a></td>
+    <td valign="top"><a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>/<?=$filter->filter_id?>" class="id"><?=$filter->filter_id?></a></td>
     <td valign="top"><?=$filter->ind & 512 ? $filter->CI_ID : '-' ?></td>
     <td valign="top"><?=$filter->ind & 256 ? "$filter->VLAN_TCI<br/>/$filter->VLAN_TCI_MASK" : '-' ?></td>
     <td valign="top"><?=$filter->ind & 128 ? "$filter->ETH_TYPE<br/>/$filter->ETH_TYPE_MASK" : '-' ?></td>
@@ -43,7 +43,7 @@
     <td valign="top"><?=$filter->CAPLEN?></td>
     <td width="45">
       <a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>/<?=$filter->filter_id?>"><img width="12" height="13"  border="0" alt="Edit" title="Edit filter" src='<?=$root?>button_edit.png'/></a>
-      <a href="<?=$index?>/MP/filter_del/<?=$mp->MAMPid?>/<?=$filter->filter_id?>"><img width="12" height="13"  border="0" alt="Drop" title="Drop filter" src='<?=$root?>button_drop.png'/></a>
+      <a href="<?=$index?>/MP/filter_del/<?=$mp->MAMPid?>/<?=$filter->filter_id?>" class="delete"><img width="12" height="13"  border="0" alt="Drop" title="Drop filter" src='<?=$root?>button_drop.png'/></a>
       <a href="<?=$index?>/MP/filter_verify/<?=$mp->MAMPid?>/<?=$filter->filter_id?>"><img width="12" height="13"  border="0" alt="Verify" title="Verify filter" src='<?=$root?>button_properties.png'/></a>
     </td>
   </tr>

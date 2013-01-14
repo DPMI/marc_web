@@ -65,14 +65,20 @@ if ( $handler == '' ){
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="<?=$root?>css/style.css" />
+    <link rel="stylesheet" type="text/css" href="<?=$root?>css/jquery-ui-1.9.2.custom.min.css" />
     <link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
-    <script type="text/javascript" src="<?=$root?>js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="<?=$root?>js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="<?=$root?>js/jquery-ui-1.9.2.custom.min.js"></script>
     <script type="text/javascript" src="<?=$root?>js/jquery.jeditable.mini.js"></script>
     <script type="text/javascript" src="<?=$root?>js/filter.js"></script>
     <title><?=$title?> -- MArC</title>
   </head>
 
   <body>
+
+	  <div id="dialog-confirm" title="" style="display: none;">
+		  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span><span class="text"></span></p>
+	  </div>
 
     <div id="header">
       <map name="link">

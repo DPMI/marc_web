@@ -172,3 +172,30 @@ function filter_init(){
 		e.stopPropagation();
 	});
 }
+
+$(document).ready(function(){
+	var $confirm = $("#dialog-confirm");
+
+	$('a.delete').click(function(){
+		var $a = $(this);
+		var id = $a.parent().parent().find('.id').html();
+		var mampid = $('.mampid').html();
+		$confirm.attr('title', 'Confirm delete');
+		$confirm.find('.text').html('Are you sure you want to delete filter '+id+' from '+mampid+'?');
+		$confirm.dialog({
+			resizable: false,
+			height:140,
+			buttons: {
+				"Delete": function() {
+					$(this).dialog('close');
+					window.location = $a.attr('href')+'?confirm=delete';
+				},
+				"Cancel": function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+
+		return false;
+	});
+});
