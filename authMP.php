@@ -16,33 +16,6 @@ $MAMPid = $mp->generate_mampid();
 $iface = explode(";", $mp->CI_iface);
 $mp->commit();
 
-$tables[] = "CREATE TABLE IF NOT EXISTS `{$MAMPid}_filterlist` (  `filter_id` int(11) PRIMARY KEY,
-  `mode` ENUM('AND', 'OR') NOT NULL DEFAULT 'AND',
-  `ind` bigint(20) NOT NULL default '0',
-  `CI_ID` varchar(8) NOT NULL default '',
-  `VLAN_TCI` int(11) NOT NULL default '0',
-  `VLAN_TCI_MASK` int(11) NOT NULL default '0',
-  `ETH_TYPE` int(11) NOT NULL default '0',
-  `ETH_TYPE_MASK` int(11) NOT NULL default '0',
-  `ETH_SRC` varchar(17) NOT NULL default '',
-  `ETH_SRC_MASK` varchar(17) NOT NULL default '',
-  `ETH_DST` varchar(17) NOT NULL default '',
-  `ETH_DST_MASK` varchar(17) NOT NULL default '',
-  `IP_PROTO` int(11) NOT NULL default '0',
-  `IP_SRC` varchar(16) NOT NULL default '',
-  `IP_SRC_MASK` varchar(16) NOT NULL default '',
-  `IP_DST` varchar(16) NOT NULL default '',
-  `IP_DST_MASK` varchar(16) NOT NULL default '',
-  `SRC_PORT` int(11) NOT NULL default '0',
-  `SRC_PORT_MASK` int(11) NOT NULL default '0',
-  `DST_PORT` int(11) NOT NULL default '0',
-  `DST_PORT_MASK` int(11) NOT NULL default '0',
-  `consumer` int(11) NOT NULL default '0',
-  `DESTADDR` varchar(23) NOT NULL default '',
-  `TYPE` int(11) NOT NULL default '1',
-  `CAPLEN` int(11) NOT NULL default '0'
-) ENGINE=InnoDB";
-
 $tables[] = "CREATE TABLE IF NOT EXISTS `{$MAMPid}_ci` ( `id` INT NOT NULL AUTO_INCREMENT ,
         `ci` INT NOT NULL ,
         `type` TEXT NOT NULL ,

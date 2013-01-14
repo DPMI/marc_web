@@ -85,19 +85,13 @@ function select($name, array $values, array $default=null, $update=null, array $
 /* get all multicast addresses currently in use */
 global $db;
 $address = array();
-$stmt = $db->prepare("SELECT mampid FROM measurementpoints");
-$stmt->bind_result($mampid);
+$stmt = $db->prepare("SELECT `measurementpoints`.`MAMPid`, `filter_id`, `destaddr` FROM `measurementpoints`, `filter`  WHERE `type`=1 AND `measurementpoints`.`id` = `filter`.`mp` ORDER BY `destaddr`");
+if ( !$stmt ) die($db->error);
+$stmt->bind_result($mampid, $filter_id, $addr);
 $stmt->execute();
 $stmt->store_result();
 while ( $stmt->fetch() ){
-	$inner = $db->prepare("SELECT filter_id, DESTADDR FROM {$mampid}_filterlist WHERE TYPE=1 ORDER BY DESTADDR");
-	if ( !$inner ){ die($db->error); };
-	$inner->bind_result($id, $addr);
-	$inner->execute();
-	while ( $inner->fetch() ){
-		$address[] = "{addr: '$addr', 'mampid': '$mampid', id: $id}";
-	}
-	$inner->close();
+	$address[] = "{addr: '$addr', 'mampid': '$mampid', id: $filter_id}";
 }
 $stmt->close();
 
@@ -145,8 +139,8 @@ $stmt->close();
 <?php } ?>
 
 	<p>
-	  INDEX     <input id="ind"       name="ind"       type="text" size="14" value="<?=$filter->ind?>" />
-	  FILTER ID <input id="filter_id" name="filter_id" type="text" size="14" value="<?=$filter->filter_id?>" maxlength="14" />
+	  INDEX     <input id="index"       name="index"     type="text" size="14" value="<?=$filter->index?>" />
+	  FILTER ID <input id="filter_id"   name="filter_id" type="text" size="14" value="<?=$filter->filter_id?>" maxlength="14" />
 	  <input type="radio" id="mode_and" name="mode" value="AND" <?=$filter->mode == 'AND' ? 'checked="checked"' : ''?>/><label for="mode_and">AND</label>
 	  <input type="radio" id="mode_or"  name="mode" value="OR"  <?=$filter->mode == 'OR'  ? 'checked="checked"' : ''?>/><label for="mode_or">OR</label>
 	</p>
@@ -156,19 +150,19 @@ $stmt->close();
 
 	  <tr class="row" data-description="<h2>Capture interface</h2><p><b>Format</b>: [a-zA-Z0-9]{1,8}</p><p>Matches capture interface by searching for string, e.g. &quot;d0&quot; will match both &quot;d00&quot; and &quot;d01&quot;.</p><p>Endace DAG cards use the format 'd' followed by device id and capture direction, e.g. &quot;d00&quot; indicating device dag0 in first direction.</p>">
 		  <td style="width: 50px;">
-			  <input name="ci_cb" id="cb[9]" data-index="9" type="checkbox" <?=$filter->ind&512 ? 'checked="checked"' : '' ?> />512
+			  <input name="ci_cb" id="cb[9]" data-index="9" type="checkbox" <?=$filter->index&512 ? 'checked="checked"' : '' ?> />512
 		  </td>
 		  <td class="label" title="Capture Interface">
 			  CI
 		  </td>
 		  <td colspan="4">
-			  <input id="CL_ID" name="CI_ID" title="Capture Interface" type="text" size="8" maxlength="8" onchange="filter_clear(this);" value="<?=$filter->CI_ID?>" />
+			  <input id="CL" name="CI" title="Capture Interface" type="text" size="8" maxlength="8" onchange="filter_clear(this);" value="<?=$filter->CI?>" />
 		  </td>
 	  </tr>
 
 	  <tr class="row" data-description="<h2>VLAN Tag Control Information</h2><p>Filter packets with the 2-byte VLAN tag.</p><p>If you intend to filter only on VLAN ID select correct mask first. To test for presence of VLAN tag you can use ETH_TYPE instead.</p>">
 		  <td style="width: 50px;">
-			  <input name="vlan_cb" id="cb[8]" data-index="8" type="checkbox" <?=$filter->ind&256 ? 'checked="checked"' : '' ?> />256
+			  <input name="vlan_cb" id="cb[8]" data-index="8" type="checkbox" <?=$filter->index&256 ? 'checked="checked"' : '' ?> />256
 		  </td>
 		  <td class="label" title="VLAN Tag Control Information"  >
 			  VLAN TCI
@@ -188,7 +182,7 @@ $stmt->close();
 
 	  <tr class="row" data-description="<h2>Ethernet encapsulated protocol</h2><p><b>Format</b>: 0x0000 - 0xFFFF</p><p>Filter on selected encapsulated protocol (h_proto)</p><p>List of common protocols:</p><ul><li>IP: 0x0800</li><li>ARP: 0x0806</li><li>VLAN: 0x8100</li></ul>">
 		  <td style="width: 50px;">
-			  <input name="etht_cb" id="cb[7]" data-index="7" type="checkbox" <?=$filter->ind&128 ? 'checked="checked"' : '' ?> />128
+			  <input name="etht_cb" id="cb[7]" data-index="7" type="checkbox" <?=$filter->index&128 ? 'checked="checked"' : '' ?> />128
 		  </td>
 		  <td class="label" title="Ethernet encapsulated protocol">
 			  ETH type
@@ -209,7 +203,7 @@ $stmt->close();
 
 	  <tr class="row" data-description="<h2>Ethernet source address</h2><p><b>Format</b>: XX:XX:XX:XX:XX:XX</p><p>Either - or : may be used as optional delimiter.</p>">
 		  <td style="width: 50px;">
-			  <input name="eths_cb" id="cb[6]" data-index="6" type="checkbox" <?=$filter->ind&64  ? 'checked="checked"' : '' ?> />&nbsp;64
+			  <input name="eths_cb" id="cb[6]" data-index="6" type="checkbox" <?=$filter->index&64  ? 'checked="checked"' : '' ?> />&nbsp;64
 		  </td>
 		  <td class="label" title="Ethernet source address">
 			  ETH SRC
@@ -230,7 +224,7 @@ $stmt->close();
 
 	  <tr class="row" data-description="<h2>Ethernet destination address</h2><p><b>Format</b>: XX:XX:XX:XX:XX:XX</p><p>Either - or : may be used as optional delimiter.</p>">
 		  <td style="width: 50px;">
-			  <input name="ethd_cb" id="cb[5]" data-index="5" type="checkbox" <?=$filter->ind&32  ? 'checked="checked"' : '' ?> />&nbsp;32
+			  <input name="ethd_cb" id="cb[5]" data-index="5" type="checkbox" <?=$filter->index&32  ? 'checked="checked"' : '' ?> />&nbsp;32
 		  </td>
 		  <td class="label" title="Ethernet destination address">
 			  ETH DST
@@ -251,7 +245,7 @@ $stmt->close();
 
 	  <tr class="row" data-description="<h2>IP transport protocol</h2><p><b>Format</b>: 0x00 - 0xFF</p><p><a href=&quot;http://en.wikipedia.org/wiki/List_of_IP_protocol_numbers&quot; target=&quot;_blank&quot;>List of IP protocol numbers</a>.</p>">
 		  <td style="width: 50px;">
-			  <input name="ipp_cb"  id="cb[4]" data-index="4" type="checkbox" <?=$filter->ind&16  ? 'checked="checked"' : '' ?> />&nbsp;16
+			  <input name="ipp_cb"  id="cb[4]" data-index="4" type="checkbox" <?=$filter->index&16  ? 'checked="checked"' : '' ?> />&nbsp;16
 		  </td>
 		  <td class="label" title="IP transport protocol">
 			  IP proto
@@ -264,7 +258,7 @@ $stmt->close();
 
 	  <tr class="row" data-description="<h2>IP source address</h2><p><b>Format</b>: AAA.BBB.CCC.DDD</p>">
 		  <td style="width: 50px;">
-			  <input name="ips_cb"  id="cb[3]" data-index="3" type="checkbox" <?=$filter->ind&8   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;8
+			  <input name="ips_cb"  id="cb[3]" data-index="3" type="checkbox" <?=$filter->index&8   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;8
 		  </td>
 		  <td class="label" title="IP source address">
 			  IP SRC
@@ -285,7 +279,7 @@ $stmt->close();
 
 	  <tr class="row" data-description="<h2>IP destination address</h2><p><b>Format</b>: AAA.BBB.CCC.DDD</p>">
 		  <td style="width: 50px;">
-			  <input name="ipd_cb"  id="cb[2]" data-index="2" type="checkbox" <?=$filter->ind&4   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;4
+			  <input name="ipd_cb"  id="cb[2]" data-index="2" type="checkbox" <?=$filter->index&4   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;4
 		  </td>
 		  <td class="label" title="IP destination address">
 			  IP DST
@@ -306,7 +300,7 @@ $stmt->close();
 
 	  <tr class="row" data-description="<h2>Transport source port</h2><p><b>Format</b>: 0x0000 - 0xffff</p><p>Parsed as decimal by default or hex if using 0x prefix.</p>">
 		  <td style="width: 50px;">
-			  <input name="sprt_cb" id="cb[1]" data-index="1" type="checkbox" <?=$filter->ind&2   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;2
+			  <input name="sprt_cb" id="cb[1]" data-index="1" type="checkbox" <?=$filter->index&2   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;2
 		  </td>
 		  <td class="label" title="Source port">
 			  SRC port
@@ -326,7 +320,7 @@ $stmt->close();
 
 	  <tr class="row" data-description="<h2>Transport destination port</h2><p><b>Format</b>: 0x0000 - 0xffff</p><p>Parsed as decimal by default or hex if using 0x prefix.</p>">
 		  <td style="width: 50px;">
-			  <input name="dprt_cb" id="cb[0]" data-index="0" type="checkbox" <?=$filter->ind&1   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;1
+			  <input name="dprt_cb" id="cb[0]" data-index="0" type="checkbox" <?=$filter->index&1   ? 'checked="checked"' : '' ?> />&nbsp;&nbsp;1
 		  </td>
 		  <td class="label" title="Destination port">
 			  DST port
@@ -353,13 +347,13 @@ $stmt->close();
 			  Destination
 		  </td>
 		  <td>
-			  <input id="DESTADDR" name="DESTADDR" type="text" size="23" maxlength="23" onchange="filter_clear(this);" value="<?=$filter->DESTADDR?>"/>
+			  <input id="destaddr" name="destaddr" type="text" size="23" maxlength="23" onchange="filter_clear(this);" value="<?=$filter->destaddr?>"/>
 		  </td>
 		  <td class="label" title="Destination type">
 			  Address type
 		  </td>
 		  <td colspan="2">
-			  <?=select('TYPE', array('File' => 0, 'Ethernet multicast' => 1, 'UDP' => 2, 'TCP' => 3, 'Discard' => 4), array($filter->TYPE))?>
+			  <?=select('type', array('File' => 0, 'Ethernet multicast' => 1, 'UDP' => 2, 'TCP' => 3, 'Discard' => 4), array($filter->type))?>
 		  </td>
 	  </tr>
 
@@ -371,7 +365,7 @@ $stmt->close();
 			  Caplen
 		  </td>
 		  <td colspan="4">
-			  <input id="CAPLEN" name="CAPLEN" type="text" size="14" maxlength="4" onchange="filter_clear(this);" value="<?=$filter->CAPLEN?>" />
+			  <input id="caplen" name="caplen" type="text" size="14" maxlength="4" onchange="filter_clear(this);" value="<?=$filter->caplen?>" />
 		  </td>
 	  </tr>
 

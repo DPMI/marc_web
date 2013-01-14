@@ -39,7 +39,7 @@ CREATE TABLE `access` (
   `Name` text NOT NULL,
   `Email` text NOT NULL,
   `active` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 INSERT INTO `access` SET
@@ -62,7 +62,7 @@ CREATE TABLE `greeting` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `text` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Welcome messages';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Welcome messages';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +131,7 @@ CREATE TABLE `measurementpoints` (
 
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 PACK_KEYS=0 COMMENT='List of MPs within the MA';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 PACK_KEYS=0 COMMENT='List of MPs within the MA';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,6 +151,36 @@ CREATE TABLE `pages` (
   FULLTEXT KEY `text` (`text`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='List of pages on site';
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+CREATE TABLE IF NOT EXISTS `filter` (
+  `filter_id` INT NOT NULL,
+  `mp` INT NOT NULL,
+  `mode` ENUM('AND', 'OR') NOT NULL DEFAULT 'AND',
+  `index` INT NOT NULL DEFAULT 0,
+  `CI` CHAR(8) NOT NULL DEFAULT '',
+  `VLAN_TCI` INT NOT NULL DEFAULT 0,
+  `VLAN_TCI_MASK` INT NOT NULL DEFAULT 0,
+  `ETH_TYPE` INT NOT NULL DEFAULT 0,
+  `ETH_TYPE_MASK` INT NOT NULL DEFAULT 0,
+  `ETH_SRC` VARCHAR(17) NOT NULL DEFAULT '',
+  `ETH_SRC_MASK` VARCHAR(17) NOT NULL DEFAULT '',
+  `ETH_DST` VARCHAR(17) NOT NULL DEFAULT '',
+  `ETH_DST_MASK` VARCHAR(17) NOT NULL DEFAULT '',
+  `IP_PROTO` INT NOT NULL DEFAULT 0,
+  `IP_SRC` VARCHAR(16) NOT NULL DEFAULT '',
+  `IP_SRC_MASK` VARCHAR(16) NOT NULL DEFAULT '',
+  `IP_DST` VARCHAR(16) NOT NULL DEFAULT '',
+  `IP_DST_MASK` VARCHAR(16) NOT NULL DEFAULT '',
+  `SRC_PORT` INT NOT NULL DEFAULT 0,
+  `SRC_PORT_MASK` INT NOT NULL DEFAULT 0,
+  `DST_PORT` INT NOT NULL DEFAULT 0,
+  `DST_PORT_MASK` INT NOT NULL DEFAULT 0,
+  `destaddr` VARCHAR(23) NOT NULL DEFAULT '',
+  `type` INT NOT NULL DEFAULT 0,
+  `caplen` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY `filter_pk` (`filter_id`, `mp`),
+  CONSTRAINT `filter_mp` FOREIGN KEY (`mp`) REFERENCES `measurementpoints`(`id`)
+) ENGINE=InnoDB;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

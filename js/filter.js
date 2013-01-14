@@ -3,7 +3,7 @@ function update_index() {
 	$('.row input:checked').each(function(){
 		mask += 1 << $(this).data('index');
 	});
-	$('#ind').val(mask);
+	$('#index').val(mask);
 }
 
 function trim(value){

@@ -11,6 +11,7 @@ $index = $root . 'index.php';
 $ajax = $root . 'ajax.php';
 
 $version = "0.7.1";
+$dbversion = 3;
 
 /* store config errors, if count() != 0 the config errorpage is shown */
 $config_error = array();
@@ -114,8 +115,19 @@ if ( $Connect ){
 
 	} else {
 		$config_error[] = array(
-			"message" => "MySQL schema too old, please upgrade using upgrade/v0.7.1.sql,php} (and subsequential files in order) in a shell.",
+			"message" => "MySQL schema too old, please upgrade using upgrade/v0.7.1.php (and subsequential files in order) in a shell.",
 			"error" => "version too old",
+		);
+	}
+
+	$result = mysql_query("SELECT `num` FROM `version` LIMIT 1");
+	$row = mysql_fetch_array($result);
+	if ( $row[0] < $dbversion ){
+		$config_error[] = array(
+			"message" => "MySQL schema too old, please execute all upgrade scripts under upgrade/*.php in a shell.",
+			"error" => "version too old",
+			"current" => $row[0],
+			"required" => $dbversion,
 		);
 	}
 }
