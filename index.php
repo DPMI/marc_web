@@ -64,7 +64,7 @@ if ( $handler == '' ){
 <html lang="en-US" xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="<?=$root?>style2.css" />
+    <link rel="stylesheet" type="text/css" href="<?=$root?>css/style.css" />
     <link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
     <script type="text/javascript" src="<?=$root?>js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="<?=$root?>js/jquery.jeditable.mini.js"></script>
