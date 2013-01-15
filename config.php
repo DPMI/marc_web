@@ -11,7 +11,7 @@ $index = $root . 'index.php';
 $ajax = $root . 'ajax.php';
 
 $version = "0.7.1";
-$dbversion = 3;
+$dbversion = 4;
 
 /* store config errors, if count() != 0 the config errorpage is shown */
 $config_error = array();

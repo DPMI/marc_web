@@ -104,6 +104,22 @@ CREATE TABLE `mainmenu` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+DROP TABLE IF EXISTS `filter_type`;
+DROP TABLE IF EXISTS `mp_status`;
+CREATE TABLE `filter_type` (`id` INT PRIMARY KEY, `name` VARCHAR(32)) ENGINE=InnoDB;
+CREATE TABLE `mp_status` (`id` INT PRIMARY KEY, `name` VARCHAR(32)) ENGINE=InnoDB;
+INSERT INTO `filter_type` (`id`, `name`) VALUES (0, 'file');
+INSERT INTO `filter_type` (`id`, `name`) VALUES (1, 'ethernet');
+INSERT INTO `filter_type` (`id`, `name`) VALUES (2, 'tcp');
+INSERT INTO `filter_type` (`id`, `name`) VALUES (3, 'udp');
+INSERT INTO `mp_status` (`id`, `name`) VALUES (0, 'unauthorized');
+INSERT INTO `mp_status` (`id`, `name`) VALUES (1, 'idle');
+INSERT INTO `mp_status` (`id`, `name`) VALUES (2, 'capturing');
+INSERT INTO `mp_status` (`id`, `name`) VALUES (3, 'stopped');
+INSERT INTO `mp_status` (`id`, `name`) VALUES (4, 'distress');
+INSERT INTO `mp_status` (`id`, `name`) VALUES (5, 'terminated');
+INSERT INTO `mp_status` (`id`, `name`) VALUES (6, 'timeout');
+
 --
 -- Table structure for table `measurementpoints`
 --
@@ -130,7 +146,7 @@ CREATE TABLE `measurementpoints` (
   `CI_iface` text NOT NULL DEFAULT '',    -- semicolon separated list of CI ifaces (for presentation)
 
   PRIMARY KEY (`id`),
-  KEY `id` (`id`)
+  CONSTRAINT `fk_mp_status` FOREIGN KEY (`status`) REFERENCES `mp_status`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 PACK_KEYS=0 COMMENT='List of MPs within the MA';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -178,9 +194,13 @@ CREATE TABLE IF NOT EXISTS `filter` (
   `destaddr` VARCHAR(23) NOT NULL DEFAULT '',
   `type` INT NOT NULL DEFAULT 0,
   `caplen` INT NOT NULL DEFAULT 0,
-  PRIMARY KEY `filter_pk` (`filter_id`, `mp`),
-  CONSTRAINT `filter_mp` FOREIGN KEY (`mp`) REFERENCES `measurementpoints`(`id`)
+  PRIMARY KEY `pk_filter` (`filter_id`, `mp`),
+  CONSTRAINT `fk_filter_mp` FOREIGN KEY (`mp`) REFERENCES `measurementpoints`(`id`),
+  CONSTRAINT `fk_filter_type` FOREIGN KEY (`type`) REFERENCES `filter_type`(`id`)
 ) ENGINE=InnoDB;
+
+CREATE TABLE `version` (`num` INT PRIMARY KEY NOT NULL DEFAULT 1);
+INSERT INTO `version` (`num`) VALUES (4);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

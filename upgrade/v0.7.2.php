@@ -48,6 +48,24 @@ function single_filter_table(){
 	}
 }
 
+function enum_tables(){
+	mysql_query("CREATE TABLE IF NOT EXISTS `filter_type` (`id` INT PRIMARY KEY, `name` VARCHAR(32)) ENGINE=InnoDB") or die(mysql_error());
+	mysql_query("CREATE TABLE IF NOT EXISTS `mp_status` (`id` INT PRIMARY KEY, `name` VARCHAR(32)) ENGINE=InnoDB") or die(mysql_error());
+	mysql_query("INSERT INTO `filter_type` (`id`, `name`) VALUES (0, 'file')") or die(mysql_error());
+	mysql_query("INSERT INTO `filter_type` (`id`, `name`) VALUES (1, 'ethernet')") or die(mysql_error());
+	mysql_query("INSERT INTO `filter_type` (`id`, `name`) VALUES (2, 'tcp')") or die(mysql_error());
+	mysql_query("INSERT INTO `filter_type` (`id`, `name`) VALUES (3, 'udp')") or die(mysql_error());
+	mysql_query("INSERT INTO `mp_status` (`id`, `name`) VALUES (0, 'unauthorized')") or die(mysql_error());
+	mysql_query("INSERT INTO `mp_status` (`id`, `name`) VALUES (1, 'idle')") or die(mysql_error());
+	mysql_query("INSERT INTO `mp_status` (`id`, `name`) VALUES (2, 'capturing')") or die(mysql_error());
+	mysql_query("INSERT INTO `mp_status` (`id`, `name`) VALUES (3, 'stopped')") or die(mysql_error());
+	mysql_query("INSERT INTO `mp_status` (`id`, `name`) VALUES (4, 'distress')") or die(mysql_error());
+	mysql_query("INSERT INTO `mp_status` (`id`, `name`) VALUES (5, 'terminated')") or die(mysql_error());
+	mysql_query("INSERT INTO `mp_status` (`id`, `name`) VALUES (6, 'timeout')") or die(mysql_error());
+	mysql_query("ALTER TABLE `filter` ADD CONSTRAINT `fk_filter_type` FOREIGN KEY (`type`) REFERENCES `filter_type`(`id`)") or die(mysql_error());
+	mysql_query("ALTER TABLE `measurementpoints` ADD CONSTRAINT `fk_mp_status` FOREIGN KEY (`status`) REFERENCES `mp_status`(`id`)") or die(mysql_error());
+}
+
 $result = mysql_query("SELECT `num` FROM `version`") or die(mysql_error());
 $row = mysql_fetch_array($result) or die("run v0.7.1.php first");
 $version = $row[0];
@@ -58,6 +76,9 @@ case 1:
 
 case 2:
 	single_filter_table();
+
+case 3:
+	enum_tables();
 };
 
-mysql_query("UPDATE `version` SET `num` = 3");
+mysql_query("UPDATE `version` SET `num` = 4");
