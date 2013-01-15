@@ -141,6 +141,17 @@ class MP extends BasicObject {
     $db->query("DROP TABLE IF EXISTS {$this->MAMPid}_ci") or die($db->error);
     parent::delete();
   }
+
+  public function commit($timestamp=true){
+	  $old = $this->time;
+	  parent::commit();
+
+	  /* fulhack because there is no sane way to have BO preserve a timestamp with ON UPDATE */
+	  if ( !$timestamp ){
+		  $this->time = $old;
+		  parent::commit();
+	  }
+  }
 }
 
 ?>
