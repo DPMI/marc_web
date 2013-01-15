@@ -14,7 +14,7 @@
     <th width="300">Consumer Information</th>
   </tr>
 <?php $toggle = 0; ?>
-<?php foreach ( $mp->filters() as $filter ){ ?>
+<?php foreach ( $mp->all_filters() as $filter ){ ?>
   <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
 <?php if ( $u_access >= 1 ) { ?>
     <td><a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>/<?=$filter->filter_id?>"><?=$filter->filter_id?></a></td>

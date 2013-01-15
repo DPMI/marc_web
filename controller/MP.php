@@ -39,11 +39,7 @@ class MPController extends Controller {
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ){
 			$old_time = $mp->time;
 			$mp->comment = htmlentities($_POST['value']);
-			$mp->commit();
-
-			/* workaround for basicobject which tests for updated fields by comparing old value */
-			$mp->time = $old_time;
-			$mp->commit();
+			$mp->commit(false);
 		}
 
 		return $mp->comment;
@@ -62,7 +58,7 @@ class MPController extends Controller {
 			return template('filter/list.php', $data);
 		} else {
 			$data['mp'] = $mp;
-			$data['filter'] = $mp->filter($filter_id);
+			$data['filter'] = $mp->filter_by_id($filter_id);
 			$data['filter_exist'] = true;
 			$data['errors'] = array();
 			return template('filter/view.php', $data);
@@ -93,7 +89,7 @@ class MPController extends Controller {
 			return template('mp/invalid.php', array());
 		}
 
-		$filter = $mp->filter($filter_id);
+		$filter = $mp->filter_by_id($filter_id);
 		if ( !$filter ){
 			return "Invalid filter";
 		}
@@ -124,42 +120,43 @@ class MPController extends Controller {
 			throw new HTTPRedirect("$index/MP/view/{$mp->MAMPid}");
 		}
 
-		$FILTER_ID=$_POST["filter_id"];
-		$OLD_FILTER_ID=$_POST["old_filter_id"];
-
 		$fields = $_POST;
 		unset($fields['old_filter_id']);
 		unset($fields['mp']);
 		unset($fields['action']);
 
 		/* special case for discard with isn't a real type */
-		if ( $fields['TYPE'] == '4' ){
-			$fields['TYPE'] = 0;
-			$fields['DESTADDR'] = '/dev/null';
+		if ( $fields['type'] == '4' ){
+			$fields['type'] = 0;
+			$fields['destaddr'] = '/dev/null';
 		}
+
+		$filter_id=$_POST["filter_id"];
+		$old_filter_id=$_POST["old_filter_id"];
+		$filter = $old_filter_id >= 0 ? Filter::from_filter_id($mp, $old_filter_id) : new Filter();
+		$filter->mp = $mp->id;
 
 		foreach ($fields as $key => $value){
 			if ( strcmp(substr($key, -10), '_selection') == 0 || strcmp(substr($key, -3), '_cb') == 0 ){
 				unset($fields[$key]);
+				continue;
 			}
+			$filter->$key = $value;
 		}
 
-		$filter = new Filter($mp, $fields);
-
 		/* validate filter_id if it changes */
-		if ( $FILTER_ID != $OLD_FILTER_ID ){
-			if ( !$filter->validate_id($FILTER_ID) ){
+		if ( $filter_id != $old_filter_id ){
+			if ( !$filter->validate_id($mp, $filter_id) ){
 				$data['mp'] = $mp;
 				$data['filter'] = $filter;
-				$data['filter_exist'] = $OLD_FILTER_ID > 0;
+				$data['filter_exist'] = $old_filter_id > 0;
 				$data['errors'][] = 'Filter ID is already used.';
 				return template('filter/view.php', $data);
 			}
 		}
 
-		$filter->commit($OLD_FILTER_ID > 0 ? $OLD_FILTER_ID : null);
-
-		$mp->reload_filter($FILTER_ID);
+		$filter->commit();
+		$mp->reload_filter($filter->filter_id);
 		throw new HTTPRedirect("$index/MP/filter/{$mp->MAMPid}");
 	}
 };

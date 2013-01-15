@@ -26,21 +26,21 @@
   </tr>
 
   <?php $toggle = 0; ?>
-  <?php foreach ( $mp->filters() as $filter ){ ?>
+  <?php foreach ( $mp->all_filters() as $filter ){ ?>
   <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
     <td valign="top"><a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>/<?=$filter->filter_id?>" class="id"><?=$filter->filter_id?></a></td>
-    <td valign="top"><?=$filter->ind & 512 ? $filter->CI_ID : '-' ?></td>
-    <td valign="top"><?=$filter->ind & 256 ? "$filter->VLAN_TCI<br/>/$filter->VLAN_TCI_MASK" : '-' ?></td>
-    <td valign="top"><?=$filter->ind & 128 ? "$filter->ETH_TYPE<br/>/$filter->ETH_TYPE_MASK" : '-' ?></td>
-    <td valign="top"><?=$filter->ind &  64 ? "$filter->ETH_SRC<br/>/$filter->ETH_SRC_MASK"   : '-' ?></td>
-    <td valign="top"><?=$filter->ind &  32 ? "$filter->ETH_DST<br/>/$filter->ETH_DST_MASK"   : '-' ?></td>
-    <td valign="top"><?=$filter->ind &  16 ? $filter->IP_PROTO : '-' ?></td>
-    <td valign="top"><?=$filter->ind &   8 ? "$filter->IP_SRC<br/>/$filter->IP_SRC_MASK"     : '-' ?></td>
-    <td valign="top"><?=$filter->ind &   4 ? "$filter->IP_DST<br/>/$filter->IP_DST_MASK"	   : '-' ?></td>
-    <td valign="top"><?=$filter->ind &   2 ? "$filter->SRC_PORT<br/>/$filter->SRC_PORT_MASK" : '-' ?></td>
-    <td valign="top"><?=$filter->ind &   1 ? "$filter->DST_PORT<br/>/$filter->DST_PORT_MASK" : '-' ?></td>
-    <td valign="top"><?=$filter->DESTADDR?>/<?=$filter->TYPE?></td>
-    <td valign="top"><?=$filter->CAPLEN?></td>
+    <td valign="top"><?=$filter->index & 512 ? $filter->CI : '-' ?></td>
+    <td valign="top"><?=$filter->index & 256 ? "$filter->VLAN_TCI<br/>/$filter->VLAN_TCI_MASK" : '-' ?></td>
+    <td valign="top"><?=$filter->index & 128 ? "$filter->ETH_TYPE<br/>/$filter->ETH_TYPE_MASK" : '-' ?></td>
+    <td valign="top"><?=$filter->index &  64 ? "$filter->ETH_SRC<br/>/$filter->ETH_SRC_MASK"   : '-' ?></td>
+    <td valign="top"><?=$filter->index &  32 ? "$filter->ETH_DST<br/>/$filter->ETH_DST_MASK"   : '-' ?></td>
+    <td valign="top"><?=$filter->index &  16 ? $filter->IP_PROTO : '-' ?></td>
+    <td valign="top"><?=$filter->index &   8 ? "$filter->IP_SRC<br/>/$filter->IP_SRC_MASK"     : '-' ?></td>
+    <td valign="top"><?=$filter->index &   4 ? "$filter->IP_DST<br/>/$filter->IP_DST_MASK"	   : '-' ?></td>
+    <td valign="top"><?=$filter->index &   2 ? "$filter->SRC_PORT<br/>/$filter->SRC_PORT_MASK" : '-' ?></td>
+    <td valign="top"><?=$filter->index &   1 ? "$filter->DST_PORT<br/>/$filter->DST_PORT_MASK" : '-' ?></td>
+    <td valign="top"><?=$filter->destaddr?>/<?=$filter->type?></td>
+    <td valign="top"><?=$filter->caplen?></td>
     <td width="45">
       <a href="<?=$index?>/MP/filter/<?=$mp->MAMPid?>/<?=$filter->filter_id?>"><img width="12" height="13"  border="0" alt="Edit" title="Edit filter" src='<?=$root?>button_edit.png'/></a>
       <a href="<?=$index?>/MP/filter_del/<?=$mp->MAMPid?>/<?=$filter->filter_id?>" class="delete"><img width="12" height="13"  border="0" alt="Drop" title="Drop filter" src='<?=$root?>button_drop.png'/></a>

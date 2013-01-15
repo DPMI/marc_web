@@ -7,6 +7,13 @@ require_once('MPStatus.php');
 define('DRIVER_RAW', 1);
 define('DRIVER_PCAP', 2);
 define('DRIVER_DAG', 4);
+define('MP_STATUS_NOT_AUTH', 0);        /* MP not yet authorized by MArCd */
+define('MP_STATUS_IDLE', 1);            /* Authorized, running but have no filter */
+define('MP_STATUS_CAPTURE', 2);         /* Authorized, running and have filters */
+define('MP_STATUS_STOPPED', 3);         /* Authorized but isn't running */
+define('MP_STATUS_DISTRESS', 4);        /* MP crashed (e.g. SIGSEGV) */
+define('MP_STATUS_TERMINATED', 5);      /* MP was terminated by remote */
+define('MP_STATUS_TIMEOUT', 6);         /* MP has not been heard from for a long period of time */
 
 class MP extends BasicObject {
   static protected function table_name(){
@@ -17,34 +24,25 @@ class MP extends BasicObject {
     return static::from_field('MAMPid', $mampid);
   }
 
-  public function filter_table(){
-    return "{$this->MAMPid}_filterlist";
-  }
-
   public function status(){
 	  global $db, $mp_timeout;
     if ( !$this->is_authorized() ){
       return "Not authorized";
     }
 
-    if ( time()-strtotime($this->time) > $mp_timeout ){
-	    return "Timeout";
+    if ( $this->status != MP_STATUS_TIMEOUT && time()-strtotime($this->time) > $mp_timeout ){
+	    $this->status = MP_STATUS_TIMEOUT;
+	    $this->commit(false);
     }
 
-    if ( $this->status == 4 ){
-      return "Distress";
-    } else if ( $this->status == 5 ){
-      return "Stopped";
+    switch ( $this->status ){
+    case MP_STATUS_STOPPED:  return "Stopped";
+    case MP_STATUS_DISTRESS: return "Distress";
+    case MP_STATUS_TIMEOUT:  return "Timeout";
     }
 
-    $result = $db->query("SELECT COUNT(*) FROM {$this->MAMPid}_filterlist");
-    if ( !$result ){
-      return "Invalid";
-    }
-
-    $row = $result->fetch_row();
-
-    if ( $row[0] > 0 ){
+    $num_filters = $this->filter_count();
+    if ( $num_filters > 0 ){
       return "Capturing";
     } else {
       return "Idle";
@@ -85,40 +83,16 @@ class MP extends BasicObject {
 	    return 0;
     }
 
-    $result = $db->query("SELECT COUNT(*) FROM {$this->MAMPid}_filterlist");
-    if ( $result == null ){
-      return false; /* what is a good value to indicate this failure? */
-    }
-    $row = $result->fetch_row();
-    return $row[0];
+    return Filter::count(array('mp' => $this->id));
   }
 
-  public function filters(){
-    global $db;
-
-    $result = $db->query("SELECT * FROM {$this->MAMPid}_filterlist ORDER BY filter_id ASC");
-    if ( $result == null ){
-      return array();
-    }
-
-    $filters = array();
-    while ( $row = $result->fetch_assoc() ){
-      $filters[] = new Filter($this, $row);
-    }
-
-    return $filters;
+  public function all_filters(){
+	  return Filter::selection(array('mp' => $this->id));
   }
 
-  public function filter($id){
-    global $db;
-
-    $sql = "SELECT * FROM {$this->MAMPid}_filterlist WHERE filter_id = '" . mysql_real_escape_string($id) . "' LIMIT 1";
-    $result = $db->query($sql);
-    $row = $result->fetch_assoc();
-    if ( !$row ){
-      return null;
-    }
-    return new Filter($this, $row);
+  public function filter_by_id($id){
+	  $all = Filter::selection(array('mp' => $this->id, 'filter_id' => $id, '@limit' => 1));
+	  return $all[0];
   }
 
   public function stats($limit=null){
@@ -170,16 +144,21 @@ class MP extends BasicObject {
   }
 
   public function delete(){
-    global $db, $rrdbase;
-    @unlink("$rrdbase/{$this->MAMPid}.rrd");
-    for($i=0; $i<$this->noCI; $i++){
-      @unlink("$rrdbase/{$this->MAMPid}_CI{$i}.rrd");
-    }
-    $db->query("DROP TABLE IF EXISTS {$this->MAMPid}_filterlist") or die($db->error);
-    $db->query("DROP TABLE IF EXISTS {$this->MAMPid}_filterlistverify") or die($db->error);
+    global $db;
     $db->query("DROP TABLE IF EXISTS {$this->MAMPid}_CIload") or die($db->error);
     $db->query("DROP TABLE IF EXISTS {$this->MAMPid}_ci") or die($db->error);
     parent::delete();
+  }
+
+  public function commit($timestamp=true){
+	  $old = $this->time;
+	  parent::commit();
+
+	  /* fulhack because there is no sane way to have BO preserve a timestamp with ON UPDATE */
+	  if ( !$timestamp ){
+		  $this->time = $old;
+		  parent::commit();
+	  }
   }
 }
 
