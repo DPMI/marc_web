@@ -7,6 +7,13 @@ require_once('MPStatus.php');
 define('DRIVER_RAW', 1);
 define('DRIVER_PCAP', 2);
 define('DRIVER_DAG', 4);
+define('MP_STATUS_NOT_AUTH', 0);        /* MP not yet authorized by MArCd */
+define('MP_STATUS_IDLE', 1);            /* Authorized, running but have no filter */
+define('MP_STATUS_CAPTURE', 2);         /* Authorized, running and have filters */
+define('MP_STATUS_STOPPED', 3);         /* Authorized but isn't running */
+define('MP_STATUS_DISTRESS', 4);        /* MP crashed (e.g. SIGSEGV) */
+define('MP_STATUS_TERMINATED', 5);      /* MP was terminated by remote */
+define('MP_STATUS_TIMEOUT', 6);         /* MP has not been heard from for a long period of time */
 
 class MP extends BasicObject {
   static protected function table_name(){
@@ -23,14 +30,15 @@ class MP extends BasicObject {
       return "Not authorized";
     }
 
-    if ( time()-strtotime($this->time) > $mp_timeout ){
-	    return "Timeout";
+    if ( $this->status != MP_STATUS_TIMEOUT && time()-strtotime($this->time) > $mp_timeout ){
+	    $this->status = MP_STATUS_TIMEOUT;
+	    $this->commit(false);
     }
 
-    if ( $this->status == 4 ){
-      return "Distress";
-    } else if ( $this->status == 5 ){
-      return "Stopped";
+    switch ( $this->status ){
+    case MP_STATUS_STOPPED:  return "Stopped";
+    case MP_STATUS_DISTRESS: return "Distress";
+    case MP_STATUS_TIMEOUT:  return "Timeout";
     }
 
     $num_filters = $this->filter_count();
