@@ -10,6 +10,18 @@ if ( file_exists('config.local.php') ){
 $index = $root . 'index.php';
 $ajax = $root . 'ajax.php';
 
+function expand_path($value){
+	global $prefix, $sysconfdir, $localstatedir;
+	return str_replace(array('{PREFIX}', '{SYSCONFDIR}', '{LOCALSTATEDIR}'),
+	                   array($prefix, $sysconfdir, $localstatedir),
+	                   $value);
+}
+
+/* expand paths */
+$sysconfdir = expand_path($sysconfdir);
+$localstatedir = expand_path($localstatedir);
+$rrdbase = expand_path($rrdbase);
+
 $version = "0.7.1";
 $dbversion = 4;
 
@@ -30,11 +42,11 @@ $groupname = $usergroup;
 $usergroup = posix_getgrnam($groupname);
 $groupinfo = posix_getpwuid(posix_geteuid());
 
-/* Ensure $rrdbase is writable and owned by the correct group */
+/* Ensure $rrdbase is readable (needed by graphs) */
 if ( !is_writable($rrdbase) ){
-  $config_error[] = array(
-	"message" => "Need write permissions to RRDtool storage.",
-	"path" => $rrdbase
+	$config_error[] = array(
+		"message" => "Need write permissions to RRDtool storage.",
+		"path" => $rrdbase
   );
 }
 
