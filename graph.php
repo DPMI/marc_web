@@ -105,7 +105,8 @@ if ( $regen ){
 		                      "VDEF:BU_avg=BU,AVERAGE",
 		                      "VDEF:BU_95=BU,95,PERCENTNAN",
 
-		                      "CDEF:bu0=BU,10,LE,BU,10,IF",
+		                      "CDEF:bue=BU,00,LE,BU,00,IF",
+		                      "CDEF:bu0=BU,00,GT,BU,10,GT,10,BU,00,-,IF,UNKN,IF",
 		                      "CDEF:bu1=BU,10,GT,BU,20,GT,10,BU,10,-,IF,UNKN,IF",
 		                      "CDEF:bu2=BU,20,GT,BU,30,GT,10,BU,20,-,IF,UNKN,IF",
 		                      "CDEF:bu3=BU,30,GT,BU,40,GT,10,BU,30,-,IF,UNKN,IF",
