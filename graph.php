@@ -82,10 +82,13 @@ if ( $regen ){
 		                      "--vertical-label", "pkt/sec",
 		                      "DEF:total=$filebase.rrd:total:AVERAGE", "VDEF:total_last=total,TOTAL",
 		                      "DEF:matched=$filebase.rrd:matched:AVERAGE", "VDEF:matched_last=matched,TOTAL",
-		                      "LINE1:total#ff0000:Received\:",
-		                      "GPRINT:total_last:%12.0lf pkts\l",
-		                      "AREA:matched#00ff00:Matched\: ",
-		                      "GPRINT:matched_last:%12.0lf pkts\l"));
+		                      "DEF:dropped=$filebase.rrd:dropped:AVERAGE", "VDEF:dropped_last=dropped,TOTAL",
+		                      "CDEF:discarded=total,matched,-,dropped,-", "VDEF:discarded_last=discarded,TOTAL",
+		                      "AREA:dropped#ff0000:Dropped\:   :",        "GPRINT:dropped_last:%12.0lf pkts\l",
+		                      "AREA:discarded#ffff00:Discarded\: :STACK", "GPRINT:discarded_last:%12.0lf pkts\l",
+		                      "AREA:matched#00ff00:Matched\:   :STACK",   "GPRINT:matched_last:%12.0lf pkts\l",
+		                      "LINE1:total#000000:Total\:     :",         "GPRINT:total_last:%12.0lf pkts\l",));
+
   } else if ( $what == 'bu' ){
 	  $argv = array_merge($argv, array(
 		                      "--vertical-label", "Utilization (%)",
@@ -95,7 +98,7 @@ if ( $regen ){
 		                      "VDEF:BU_min=BU,MINIMUM",
 		                      "VDEF:BU_max=BU,MAXIMUM",
 		                      "VDEF:BU_avg=BU,AVERAGE",
-		                      "VDEF:BU_95=BU,95,PERCENT",
+		                      "VDEF:BU_95=BU,95,PERCENTNAN",
 
 		                      "CDEF:bu0=BU,10,LE,BU,10,IF",
 		                      "CDEF:bu1=BU,10,GT,BU,20,GT,10,BU,10,-,IF,UNKN,IF",
