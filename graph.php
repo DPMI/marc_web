@@ -30,7 +30,9 @@ function clamp($value, $min, $max){
 $mampid = get_param('mampid');
 $what = get_param('what');
 $ci = get_param('CI', false);
-$span = get_param('span', '24h');
+$span = get_param('span', false);
+$start = get_param('start', false);
+$end = get_param('end', "now");
 $width = clamp(get_param('width', -1), -1, 2000);
 $height = clamp(get_param('height', -1), -1, 2000);
 $cache = get_param('cache', 1) == 1;
@@ -47,6 +49,14 @@ if ( $width == -1 && $height == -1 ){
 	$height = (int)($width / $aspect);
 }
 
+/* calculate start and end */
+if ( $span !== false ){
+	$start = "end-$span";
+	$end = "now";
+} else if ( $start === false ){
+	error($width, $height, array("Paramter error", "Either span or start must be given"));
+}
+
 if ( !$mp ){
 	error($width, $height, array("Parameter error", "Missing or invalid MAMPid"));
 }
@@ -55,15 +65,15 @@ if ( !in_array($what, array('packets', 'bu') ) ){
 	error($width, $height, array("Parameter error", "Missing or invalid graph type"));
 }
 
-
-
 $filebase = "$mampid";
-$title = "$mp->name ($span)";
-$iface = explode(';', $mp->CI_iface);
+$timespan = $span ? $span : "$start to $end";
+$title = "$mp->name ($timespan)";
+
 if ( $ci !== false ){
+	$iface = explode(';', $mp->CI_iface);
 	$x = $iface[$ci];
   $filebase = "{$mampid}_$x";
-  $title = "{$mp->name} $x ($span)";
+  $title = "{$mp->name} $x ($timespan)";
 }
 
 $regen = true;
@@ -80,7 +90,7 @@ if ( $regen ){
     "-a", "PNG",
     "--full-size-mode", "--width", $width, "--height", $height,
     "--title", $title,
-    "--start", "end-$span",
+    "--start", $start, "--end", $end,
 	  );
   if ( $what == 'packets' ){
 	  $argv = array_merge($argv, array(
