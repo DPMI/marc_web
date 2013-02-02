@@ -88,25 +88,24 @@ if ( $regen ){
     "rrdtool", "graph",
     $filename,
     "-a", "PNG",
-    "--full-size-mode", "--width", $width, "--height", $height,
-    "--title", $title,
-    "--start", $start, "--end", $end,
+    "--full-size-mode", "--width", escapeshellarg($width), "--height", escapeshellarg($height),
+    "--title", escapeshellarg($title),
+    "--start", escapeshellarg($start), "--end", escapeshellarg($end),
 	  );
   if ( $what == 'packets' ){
 	  $argv = array_merge($argv, array(
 		                      "--vertical-label", "pkt/sec",
-		                      "DEF:total=$rrdbase/$filebase.rrd:total:AVERAGE", "VDEF:total_last=total,TOTAL",
-		                      "DEF:matched=$rrdbase/$filebase.rrd:matched:AVERAGE", "VDEF:matched_last=matched,TOTAL",
-		                      "DEF:dropped=$rrdbase/$filebase.rrd:dropped:AVERAGE", "VDEF:dropped_last=dropped,TOTAL",
-		                      "CDEF:discarded=total,matched,-,dropped,-", "VDEF:discarded_last=discarded,TOTAL",
-		                      "AREA:dropped#ff0000:Dropped\:   :",        "GPRINT:dropped_last:%12.0lf pkts\l",
-		                      "AREA:discarded#ffff00:Discarded\: :STACK", "GPRINT:discarded_last:%12.0lf pkts\l",
-		                      "AREA:matched#00ff00:Matched\:   :STACK",   "GPRINT:matched_last:%12.0lf pkts\l",
-		                      "LINE1:total#000000:Total\:     :",         "GPRINT:total_last:%12.0lf pkts\l",));
-
+		                      "'DEF:total=$rrdbase/$filebase.rrd:total:AVERAGE'",     "'VDEF:total_last=total,TOTAL'",
+		                      "'DEF:matched=$rrdbase/$filebase.rrd:matched:AVERAGE'", "'VDEF:matched_last=matched,TOTAL'",
+		                      "'DEF:dropped=$rrdbase/$filebase.rrd:dropped:AVERAGE'", "'VDEF:dropped_last=dropped,TOTAL'",
+		                      "'CDEF:discarded=total,matched,-,dropped,-'", "'VDEF:discarded_last=discarded,TOTAL'",
+		                      "'AREA:dropped#ff0000:Dropped\:   :'",        "'GPRINT:dropped_last:%12.0lf pkts\l'",
+		                      "'AREA:discarded#ffff00:Discarded\: :STACK'", "'GPRINT:discarded_last:%12.0lf pkts\l'",
+		                      "'AREA:matched#00ff00:Matched\:   :STACK'",   "'GPRINT:matched_last:%12.0lf pkts\l'",
+		                      "'LINE1:total#000000:Total\:     :'",         "'GPRINT:total_last:%12.0lf pkts\l'",));
   } else if ( $what == 'bu' ){
 	  $argv = array_merge($argv, array(
-		                      "--vertical-label", "Utilization (%)",
+		                      "--vertical-label", "'Utilization (%)'",
 		                      "-l", "0", "-u", "100",
 		                      "DEF:BU=$rrdbase/$filebase.rrd:BU:MAX",
 		                      "VDEF:BU_last=BU,LAST",
@@ -139,15 +138,15 @@ if ( $regen ){
 		                      "AREA:bu9#ff0000::STACK",
 		                      "LINE2:BU_95#00000055:",
 
-		                      "COMMENT:Buffer utilization ", "GPRINT:BU_last:%3.1lf%%\l",
-		                      "COMMENT:95th percentile    ", "GPRINT:BU_95:%3.1lf%%\l",
-		                      "COMMENT:Min", "GPRINT:BU_min:%3.1lf%%",
-		                      "COMMENT:Max", "GPRINT:BU_max:%3.1lf%%",
-		                      "COMMENT:Avg", "GPRINT:BU_avg:%3.1lf%%\l"
+		                      "'COMMENT:Buffer utilization '", "'GPRINT:BU_last:%3.1lf%%\l'",
+		                      "'COMMENT:95th percentile    '", "'GPRINT:BU_95:%3.1lf%%\l'",
+		                      "'COMMENT:Min'", "'GPRINT:BU_min:%3.1lf%%'",
+		                      "'COMMENT:Max'", "'GPRINT:BU_max:%3.1lf%%'",
+		                      "'COMMENT:Avg'", "'GPRINT:BU_avg:%3.1lf%%\l'"
 		                      ));
   }
 
-  $cmd = "'" . implode("' '", $argv) . "'";
+  $cmd = implode(' ', $argv);
   exec("$cmd 2>&1", $output, $rc);
   if ( $rc != 0 ){
 	  error($width, $height, array_merge(
