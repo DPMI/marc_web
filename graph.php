@@ -19,10 +19,37 @@ function error($width, $height, $data){
 	exit;
 }
 
-$mampid = $_GET['mampid'];
-$ci = isset($_GET['CI']) ? $_GET['CI'] : false;
-$span = isset($_GET['span']) ? $_GET['span'] : '24h';
+function get_param($key, $default=null){
+	return isset($_GET[$key]) ? $_GET[$key] : $default;
+}
+
+$mampid = get_param('mampid');
+$what = get_param('what');
+$ci = get_param('CI', false);
+$span = get_param('span', '24h');
+$width = isset($_GET['width']) ? $_GET['width'] : -1;
+$height = isset($_GET['height']) ? $_GET['height'] : -1;
 $mp = MP::from_mampid($mampid);
+
+$aspect = 1.7;
+if ( $width == -1 && $height == -1 ){
+	$width = 330;
+	$height = (int)($width / $aspect);
+} else if ( $width == -1 && $height != -1 ){
+	$width = (int)($height * $aspect);
+} else if ( $width != -1 && $height == -1 ){
+	$height = (int)($width / $aspect);
+}
+
+if ( !$mp ){
+	error($width, $height, array("Parameter error", "Missing or invalid MAMPid"));
+}
+
+if ( !in_array($what, array('packets', 'bu') ) ){
+	error($width, $height, array("Parameter error", "Missing or invalid graph type"));
+}
+
+
 /**@todo handle all error conditions */
 
 chdir($rrdbase);
@@ -36,7 +63,7 @@ if ( $ci !== false ){
   $title = "{$mp->name} $x ($span)";
 }
 
-$filename = "{$filebase}_{$span}.png";
+$filename = "{$filebase}_{$what}_{$span}_{$width}x{$height}.png";
 $regen = true;
 $stat = @stat($filename);
 $regen = $stat == false || (time() - $stat['mtime'] > 5*60);
@@ -46,27 +73,75 @@ if ( $regen ){
     "rrdtool", "graph",
     "$filename",
     "-a", "PNG",
+    "--full-size-mode", "--width", $width, "--height", $height,
     "--title", $title,
-    "--vertical-label", "pkt/sec",
     "--start", "end-$span",
-    "DEF:total=$filebase.rrd:total:AVERAGE", "VDEF:total_last=total,TOTAL",
-    "DEF:matched=$filebase.rrd:matched:AVERAGE", "VDEF:matched_last=matched,TOTAL",
-    "LINE1:total#ff0000:Received:",
-    "GPRINT:total_last:%.0lf pkts",
-    "AREA:matched#00ff00:Matched",
-    "GPRINT:matched_last:%.0lf pkts"
-  );
+	  );
+  if ( $what == 'packets' ){
+	  $argv = array_merge($argv, array(
+		                      "--vertical-label", "pkt/sec",
+		                      "DEF:total=$filebase.rrd:total:AVERAGE", "VDEF:total_last=total,TOTAL",
+		                      "DEF:matched=$filebase.rrd:matched:AVERAGE", "VDEF:matched_last=matched,TOTAL",
+		                      "LINE1:total#ff0000:Received\:",
+		                      "GPRINT:total_last:%12.0lf pkts\l",
+		                      "AREA:matched#00ff00:Matched\: ",
+		                      "GPRINT:matched_last:%12.0lf pkts\l"));
+  } else if ( $what == 'bu' ){
+	  $argv = array_merge($argv, array(
+		                      "--vertical-label", "Utilization (%)",
+		                      "-l", "0", "-u", "100",
+		                      "DEF:BU=$filebase.rrd:BU:MAX",
+		                      "VDEF:BU_last=BU,LAST",
+		                      "VDEF:BU_min=BU,MINIMUM",
+		                      "VDEF:BU_max=BU,MAXIMUM",
+		                      "VDEF:BU_avg=BU,AVERAGE",
+		                      "VDEF:BU_95=BU,95,PERCENT",
+
+		                      "CDEF:bu0=BU,10,LE,BU,10,IF",
+		                      "CDEF:bu1=BU,10,GT,BU,20,GT,10,BU,10,-,IF,UNKN,IF",
+		                      "CDEF:bu2=BU,20,GT,BU,30,GT,10,BU,20,-,IF,UNKN,IF",
+		                      "CDEF:bu3=BU,30,GT,BU,40,GT,10,BU,30,-,IF,UNKN,IF",
+		                      "CDEF:bu4=BU,40,GT,BU,50,GT,10,BU,40,-,IF,UNKN,IF",
+		                      "CDEF:bu5=BU,50,GT,BU,60,GT,10,BU,50,-,IF,UNKN,IF",
+		                      "CDEF:bu6=BU,60,GT,BU,70,GT,10,BU,60,-,IF,UNKN,IF",
+		                      "CDEF:bu7=BU,70,GT,BU,80,GT,10,BU,70,-,IF,UNKN,IF",
+		                      "CDEF:bu8=BU,80,GT,BU,90,GT,10,BU,80,-,IF,UNKN,IF",
+		                      "CDEF:bu9=BU,90,GT,BU,90,-,UNKN,IF",
+
+		                      "AREA:bu0#00ff00::STACK",
+		                      "AREA:bu1#19e100::STACK",
+		                      "AREA:bu2#32af00::STACK",
+		                      "AREA:bu3#4b9600::STACK",
+		                      "AREA:bu4#647d00::STACK",
+		                      "AREA:bu5#7d6400::STACK",
+		                      "AREA:bu6#964b00::STACK",
+		                      "AREA:bu7#af3200::STACK",
+		                      "AREA:bu8#e11900::STACK",
+		                      "AREA:bu9#ff0000::STACK",
+		                      "LINE2:BU_95#00000055:",
+
+		                      "COMMENT:Buffer utilization ", "GPRINT:BU_last:%3.1lf%%\l",
+		                      "COMMENT:95th percentile    ", "GPRINT:BU_95:%3.1lf%%\l",
+		                      "COMMENT:Min", "GPRINT:BU_min:%3.1lf%%",
+		                      "COMMENT:Max", "GPRINT:BU_max:%3.1lf%%",
+		                      "COMMENT:Avg", "GPRINT:BU_avg:%3.1lf%%\l"
+		                      ));
+  }
+
   $cmd = "'" . implode("' '", $argv) . "'";
   exec("$cmd 2>&1", $output, $rc);
   if ( $rc != 0 ){
-	  error(497, 173, array_merge(
+	  error($width, $height, array_merge(
 		        array("RRDtool error code $rc"),
-		        explode("\n", wordwrap($cmd, floor(497 / imagefontwidth(2)), "\\\n", true)),
-		        array("Output:", implode("\n",$output))));
+		        explode("\n", wordwrap($cmd, floor($width / imagefontwidth(2)), "\\\n", true)),
+		        array("Output:"),
+		        explode("\n", wordwrap(implode("\n", $output), floor($width / imagefontwidth(2)), "\\\n", true))
+		        ));
   }
 }
 
-header ("Content-type: image/png");
+header("Content-Disposition: inline; filename=\"$filename\"");
+header("Content-type: image/png");
 echo file_get_contents($filename);
 
 ?>

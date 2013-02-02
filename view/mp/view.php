@@ -61,12 +61,13 @@ $(document).ready(function(){
 
 <h2>Overview</h2>
 <p>(Graphs are updated at a 5min interval)</p>
-<img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;span=24h" />
-<img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;span=60d" />
+<img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;span=24h&amp;what=packets" />
+<img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;span=6w&amp;what=packets" />
 
 <h2>Capture Interfaces</h2>
 <?php for ($ci=0; $ci < $mp->noCI; $ci++){ ?>
-<img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;CI=<?=$ci?>&amp;span=24h" />
-<img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;CI=<?=$ci?>&amp;span=60d" />
+<img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;CI=<?=$ci?>&amp;span=24h&amp;what=packets" />
+<img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;CI=<?=$ci?>&amp;span=6w&amp;what=packets" />
+<img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;CI=<?=$ci?>&amp;span=24h&amp;what=bu" />
 <br/>
 <?php } ?>
