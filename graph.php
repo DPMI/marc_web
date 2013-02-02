@@ -23,18 +23,23 @@ function get_param($key, $default=null){
 	return isset($_GET[$key]) ? $_GET[$key] : $default;
 }
 
+function clamp($value, $min, $max){
+	return max(min($value, $max), $min);
+}
+
 $mampid = get_param('mampid');
 $what = get_param('what');
 $ci = get_param('CI', false);
 $span = get_param('span', '24h');
-$width = isset($_GET['width']) ? $_GET['width'] : -1;
-$height = isset($_GET['height']) ? $_GET['height'] : -1;
+$width = clamp(get_param('width', -1), -1, 2000);
+$height = clamp(get_param('height', -1), -1, 2000);
 $cache = get_param('cache', 1) == 1;
 $mp = MP::from_mampid($mampid);
 
+/* calculate image size */
 $aspect = 1.7;
 if ( $width == -1 && $height == -1 ){
-	$width = 330;
+	$width = 345;
 	$height = (int)($width / $aspect);
 } else if ( $width == -1 && $height != -1 ){
 	$width = (int)($height * $aspect);
