@@ -4,6 +4,21 @@ require("sessionCheck.php");
 require("config.php");
 require('model/MP.php');
 
+function error($width, $height, $data){
+	$im = imagecreate($width, $height);
+	$bg = imagecolorallocate($im, 255, 255, 255);
+	$fg = imagecolorallocate($im, 0, 0, 0);
+	$dy = 15;
+	foreach ( $data as $i => $line ){
+		$size = $i == 0 ? 5 : 2;
+		imagestring($im, $size, 5,  $i*$dy+5, $line, $fg);
+	}
+	header('Content-type: image/png');
+	imagepng($im);
+	imagedestroy($im);
+	exit;
+}
+
 $mampid = $_GET['mampid'];
 $ci = isset($_GET['CI']) ? $_GET['CI'] : false;
 $span = isset($_GET['span']) ? $_GET['span'] : '24h';
@@ -44,19 +59,10 @@ if ( $regen ){
   $cmd = "'" . implode("' '", $argv) . "'";
   exec("$cmd 2>&1", $output, $rc);
   if ( $rc != 0 ){
-	  $im = imagecreate(497, 173);
-	  $bg = imagecolorallocate($im, 255, 255, 255);
-	  $fg = imagecolorallocate($im, 0, 0, 0);
-	  imagestring($im, 5, 5,  5, "RRDtool error", $fg);
-	  imagestring($im, 2, 5, 20, "Returncode: $rc", $fg);
-	  imagestring($im, 2, 5, 35, "Command:", $fg);
-	  imagestring($im, 2, 5, 50, $cmd, $fg);
-	  imagestring($im, 2, 5, 65, "Output:", $fg);
-	  imagestring($im, 2, 5, 80, implode("\n",$output), $fg);
-	  header('Content-type: image/png');
-	  imagepng($im);
-	  imagedestroy($im);
-    exit;
+	  error(497, 173, array_merge(
+		        array("RRDtool error code $rc"),
+		        explode("\n", wordwrap($cmd, floor(497 / imagefontwidth(2)), "\\\n", true)),
+		        array("Output:", implode("\n",$output))));
   }
 }
 
