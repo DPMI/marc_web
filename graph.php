@@ -29,6 +29,7 @@ $ci = get_param('CI', false);
 $span = get_param('span', '24h');
 $width = isset($_GET['width']) ? $_GET['width'] : -1;
 $height = isset($_GET['height']) ? $_GET['height'] : -1;
+$cache = get_param('cache', 1) == 1;
 $mp = MP::from_mampid($mampid);
 
 $aspect = 1.7;
@@ -50,9 +51,6 @@ if ( !in_array($what, array('packets', 'bu') ) ){
 }
 
 
-/**@todo handle all error conditions */
-
-chdir($rrdbase);
 
 $filebase = "$mampid";
 $title = "$mp->name ($span)";
@@ -63,15 +61,17 @@ if ( $ci !== false ){
   $title = "{$mp->name} $x ($span)";
 }
 
-$filename = "{$filebase}_{$what}_{$span}_{$width}x{$height}.png";
 $regen = true;
-$stat = @stat($filename);
-$regen = $stat == false || (time() - $stat['mtime'] > 5*60);
+$filename = '/tmp/marcweb_' . md5(implode('_', array($filebase, $what, $span, $width, $height))) . '.png';
+if ( $cache ){
+	$stat = @stat($filename);
+	$regen = $stat == false || (time() - $stat['mtime'] > 5*60);
+}
 
 if ( $regen ){
   $argv = array(
     "rrdtool", "graph",
-    "$filename",
+    $filename,
     "-a", "PNG",
     "--full-size-mode", "--width", $width, "--height", $height,
     "--title", $title,
@@ -80,9 +80,9 @@ if ( $regen ){
   if ( $what == 'packets' ){
 	  $argv = array_merge($argv, array(
 		                      "--vertical-label", "pkt/sec",
-		                      "DEF:total=$filebase.rrd:total:AVERAGE", "VDEF:total_last=total,TOTAL",
-		                      "DEF:matched=$filebase.rrd:matched:AVERAGE", "VDEF:matched_last=matched,TOTAL",
-		                      "DEF:dropped=$filebase.rrd:dropped:AVERAGE", "VDEF:dropped_last=dropped,TOTAL",
+		                      "DEF:total=$rrdbase/$filebase.rrd:total:AVERAGE", "VDEF:total_last=total,TOTAL",
+		                      "DEF:matched=$rrdbase/$filebase.rrd:matched:AVERAGE", "VDEF:matched_last=matched,TOTAL",
+		                      "DEF:dropped=$rrdbase/$filebase.rrd:dropped:AVERAGE", "VDEF:dropped_last=dropped,TOTAL",
 		                      "CDEF:discarded=total,matched,-,dropped,-", "VDEF:discarded_last=discarded,TOTAL",
 		                      "AREA:dropped#ff0000:Dropped\:   :",        "GPRINT:dropped_last:%12.0lf pkts\l",
 		                      "AREA:discarded#ffff00:Discarded\: :STACK", "GPRINT:discarded_last:%12.0lf pkts\l",
@@ -93,7 +93,7 @@ if ( $regen ){
 	  $argv = array_merge($argv, array(
 		                      "--vertical-label", "Utilization (%)",
 		                      "-l", "0", "-u", "100",
-		                      "DEF:BU=$filebase.rrd:BU:MAX",
+		                      "DEF:BU=$rrdbase/$filebase.rrd:BU:MAX",
 		                      "VDEF:BU_last=BU,LAST",
 		                      "VDEF:BU_min=BU,MINIMUM",
 		                      "VDEF:BU_max=BU,MAXIMUM",
@@ -143,8 +143,9 @@ if ( $regen ){
   }
 }
 
-header("Content-Disposition: inline; filename=\"$filename\"");
+header("Content-Disposition: inline; filename=\"{$filebase}_{$what}\"");
 header("Content-type: image/png");
 echo file_get_contents($filename);
+if ( !$cache ) unlink($filename);
 
 ?>
