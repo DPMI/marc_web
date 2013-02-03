@@ -27,7 +27,6 @@ $dbversion = 4;
 
 /* store config errors, if count() != 0 the config errorpage is shown */
 $config_error = array();
-$config_check = isset($config_check) ? $config_check : ($_SERVER['REQUEST_URI'] == "{$root}config_error.php");
 
 /* Check for all required extensions */
 foreach ( array('posix', 'mysqli', 'gd') as $ext ){
@@ -41,50 +40,6 @@ foreach ( array('posix', 'mysqli', 'gd') as $ext ){
 $groupname = $usergroup;
 $usergroup = posix_getgrnam($groupname);
 $groupinfo = posix_getpwuid(posix_geteuid());
-
-/* Ensure $rrdbase is readable (needed by graphs) */
-if ( !is_writable($rrdbase) ){
-	$config_error[] = array(
-		"message" => "Need write permissions to RRDtool storage.",
-		"path" => $rrdbase
-  );
-}
-
-/* extended checks, only testing when a previous error is detected or if manually testing */
-if ( $config_check ){
-	if ( !file_exists('/usr/bin/rrdtool') ){
-		$config_error[] = array(
-			'message' => "RRDtool is missing",
-			'bin' => '/usr/bin/rrdtool'
-		);
-	}
-
-  if ( !$usergroup ){
-    $config_error[] = array(
-			    'message' => "The specified usergroup does not exist",
-			    'group' => $groupname
-			    );
-  }
-
-  if ( is_writable($rrdbase) && filegroup($rrdbase) != $usergroup['gid'] ){
-    $tmp = posix_getgrgid(filegroup($rrdbase));
-    $config_error[] = array(
-			    'message' => "The group of the RRDtool storage does not correspond to the selected usergroup.",
-			    'path' => $rrdbase,
-			    'group' => $usergroup['name'],
-			    'current group' => $tmp['name']
-			    );
-  }
-
-  /* Check that the user apache runs as is a member of the selected group */
-  if ( !in_array($usergroup['gid'], posix_getgroups()) ){
-    $config_error[] = array(
-			    'message' => "User does not belong to the specified usergroup.",
-			    'user' => $groupinfo['name'],
-			    'group' => $groupname
-			    );
-  }
-}
 
 /* required for BasicObject */
 $db = @new mysqli($DB_SERVER, $user, $password, $DATABASE);
@@ -145,7 +100,7 @@ if ( $Connect ){
 }
 
 if ( count($config_error) > 0 ){
-  if ( !$config_check ){
+  if ( $_SERVER['REQUEST_URI'] != "{$root}config_error.php" ){
     header("Location: {$root}config_error.php");
     exit;
   }

@@ -25,6 +25,7 @@ $prefix = '/';
 $sysconfdir = "{PREFIX}/etc";
 $localstatedir = "{PREFIX}/var";
 $rrdbase = "{LOCALSTATEDIR}/marc";
+$rrdtool = '/usr/bin/rrdtool';
 $usergroup = 'marc';
 
 /* Path configuration */
@@ -37,5 +38,3 @@ $mp_timeout = 60*60;                        /* after how many seconds an MP shou
 /* General */
 $title = 'Network Performance Labs';        /* title prepended in<title> */
 /* $subtitle = 'Research'; */               /* title in menu (if unset nothing is shown) */
-
-?>

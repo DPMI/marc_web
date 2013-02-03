@@ -221,6 +221,38 @@ tr.even:hover {
     background: #ddd;
 }
 
+table.status {
+		width: 40%;
+    border: 1px solid #99b;
+}
+
+table.status th {
+    background: #d3dce3;
+    border-bottom: 1px dashed #99b;
+		font-size: 1.1em;
+}
+
+table.status th:first-child {
+    border-bottom: 0;
+}
+
+table.status td {
+		padding-left: 0.5em;
+}
+
+table.status td:first-child {
+		width: 75px;
+		text-align: right;
+		font-weight: bold;
+		padding-right: 0.5em;
+    border-right: 1px dashed #99b;
+		background: #d3dce3;
+}
+
+table.status tr:nth-child(odd) {
+		background: #efefef;
+}
+
 #footer {
     clear: both;
     width: 100%;
@@ -238,4 +270,18 @@ tr.even:hover {
 #footer a:visited {
 	text-transform: none;
 	color: #336699;
+}
+
+.na {
+		color: #999;
+}
+
+.error {
+		color: #f00;
+		font-weight: bold;
+}
+
+.ok {
+		color: #0a0;
+		font-weight: bold;
 }
