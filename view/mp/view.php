@@ -61,12 +61,13 @@ $(document).ready(function(){
 
 <h2>Overview</h2>
 <p>(Graphs are updated at a 5min interval)</p>
-<img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;span=24h" />
-<img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;span=60d" />
+<a href="<?=$root?>graphparam.php?mampid=<?=$mp->MAMPid?>&amp;start=-24h&amp;end=now&amp;what=packets" target="_blank" onclick="window.open($(this).attr('href'), 'marc_graph','height=480,width=660,menubar=0,resizable=1,toolbar=0').focus(); return false;"><img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;span=24h&amp;what=packets" /></a>
+<a href="<?=$root?>graphparam.php?mampid=<?=$mp->MAMPid?>&amp;start=-6w&amp;end=now&amp;what=packets"  target="_blank" onclick="window.open($(this).attr('href'), 'marc_graph','height=480,width=660,menubar=0,resizable=1,toolbar=0').focus(); return false;"><img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;span=6w&amp;what=packets"  /></a>
 
 <h2>Capture Interfaces</h2>
 <?php for ($ci=0; $ci < $mp->noCI; $ci++){ ?>
-<img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;CI=<?=$ci?>&amp;span=24h" />
-<img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;CI=<?=$ci?>&amp;span=60d" />
+<a href="<?=$root?>graphparam.php?mampid=<?=$mp->MAMPid?>&amp;CI=<?=$ci?>&amp;start=-24h&amp;end=now&amp;what=packets" target="_blank" onclick="window.open($(this).attr('href'), 'marc_graph','height=480,width=660,menubar=0,resizable=1,toolbar=0').focus(); return false;"><img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;CI=<?=$ci?>&amp;span=24h&amp;what=packets" /></a>
+<a href="<?=$root?>graphparam.php?mampid=<?=$mp->MAMPid?>&amp;CI=<?=$ci?>&amp;start=-6w&amp;end=now&amp;what=packets"  target="_blank" onclick="window.open($(this).attr('href'), 'marc_graph','height=480,width=660,menubar=0,resizable=1,toolbar=0').focus(); return false;"><img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;CI=<?=$ci?>&amp;span=6w&amp;what=packets"  /></a>
+<a href="<?=$root?>graphparam.php?mampid=<?=$mp->MAMPid?>&amp;CI=<?=$ci?>&amp;start=-24h&amp;end=now&amp;what=bu"      target="_blank" onclick="window.open($(this).attr('href'), 'marc_graph','height=480,width=660,menubar=0,resizable=1,toolbar=0').focus(); return false;"><img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;CI=<?=$ci?>&amp;span=24h&amp;what=bu"      /></a>
 <br/>
 <?php } ?>

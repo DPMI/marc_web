@@ -20,9 +20,11 @@ $path='uploadedfiles/';
  * repetition is bad). */
 $site_key = str_repeat('default_marc_key', 25);
 
-/* RRDtool config */
-$prefix = '/var/local';
-$rrdbase = "$prefix/lib/marc";
+/* Path configuration */
+$prefix = '/';
+$sysconfdir = "{PREFIX}/etc";
+$localstatedir = "{PREFIX}/var";
+$rrdbase = "{LOCALSTATEDIR}/marc";
 $usergroup = 'marc';
 
 /* Path configuration */

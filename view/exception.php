@@ -32,7 +32,10 @@ pre {
 <?php global $version, $DB_SERVER, $prefix, $root, $usergroup ?>
 Version: <?=$version?>
 Database: <?=$DB_SERVER?>
-Prefix: <?=$prefix?>
+prefix: <?=$prefix?>
+sysconfdir: <?=$sysconfdir?>
+localstatedir: <?=$localstatedir?>
+rrdbase: <?=$rrdbase?>
 Root: <?=$root?>
 Group: <?=print_r($usergroup, true)?>
 </pre>
