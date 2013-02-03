@@ -62,98 +62,98 @@ if ( $handler == '' ){
 ?>
 <!DOCTYPE html>
 <html lang="en-US" xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" href="<?=$root?>css/style.css" />
-    <link rel="stylesheet" type="text/css" href="<?=$root?>css/jquery-ui-1.9.2.custom.min.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
-    <script type="text/javascript" src="<?=$root?>js/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="<?=$root?>js/jquery-ui-1.9.2.custom.min.js"></script>
-    <script type="text/javascript" src="<?=$root?>js/jquery.jeditable.mini.js"></script>
-    <script type="text/javascript" src="<?=$root?>js/filter.js"></script>
-    <title><?=$title?> -- MArC</title>
-  </head>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" type="text/css" href="<?=$root?>css/style.css" />
+		<link rel="stylesheet" type="text/css" href="<?=$root?>css/jquery-ui-1.9.2.custom.min.css" />
+		<link rel="shortcut icon" type="image/x-icon" href="http://www.bth.se/favicon.ico" />
+		<script type="text/javascript" src="<?=$root?>js/jquery-1.8.3.min.js"></script>
+		<script type="text/javascript" src="<?=$root?>js/jquery-ui-1.9.2.custom.min.js"></script>
+		<script type="text/javascript" src="<?=$root?>js/jquery.jeditable.mini.js"></script>
+		<script type="text/javascript" src="<?=$root?>js/filter.js"></script>
+		<title><?=$title?> -- MArC</title>
+	</head>
 
-  <body>
+	<body>
 
-	  <div id="dialog-confirm" title="" style="display: none;">
-		  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span><span class="text"></span></p>
-	  </div>
+		<div id="dialog-confirm" title="" style="display: none;">
+			<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span><span class="text"></span></p>
+		</div>
 
-    <div id="header">
-      <map name="link">
-	<area shape="circle" coords="25, 20, 18" href="http://www.bth.se/eng/">
-	<area shape="rect" coords="600, 20, 700, 41" href="http://www.bth.se/eng/">
-      </map>
-      <img src="<?=$root?>lighthuvud.jpg" alt="" width="700" height="41" usemap="#link" border="0" />
-      <img src="<?=$root?>header_image.php" width="700" height="59" alt="Internet Next Generation Analysis - <?=$projectName;?>" border="0" />
-    </div>
+		<div id="header">
+			<map name="link">
+				<area shape="circle" coords="25, 20, 18" href="http://www.bth.se/eng/">
+				<area shape="rect" coords="600, 20, 700, 41" href="http://www.bth.se/eng/">
+			</map>
+			<img src="<?=$root?>lighthuvud.jpg" alt="" width="700" height="41" usemap="#link" border="0" />
+			<img src="<?=$root?>header_image.php" width="700" height="59" alt="Internet Next Generation Analysis - <?=$projectName;?>" border="0" />
+		</div>
 
-    <div id="menu">
+		<div id="menu">
 <? if ( isset($subtitle) ){ ?>
-      <h1><?=$subtitle?></h1>
+			<h1><?=$subtitle?></h1>
 <? } ?>
-      <h1>MArC - Member</h1>
-      <ul>
-        <li><a href="<?=$index?>">Home</a></li>
+			<h1>MArC - Member</h1>
+			<ul>
+				<li><a href="<?=$index?>">Home</a></li>
 <?php foreach($menu as $item){ ?>
-        <li><a href="<?=$item->href()?>"><?=$item->string?></a></li>
+				<li><a href="<?=$item->href()?>"><?=$item->string?></a></li>
 <?php } ?>
 <?php if ( $u_access >= 1 ) { ?>
-        <li><a href="<?=$index?>/MP">List MPs</a></li>
+				<li><a href="<?=$index?>/MP">List MPs</a></li>
 <?php } ?>
-        <li><a href="<?=$index?>/FilterReadable">List filters</a></li>
-      </ul>
+				<li><a href="<?=$index?>/FilterReadable">List filters</a></li>
+			</ul>
 
 <?php if ( $u_id > 0 ){ ?>
-      <h1>Site maintenance</h1>
-      <ul>
-	<li><a href="listPages.php">List Pages</a></li>
-	<li><a href="uploadscript.php">Upload File</a></li>
-      </ul>
+			<h1>Site maintenance</h1>
+			<ul>
+				<li><a href="listPages.php">List Pages</a></li>
+				<li><a href="uploadscript.php">Upload File</a></li>
+			</ul>
 <?php } ?>
 
 <?php if ( $u_access > 1 ) { ?>
-      <h1>Site administration</h1>
-      <ul>
-	<li><a href="addPage.php">Add Page</a></li>
-	<li><a href="listGUIconfig.php">List GUI config</a></li>
-	<li><a href="addGUI.php">Add GUI config</a></li>
-	<li><a href="listMenu.php">List Menu</a></li>
-	<li><a href="addMenu.php">Add Menu Entry</a></li>
-	<li><a href="<?=$index?>/account">List Accounts</a></li>
-	<li><a href="<?=$index?>/account/add">Add Account</a></li>
-      </ul>
+			<h1>Site administration</h1>
+			<ul>
+				<li><a href="addPage.php">Add Page</a></li>
+				<li><a href="listGUIconfig.php">List GUI config</a></li>
+				<li><a href="addGUI.php">Add GUI config</a></li>
+				<li><a href="listMenu.php">List Menu</a></li>
+				<li><a href="addMenu.php">Add Menu Entry</a></li>
+				<li><a href="<?=$index?>/account">List Accounts</a></li>
+				<li><a href="<?=$index?>/account/add">Add Account</a></li>
+			</ul>
 <?php } /* if $u_access > 1 */ ?>
 
-      <h1>User</h1>
-      <ul>
+			<h1>User</h1>
+			<ul>
 <?php if ( $u_id > 0 ){ ?>
-	<li><a href="<?=$index?>/account/self">Account</a></li>
-	<li><a href="<?=$index?>/account/logout">Logout</a></li>
+				<li><a href="<?=$index?>/account/self">Account</a></li>
+				<li><a href="<?=$index?>/account/logout">Logout</a></li>
 <?php } else { ?>
-	<li><a href="<?=$index?>/account/login">Login</a></li>
+				<li><a href="<?=$index?>/account/login">Login</a></li>
 <?php } ?>
-      </ul>
+			</ul>
 
-		 <p style="padding-left: 1em;">
-			 Server time:<br/>
-			 <?=gmstrftime("%d-%b-%y %T %z", time ())?><br/>
-			 <?=strftime("%d-%b-%y %T %z", time ())?>
-		 </p>
-    </div>
+			<p style="padding-left: 1em;">
+				Server time:<br/>
+				<?=gmstrftime("%d-%b-%y %T %z", time ())?><br/>
+				<?=strftime("%d-%b-%y %T %z", time ())?>
+			</p>
+		</div>
 
-    <div id="content">
+		<div id="content">
 <?=$content?>
-    </div>
+		</div>
 
-    <div id="footer">
-      <hr/>
-      <p>MArCd webgui - <?=$version?></p>
-      <p>Maintained by <a href="mailto:pal@bth.se">Patrik Arlos</a>.</p>
-      <p><a href="http://www.bth.se/">Blekinge Institute of Technology</a>.</p>
-    </div>
+		<div id="footer">
+			<hr/>
+			<p>MArCd webgui - <?=$version?></p>
+			<p>Maintained by <a href="mailto:pal@bth.se">Patrik Arlos</a>.</p>
+			<p><a href="http://www.bth.se/">Blekinge Institute of Technology</a>.</p>
+		</div>
 
-  </body>
+	</body>
 
 </html>
