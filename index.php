@@ -123,6 +123,7 @@ if ( $handler == '' ){
 				<li><a href="addMenu.php">Add Menu Entry</a></li>
 				<li><a href="<?=$index?>/account">List Accounts</a></li>
 				<li><a href="<?=$index?>/account/add">Add Account</a></li>
+				<li><a href="<?=$index?>/status">Daemon status</a></li>
 			</ul>
 <?php } /* if $u_access > 1 */ ?>
 
