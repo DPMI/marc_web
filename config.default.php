@@ -21,10 +21,10 @@ $path='uploadedfiles/';
 $site_key = str_repeat('default_marc_key', 25);
 
 /* Path configuration */
-$prefix = '/';
-$sysconfdir = "{PREFIX}/etc";
-$localstatedir = "{PREFIX}/var";
-$rrdbase = "{LOCALSTATEDIR}/marc";
+$prefix = '/';                              /* Path prefix (--prefix to configure). */
+$sysconfdir = "{PREFIX}etc";
+$localstatedir = "{PREFIX}var";
+$rrdbase = "{LOCALSTATEDIR}marc";
 $rrdtool = '/usr/bin/rrdtool';
 $usergroup = 'marc';
 
