@@ -28,8 +28,9 @@ $rrdbase = "{LOCALSTATEDIR}marc";
 $rrdtool = '/usr/bin/rrdtool';
 $usergroup = 'marc';
 
-/* Path configuration */
-$root = '/'; /* if installing into a subdirectory, set the path here. Must end in trailing slash */
+/* URL configuration */
+$root = '/';                                /* If installing into a subdirectory, set the path here. Must end in trailing slash.
+                                             * E.g. if URL is http://example.net/marc set root to 'marc/' */
 
 /* misc */
 $use_ping = true;                           /* show ping time for MPs */
