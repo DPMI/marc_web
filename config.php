@@ -30,16 +30,10 @@ $config_error = array();
 
 /* Check for all required extensions */
 foreach ( array('posix', 'mysqli', 'gd') as $ext ){
-  if ( !extension_loaded($ext) ){
-    $config_error[] = array(
-      'message' => "Required PHP extension '$ext' not loaded."
-    );
-  }
+	if ( !extension_loaded($ext) ){
+		$config_error[] = array('message' => "Required PHP extension '$ext' not loaded.");
+	}
 }
-
-$groupname = $usergroup;
-$usergroup = posix_getgrnam($groupname);
-$groupinfo = posix_getpwuid(posix_geteuid());
 
 /* required for BasicObject */
 $db = @new mysqli($DB_SERVER, $user, $password, $DATABASE);
@@ -49,54 +43,61 @@ if ( mysqli_connect_error() ){
 	$config_error[] = array(
 		"message" => "Unable to connect to MySQL database.",
 		"error" => mysqli_connect_error(),
+	);
+}
+
+/* required for legacy database connections */
+$Connect = @mysql_connect($DB_SERVER, $user, $password);
+mysql_select_db($DATABASE,$Connect);
+
+if ( $skip_config_check ){
+	return;
+}
+
+$groupname = $usergroup;
+$usergroup = posix_getgrnam($groupname);
+$groupinfo = posix_getpwuid(posix_geteuid());
+$max_size=1000000;
+
+$sql_update="SELECT * FROM guiconfig WHERE selected=1";
+$result=mysql_query($sql_update);
+if(!$result) {
+	print "MySQL error: " . mysql_error();
+	exit;
+}
+
+if(mysql_num_rows($result)>0) {
+	$row = mysql_fetch_array($result);
+	$pageStyle=$row["pageStyle"];
+	$pageStyleBad=$row["pageStyleBad"];
+	$projectName=$row["projectName"];
+	$selectedID=$row["id"];
+} else { // PRoblems. Use some default
+	$pageStyle="";
+	$pageStyleBad="";
+	$projectName='MArCd';
+	$selectedID=-1;
+}
+
+$result = mysql_query("SELECT 1 FROM `information_schema`.`tables` WHERE `table_schema` = '$DATABASE' AND `table_name`='version' LIMIT 1");
+if ( mysql_num_rows($result) == 1 ){
+
+} else {
+	$config_error[] = array(
+		"message" => "MySQL schema too old, please upgrade using upgrade/v0.7.1.php (and subsequential files in order) in a shell.",
+		"error" => "version too old",
 		);
 }
 
-$max_size=1000000;
-$Connect = @mysql_connect($DB_SERVER, $user, $password);
-
-if ( $Connect ){
-	mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
-
-	$sql_update="SELECT * FROM guiconfig WHERE selected=1";
-	$result=mysql_query($sql_update);
-	if(!$result) {
-		print "MySQL error: " . mysql_error();
-		exit;
-	}
-	if(mysql_num_rows($result)>0) {
-		$row = mysql_fetch_array($result);
-		$pageStyle=$row["pageStyle"];
-		$pageStyleBad=$row["pageStyleBad"];
-		$projectName=$row["projectName"];
-		$selectedID=$row["id"];
-	} else { // PRoblems. Use some default
-		$pageStyle="";
-		$pageStyleBad="";
-		$projectName='MArCd';
-		$selectedID=-1;
-	}
-
-	$result = mysql_query("SELECT 1 FROM `information_schema`.`tables` WHERE `table_schema` = '$DATABASE' AND `table_name`='version' LIMIT 1");
-	if ( mysql_num_rows($result) == 1 ){
-
-	} else {
-		$config_error[] = array(
-			"message" => "MySQL schema too old, please upgrade using upgrade/v0.7.1.php (and subsequential files in order) in a shell.",
-			"error" => "version too old",
-		);
-	}
-
-	$result = mysql_query("SELECT `num` FROM `version` LIMIT 1");
-	$row = mysql_fetch_array($result);
-	if ( $row[0] < $dbversion ){
-		$config_error[] = array(
-			"message" => "MySQL schema too old, please execute all upgrade scripts under upgrade/*.php in a shell.",
-			"error" => "version too old",
-			"current" => $row[0],
+$result = mysql_query("SELECT `num` FROM `version` LIMIT 1");
+$row = mysql_fetch_array($result);
+if ( $row[0] < $dbversion ){
+	$config_error[] = array(
+		"message" => "MySQL schema too old, please execute all upgrade scripts under upgrade/*.php in a shell.",
+		"error" => "version too old",
+		"current" => $row[0],
 			"required" => $dbversion,
 		);
-	}
 }
 
 if ( count($config_error) > 0 ){

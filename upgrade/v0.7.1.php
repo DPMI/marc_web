@@ -1,7 +1,12 @@
 <?php
 
-$config_check = true;
+$skip_config_check = true;
 require(dirname(__FILE__) . '/../config.php');
+
+$result = mysql_query("SELECT 1 FROM `information_schema`.`tables` WHERE `table_schema` = '$DATABASE' AND `table_name`='version' LIMIT 1");
+if ( mysql_num_rows($result) == 1 ){
+	exit;
+}
 
 $result = mysql_query("SELECT `table_name` FROM `information_schema`.`tables` WHERE `table_schema` = '$DATABASE' AND `table_name` LIKE '%_filterlist'");
 while ($row = mysql_fetch_assoc($result)) {

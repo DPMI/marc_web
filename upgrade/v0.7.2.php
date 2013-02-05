@@ -1,8 +1,15 @@
 <?php
 
-$config_check = true;
+$skip_config_check = true;
 require(dirname(__FILE__) . '/../config.php');
 require(dirname(__FILE__) . '/../model/MP.php');
+
+foreach( $config_error as $e ){
+	echo "$0: error: {$e['message']}\n";
+}
+if ( count($config_error) > 0 ){
+	exit;
+}
 
 function innodb(){
 	foreach(array('access', 'measurementpoints', 'greeting') as $table){
