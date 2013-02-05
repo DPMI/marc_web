@@ -18,6 +18,7 @@ function expand_path($value){
 }
 
 /* expand paths */
+if ( substr($prefix, -1) != "/" ) $prefix .= '/';   /* force trailing slash */
 $sysconfdir = expand_path($sysconfdir);
 $localstatedir = expand_path($localstatedir);
 $rrdbase = expand_path($rrdbase);
