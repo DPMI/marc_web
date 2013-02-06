@@ -51,7 +51,7 @@ if ( mysqli_connect_error() ){
 $Connect = @mysql_connect($DB_SERVER, $user, $password);
 mysql_select_db($DATABASE,$Connect);
 
-if ( $skip_config_check ){
+if ( isset($skip_config_check) ){
 	return;
 }
 
