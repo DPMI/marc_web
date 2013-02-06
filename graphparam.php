@@ -15,7 +15,7 @@ require("config.php");
 </head>
 <body>
 <form method="get">
-	<img src="<?=$root?>graph.php?<?=htmlentities($_SERVER['QUERY_STRING'])?>&amp;width=640&amp;cache=0" />
+	<img src="<?=$root?>graph.php?<?=htmlentities($_SERVER['QUERY_STRING'])?>&amp;width=640&amp;cache=0" /><br/>
 	<input type="hidden" name="mampid" value="<?=htmlentities($_GET['mampid'])?>" />
 	<input type="hidden" name="what" value="<?=htmlentities($_GET['what'])?>" />
 <?php if ( isset($_GET['CI']) ){ ?>
