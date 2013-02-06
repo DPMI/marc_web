@@ -12,9 +12,11 @@ $ajax = $root . 'ajax.php';
 
 function expand_path($value){
 	global $prefix, $sysconfdir, $localstatedir;
-	return str_replace(array('{PREFIX}', '{SYSCONFDIR}', '{LOCALSTATEDIR}'),
+	$path = str_replace(array('{PREFIX}', '{SYSCONFDIR}', '{LOCALSTATEDIR}'),
 	                   array($prefix, $sysconfdir, $localstatedir),
 	                   $value);
+	if ( substr($path, -1) != "/" ) $path .= '/';   /* force trailing slash */
+	return $path;
 }
 
 /* expand paths */
