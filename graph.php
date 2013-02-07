@@ -37,6 +37,7 @@ $width = clamp(get_param('width', -1), -1, 2000);
 $height = clamp(get_param('height', -1), -1, 2000);
 $cache = get_param('cache', 1) == 1;
 $mp = MP::from_mampid($mampid);
+$filebase = "$mampid";
 
 /* calculate image size */
 $aspect = 1.7;
@@ -65,7 +66,13 @@ if ( !in_array($what, array('packets', 'bu') ) ){
 	error($width, $height, array("Parameter error", "Missing or invalid graph type"));
 }
 
-$filebase = "$mampid";
+$regen = true;
+$filename = '/tmp/marcweb_' . md5(implode('_', array($filebase, $what, $span, $width, $height))) . '.png';
+if ( $cache ){
+	$stat = @stat($filename);
+	$regen = $stat == false || (time() - $stat['mtime'] > 5*60);
+}
+
 $timespan = $span ? $span : "$start to $end";
 $title = "$mp->name ($timespan)";
 
@@ -74,13 +81,6 @@ if ( $ci !== false ){
 	$x = $iface[$ci];
   $filebase = "{$mampid}_$x";
   $title = "{$mp->name} $x ($timespan)";
-}
-
-$regen = true;
-$filename = '/tmp/marcweb_' . md5(implode('_', array($filebase, $what, $span, $width, $height))) . '.png';
-if ( $cache ){
-	$stat = @stat($filename);
-	$regen = $stat == false || (time() - $stat['mtime'] > 5*60);
 }
 
 if ( $regen ){
