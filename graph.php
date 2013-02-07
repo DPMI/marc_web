@@ -4,7 +4,8 @@ require("sessionCheck.php");
 require("config.php");
 require('model/MP.php');
 
-define('DEFAULT_WIDTH', 345);
+define('DEFAULT_WIDTH', 345);          /* default image width in pixels */
+define('MAX_AGE', 300);                /* time in seconds the cached image is valid */
 
 function error($width, $height, $data){
 	$im = imagecreate($width, $height);
@@ -41,6 +42,20 @@ function calc_size($width, $height, $aspect){
 	}
 }
 
+function cache_filename(){
+	return '/tmp/marcweb_' . md5(implode('_', func_get_args())) . '.png';
+}
+
+function need_rebuild($filename){
+	global $cache;
+	if ( !$cache ){
+		return true;
+	}
+
+	$stat = @stat($filename);
+	return $stat == false || (time() - $stat['mtime'] > MAX_AGE);
+}
+
 $mampid = get_param('mampid');
 $what = get_param('what');
 $ci = get_param('CI', false);
@@ -64,12 +79,8 @@ if ( !in_array($what, array('packets', 'bu') ) ){
 	error($width, $height, array("Parameter error", "Missing or invalid graph type"));
 }
 
-$regen = true;
-$filename = '/tmp/marcweb_' . md5(implode('_', array($filebase, $what, $span, $width, $height))) . '.png';
-if ( $cache ){
-	$stat = @stat($filename);
-	$regen = $stat == false || (time() - $stat['mtime'] > 5*60);
-}
+$filename = cache_filename($filebase, $what, $span, $width, $height);
+$regen = need_rebuild($filename);
 
 $timespan = $span ? $span : "$start to $end";
 $title = "$mp->name ($timespan)";
