@@ -117,8 +117,15 @@ class Graph {
 	}
 
 	private function cache_filename(){
+		global $cachedir;
+
 		$parts = array($this->filebase, $this->type, $this->span[0], $this->span[1], $this->size[0], $this->size[1]);
-		return '/tmp/marcweb_' . md5(implode('_', $parts)) . '.png';
+		$hash = md5(implode('_', $parts));
+		$path = $cachedir . substr($hash, 0, 2);
+		$filename = substr($hash, 2);
+		if ( !is_dir($path) ) mkdir($path);
+
+		return $path . '/' . $filename;
 	}
 
 	private function need_rebuild($filename){

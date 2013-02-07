@@ -26,6 +26,9 @@ $sysconfdir = "{PREFIX}etc";
 $localstatedir = "{PREFIX}var";
 $rrdbase = "{LOCALSTATEDIR}marc";
 $rrdtool = '/usr/bin/rrdtool';
+$cachedir = realpath('cache');                 /* cache directory (e.g. graphs ) */
+
+/* Permissions */
 $usergroup = 'marc';
 
 /* URL configuration */

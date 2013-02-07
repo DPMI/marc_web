@@ -24,6 +24,8 @@
 	<tr><td>Localstatedir</td><td><?=check_path($localstatedir, 'rd', $message)?></td><td><?=$message?></td></tr>
 	<tr><td>rrdbase</td><td><?=check_path($rrdbase, 'rwd', $message, $usergroup)?></td><td><?=$message?></td></tr>
 	<tr><td>rrdtool</td><td><?=check_path($rrdtool, 'rx', $message)?></td><td><?=$message?></td></tr>
+	<tr><td>cache</td><td><?=check_path($cachedir, 'wd', $message)?></td><td><?=$message?></td></tr>
+	<tr><td>cache usage</td><td><?=exec('du -sh ' . escapeshellarg($cachedir) . ' | cut -f1')?></td><td></td></tr>
 </table>
 
 <h2>Permissions</h2>

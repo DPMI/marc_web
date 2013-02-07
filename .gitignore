@@ -2,5 +2,6 @@
 \#*\#
 .\#*
 
+cache
 config.local.php
 *.tar.gz
