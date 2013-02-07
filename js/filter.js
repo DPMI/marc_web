@@ -1,3 +1,5 @@
+var header_size = 14+16+36;
+
 function update_index() {
 	var mask = 0;
 	$('.row input:checked').each(function(){
@@ -88,6 +90,17 @@ function filter_validate(){
 	return ret;
 }
 
+function caplen_validate(){
+	if ( ma_mtu == -1 ) return; /* mtu info not available */
+
+	var $this = $('#caplen');
+	var color = '';
+	if ( $this.val() > (ma_mtu - header_size) ){
+		color = '#f00';
+	}
+	$('#caplen').css('color', color);
+}
+
 function filter_submit(){
 	if ( !filter_validate() ){
 		return false;
@@ -153,6 +166,10 @@ function filter_init(){
 				$('#description').find('.address').html('<p>No addresses is currently used</p>');
 			}
 		}
+
+		if ( $row.find('#caplen').length > 0 && ma_mtu >= 0 ){
+			$('#description').find('.mtu').html('<b>MTU: ' + ma_mtu + '</b> (max caplen is ' + (ma_mtu - header_size) + ')');
+		}
 	}
 	$('.row input:text, .row select').focus(function(){
 		f($(this).parent().parent());
@@ -171,6 +188,10 @@ function filter_init(){
 	$('.row input:text, .row select, .row .label, #help').click(function(e){
 		e.stopPropagation();
 	});
+
+	/* warn if caplen is too large */
+	$('#caplen').change(caplen_validate);
+	caplen_validate(); /* always run during init */
 }
 
 $(document).ready(function(){

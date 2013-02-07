@@ -98,6 +98,7 @@ $stmt->close();
 ?>
 <script type="text/javascript" />
 	var ethernet_addr = [<?=implode(',', $address)?>];
+	var ma_mtu = <?=$mp->mtu?>;
 	$(document).ready(function(){
 		filter_init();
 	});
@@ -357,7 +358,7 @@ $stmt->close();
 		  </td>
 	  </tr>
 
-	  <tr class="row" data-description="<h2>Capture length</h2><p>How many bytes of the captured packet to save, excluding metadata such as timestamp and wirelength.</p><p>Note: the MP should be able to transfer packets to the destination without fragmentation. Each packet is encapsulated with a 36 byte capture header and possibly a 16 byte send header. For ethernet multicasting on a network with a MTU of 1500 the maximum caplen will be 1500-14-16-36=1434 bytes.</p><p>For full-size packet capture on a network with MTU 1500 use 1514 (requires MTU greater than 1566 on MA network, e.g. 9000).">
+	  <tr class="row" data-description="<h2>Capture length</h2><p>How many bytes of the captured packet to save, excluding metadata such as timestamp and wirelength.</p><p>Note: the MP should be able to transfer packets to the destination without fragmentation. Each packet is encapsulated with a 36 byte capture header and possibly a 16 byte send header. For ethernet multicasting on a network with a MTU of 1500 the maximum caplen will be 1500-14-16-36=1434 bytes.</p><p>For full-size packet capture on a network with MTU 1500 use 1514 (requires MTU greater than 1566 on MA network, e.g. 9000).</p><p class='mtu'></p>">
 		  <td>
 			  &nbsp;
 		  </td>
