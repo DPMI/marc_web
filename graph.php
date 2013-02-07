@@ -88,6 +88,10 @@ class Graph {
 			$this->filebase = "{$mampid}_$x";
 			$this->ci = $x;
 		}
+
+		$version = $this->mp->mp_version();
+		$this->have_dropped = $version[2] >= 11;
+		$this->have_bu = $version[2] >= 6;
 	}
 
 	private function calc_size($width, $height, $aspect){
@@ -158,14 +162,14 @@ class Graph {
 		global $rrdbase;
 		$filebase = $this->filebase;
 
-		$argv = $this->rrdtool_common($filename);
-		$argv = array_merge($argv, array(
+		$common = $this->rrdtool_common($filename);
+		$argv = array_merge($common, array(
 			                    "--vertical-label", "pkt/sec",
 			                    "'DEF:total=$rrdbase/$filebase.rrd:total:AVERAGE'",     "'VDEF:total_last=total,TOTAL'",
 			                    "'DEF:matched=$rrdbase/$filebase.rrd:matched:AVERAGE'", "'VDEF:matched_last=matched,TOTAL'",
 			                    "'DEF:dropped=$rrdbase/$filebase.rrd:dropped:AVERAGE'", "'VDEF:dropped_last=dropped,TOTAL'",
 			                    "'CDEF:discarded=total,matched,-,dropped,-'", "'VDEF:discarded_last=discarded,TOTAL'",
-			                    "'AREA:dropped#ff0000:Dropped\:   :'",        "'GPRINT:dropped_last:%12.0lf pkts\l'",
+			                    "'AREA:dropped#ff0000:Dropped\:   :'",        $this->have_dropped ? "'GPRINT:dropped_last:%12.0lf pkts\l'" : "'COMMENT:              N/A\l'",
 			                    "'AREA:discarded#ffff00:Discarded\: :STACK'", "'GPRINT:discarded_last:%12.0lf pkts\l'",
 			                    "'AREA:matched#00ff00:Matched\:   :STACK'",   "'GPRINT:matched_last:%12.0lf pkts\l'",
 			                    "'LINE1:total#000000:Total\:     :'",         "'GPRINT:total_last:%12.0lf pkts\l'",));
@@ -211,11 +215,12 @@ class Graph {
 		                      "AREA:bu9#ff0000::STACK",
 		                      "LINE2:BU_95#00000055:",
 
-		                      "'COMMENT:Buffer utilization '", "'GPRINT:BU_last:%3.1lf%%\l'",
-		                      "'COMMENT:95th percentile    '", "'GPRINT:BU_95:%3.1lf%%\l'",
+			                    "'COMMENT:Buffer utilization '", $this->have_bu ? "'GPRINT:BU_last:%3.1lf%%\l'" : "'COMMENT: N/A\l'"),
+		                    ($this->have_bu ? array(
+			                    "'COMMENT:95th percentile    '", $this->have_bu ? "'GPRINT:BU_95:%3.1lf%%\l'"   : "'COMMENT: N/A\l'",
 		                      "'COMMENT:Min'", "'GPRINT:BU_min:%3.1lf%%'",
 		                      "'COMMENT:Max'", "'GPRINT:BU_max:%3.1lf%%'",
-		                      "'COMMENT:Avg'", "'GPRINT:BU_avg:%3.1lf%%\l'"));
+			                    "'COMMENT:Avg'", "'GPRINT:BU_avg:%3.1lf%%\l'") : array()));
 		$this->exec($argv);
 	}
 

@@ -71,6 +71,20 @@ class MP extends BasicObject {
     return str_replace(";", ", ", $this->version);
   }
 
+  /**
+   * Get version of MP software it is running.
+   * @return array(major, minor, micro)
+   */
+  public function mp_version(){
+	  foreach ( explode(';', $this->version) as $version ){
+		  if ( substr($version, 0, 3) == 'mp-' ){
+			  $p = explode('.', substr($version, 3));
+			  return $p;
+		  }
+	  }
+	  return array(0,0,0);
+  }
+
   public function is_authorized(){
     return strlen($this->MAMPid) > 0;
   }
