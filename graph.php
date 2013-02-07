@@ -59,7 +59,7 @@ class Graph {
 	public function render(){
 		$filename = $this->cache_filename();
 		if ( !$this->need_rebuild($filename) ){
-			return $filename;
+			return array($filename, true);
 		}
 
 		switch ( $this->type ){
@@ -67,7 +67,7 @@ class Graph {
 		case 'bu': $this->render_BU($filename); break;
 		}
 
-		return $filename;
+		return array($filename, false);
 	}
 
 	private function set_type($type){
@@ -127,8 +127,14 @@ class Graph {
 			return true;
 		}
 
+		return time() - $this->last_modified() > $graph_max_age;
+	}
+
+	public function last_modified(){
+		$filename = $this->cache_filename();
 		$stat = @stat($filename);
-		return $stat == false || (time() - $stat['mtime'] > $graph_max_age);
+		if ( $stat == false ) return 0;
+		return $stat['mtime'];
 	}
 
 	private function rrdtool_common($filename){
@@ -235,7 +241,30 @@ $height = clamp(get_param('height', -1), -1, 2000);
 $graph = new Graph($mampid, $what, $ci);
 $graph->set_size($width, $height);
 $graph->set_timespan($span, $start, $end);
-$filename = $graph->render();
+
+$orig_mtime = $graph->last_modified();
+list($filename, $fresh) = $graph->render();
+clearstatcache();
+
+/* caching */
+if ( $cache ){
+	/* need to set default timezone because strtotime fails to parse the timezone, e.g strtotime(date('...', $x)) is not $x if TZ != GMT */
+	date_default_timezone_set('UTC');
+
+	$mtime = $graph->last_modified();
+	header("Cache-Control: public, max-age={$graph_max_age}, must-revalidate");
+	header('Last-Modified: ' . date('D, d M Y H:i:s', $mtime) . ' GMT');
+	header('Expires: ' . date('D, d M Y H:i:s', $mtime + $graph_max_age) . ' GMT');
+	header('X-GraphFresh: ' . ($fresh ? "yes" : "no"));
+
+	if ( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ){
+		$last_modified = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']); /* not sure why but stackoverflow insists */
+		if ( $fresh && $orig_mtime <= strtotime($last_modified) ){
+			header("HTTP/1.0 304 Not Modified");
+			exit;
+		}
+	}
+}
 
 header("Content-Disposition: inline; filename=\"{$graph->pretty_filename()}\"");
 header("Content-type: image/png");
