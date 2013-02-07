@@ -35,6 +35,7 @@ $root = '/';                                /* If installing into a subdirectory
 /* misc */
 $use_ping = true;                           /* show ping time for MPs */
 $mp_timeout = 60*60;                        /* after how many seconds an MP should be considered non-responsive */
+$graph_max_age = 5*60;                      /* time in seconds the cached graphs is valid */
 
 /* General */
 $title = 'Network Performance Labs';        /* title prepended in<title> */

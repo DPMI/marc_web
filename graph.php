@@ -5,16 +5,15 @@ require("config.php");
 require('model/MP.php');
 
 define('DEFAULT_WIDTH', 345);          /* default image width in pixels */
-define('MAX_AGE', 300);                /* time in seconds the cached image is valid */
 
-function error($width, $height, $data){
-	$im = imagecreate($width, $height);
+function error($size, $data){
+	$im = imagecreate($size[0], $size[1]);
 	$bg = imagecolorallocate($im, 255, 255, 255);
 	$fg = imagecolorallocate($im, 0, 0, 0);
 	$dy = 15;
 	foreach ( $data as $i => $line ){
-		$size = $i == 0 ? 5 : 2;
-		imagestring($im, $size, 5,  $i*$dy+5, $line, $fg);
+		$fontsize = $i == 0 ? 5 : 2;
+		imagestring($im, $fontsize, 5,  $i*$dy+5, $line, $fg);
 	}
 	header('Content-type: image/png');
 	imagepng($im);
@@ -30,91 +29,143 @@ function clamp($value, $min, $max){
 	return max(min($value, $max), $min);
 }
 
-function calc_size($width, $height, $aspect){
-	if ( $width == -1 && $height == -1 ){
-		return array(DEFAULT_WIDTH, (int)(DEFAULT_WIDTH / $aspect));
-	} else if ( $width == -1 && $height != -1 ){
-		return array((int)($height * $aspect), $height);
-	} else if ( $width != -1 && $height == -1 ){
-		return array($width, (int)($width / $aspect));
-	} else {
-		return array($width, $height);
-	}
-}
+class Graph {
+	private $mp = null;
+	private $ci = null;
+	private $type = null;
+	private $size = null;
+	private $filebase = null;
+	private $span = null;
 
-function cache_filename(){
-	return '/tmp/marcweb_' . md5(implode('_', func_get_args())) . '.png';
-}
-
-function need_rebuild($filename){
-	global $cache;
-	if ( !$cache ){
-		return true;
+	public function __construct($mampid, $type, $ci){
+		$this->set_size(-1, -1); /* set default size, must always be first */
+		$this->set_mp($mampid, $ci);
+		$this->set_type($type);
 	}
 
-	$stat = @stat($filename);
-	return $stat == false || (time() - $stat['mtime'] > MAX_AGE);
-}
+	public function set_size($width, $height, $aspect=1.7){
+		$this->size = $this->calc_size($width, $height, $aspect);
+	}
 
-$mampid = get_param('mampid');
-$what = get_param('what');
-$ci = get_param('CI', false);
-$span = get_param('span', false);
-$start = get_param('start', false);
-$end = get_param('end', "now");
-$cache = get_param('cache', 1) == 1;
-$filebase = "$mampid";
-list($width, $height) = calc_size(clamp(get_param('width', -1), -1, 2000), clamp(get_param('height', -1), -1, 2000), 1.7);
-$mp = MP::from_mampid($mampid) or error($width, $height, array("Parameter error", "Missing or invalid MAMPid"));
+	public function set_timespan($span, $start, $end){
+		if ( $span !== false ){
+			$this->span = array("end-$span", "now", $span);
+		} else if ( $start === false ){
+			error($this->size, array("Paramter error", "Either span or start must be given"));
+		} else {
+			$this->span = array($start, $end, false);
+		}
+	}
 
-/* calculate start and end */
-if ( $span !== false ){
-	$start = "end-$span";
-	$end = "now";
-} else if ( $start === false ){
-	error($width, $height, array("Paramter error", "Either span or start must be given"));
-}
+	public function render(){
+		$filename = $this->cache_filename();
+		if ( !$this->need_rebuild($filename) ){
+			return $filename;
+		}
 
-if ( !in_array($what, array('packets', 'bu') ) ){
-	error($width, $height, array("Parameter error", "Missing or invalid graph type"));
-}
+		switch ( $this->type ){
+		case 'packets': $this->render_packets($filename); break;
+		case 'bu': $this->render_BU($filename); break;
+		}
 
-$filename = cache_filename($filebase, $what, $span, $width, $height);
-$regen = need_rebuild($filename);
+		return $filename;
+	}
 
-$timespan = $span ? $span : "$start to $end";
-$title = "$mp->name ($timespan)";
+	private function set_type($type){
+		if ( !in_array($type, array('packets', 'bu') ) ){
+			error($this->size, array("Parameter error", "Missing or invalid graph type"));
+		}
+		$this->type = $type;
+	}
 
-if ( $ci !== false ){
-	$iface = explode(';', $mp->CI_iface);
-	$x = $iface[$ci];
-  $filebase = "{$mampid}_$x";
-  $title = "{$mp->name} $x ($timespan)";
-}
+	private function set_mp($mampid, $ci){
+		$this->mp = MP::from_mampid($mampid) or error($this->size, array("Parameter error", "Missing or invalid MAMPid"));
+		$this->filebase = $mampid;
+		$this->ci = false;
 
-if ( $regen ){
-  $argv = array(
-    "rrdtool", "graph",
-    $filename,
-    "-a", "PNG",
-    "--full-size-mode", "--width", escapeshellarg($width), "--height", escapeshellarg($height),
-    "--title", escapeshellarg($title),
-    "--start", escapeshellarg($start), "--end", escapeshellarg($end),
-	  );
-  if ( $what == 'packets' ){
-	  $argv = array_merge($argv, array(
-		                      "--vertical-label", "pkt/sec",
-		                      "'DEF:total=$rrdbase/$filebase.rrd:total:AVERAGE'",     "'VDEF:total_last=total,TOTAL'",
-		                      "'DEF:matched=$rrdbase/$filebase.rrd:matched:AVERAGE'", "'VDEF:matched_last=matched,TOTAL'",
-		                      "'DEF:dropped=$rrdbase/$filebase.rrd:dropped:AVERAGE'", "'VDEF:dropped_last=dropped,TOTAL'",
-		                      "'CDEF:discarded=total,matched,-,dropped,-'", "'VDEF:discarded_last=discarded,TOTAL'",
-		                      "'AREA:dropped#ff0000:Dropped\:   :'",        "'GPRINT:dropped_last:%12.0lf pkts\l'",
-		                      "'AREA:discarded#ffff00:Discarded\: :STACK'", "'GPRINT:discarded_last:%12.0lf pkts\l'",
-		                      "'AREA:matched#00ff00:Matched\:   :STACK'",   "'GPRINT:matched_last:%12.0lf pkts\l'",
-		                      "'LINE1:total#000000:Total\:     :'",         "'GPRINT:total_last:%12.0lf pkts\l'",));
-  } else if ( $what == 'bu' ){
-	  $argv = array_merge($argv, array(
-		                      "--vertical-label", "'Utilization (%)'",
+		if ( $ci !== false ){
+			$iface = explode(';', $this->mp->CI_iface);
+			$x = $iface[$ci];
+			$this->filebase = "{$mampid}_$x";
+			$this->ci = $x;
+		}
+	}
+
+	private function calc_size($width, $height, $aspect){
+		if ( $width == -1 && $height == -1 ){
+			return array(DEFAULT_WIDTH, (int)(DEFAULT_WIDTH / $aspect));
+		} else if ( $width == -1 && $height != -1 ){
+			return array((int)($height * $aspect), $height);
+		} else if ( $width != -1 && $height == -1 ){
+			return array($width, (int)($width / $aspect));
+		} else {
+			return array($width, $height);
+		}
+	}
+
+	private function title(){
+		$timespan = $this->span[2] ? $this->span[2] : "{$this->span[0]} to {$this->span[1]}";
+		if ( $this->ci === false ){
+			return "{$this->mp->name} ($timespan)";
+		} else {
+			return "{$this->mp->name} {$this->ci} ($timespan)";
+		}
+	}
+
+	public function pretty_filename(){
+		return "{$this->filebase}_{$this->type}.png";
+	}
+
+	private function cache_filename(){
+		$parts = array($this->filebase, $this->type, $this->span[0], $this->span[1], $this->size[0], $this->size[1]);
+		return '/tmp/marcweb_' . md5(implode('_', $parts)) . '.png';
+	}
+
+	private function need_rebuild($filename){
+		global $cache, $graph_max_age;
+		if ( !$cache ){
+			return true;
+		}
+
+		$stat = @stat($filename);
+		return $stat == false || (time() - $stat['mtime'] > $graph_max_age);
+	}
+
+	private function rrdtool_common($filename){
+		return array(
+			"rrdtool", "graph", $filename,
+			"-a", "PNG",
+			"--full-size-mode", "--width", escapeshellarg($this->size[0]), "--height", escapeshellarg($this->size[1]),
+			"--title", escapeshellarg($this->title()),
+			"--start", escapeshellarg($this->span[0]), "--end", escapeshellarg($this->span[1]),
+		);
+	}
+
+	private function render_packets($filename){
+		global $rrdbase;
+		$filebase = $this->filebase;
+
+		$argv = $this->rrdtool_common($filename);
+		$argv = array_merge($argv, array(
+			                    "--vertical-label", "pkt/sec",
+			                    "'DEF:total=$rrdbase/$filebase.rrd:total:AVERAGE'",     "'VDEF:total_last=total,TOTAL'",
+			                    "'DEF:matched=$rrdbase/$filebase.rrd:matched:AVERAGE'", "'VDEF:matched_last=matched,TOTAL'",
+			                    "'DEF:dropped=$rrdbase/$filebase.rrd:dropped:AVERAGE'", "'VDEF:dropped_last=dropped,TOTAL'",
+			                    "'CDEF:discarded=total,matched,-,dropped,-'", "'VDEF:discarded_last=discarded,TOTAL'",
+			                    "'AREA:dropped#ff0000:Dropped\:   :'",        "'GPRINT:dropped_last:%12.0lf pkts\l'",
+			                    "'AREA:discarded#ffff00:Discarded\: :STACK'", "'GPRINT:discarded_last:%12.0lf pkts\l'",
+			                    "'AREA:matched#00ff00:Matched\:   :STACK'",   "'GPRINT:matched_last:%12.0lf pkts\l'",
+			                    "'LINE1:total#000000:Total\:     :'",         "'GPRINT:total_last:%12.0lf pkts\l'",));
+		$this->exec($argv);
+	}
+
+	private function render_bu($filename){
+		global $rrdbase;
+		$filebase = $this->filebase;
+
+		$argv = $this->rrdtool_common($filename);
+		$argv = array_merge($argv, array(
+			                    "--vertical-label", "'Utilization (%)'",
 		                      "-l", "0", "-u", "100",
 		                      "DEF:BU=$rrdbase/$filebase.rrd:BU:MAX",
 		                      "VDEF:BU_last=BU,LAST",
@@ -151,25 +202,42 @@ if ( $regen ){
 		                      "'COMMENT:95th percentile    '", "'GPRINT:BU_95:%3.1lf%%\l'",
 		                      "'COMMENT:Min'", "'GPRINT:BU_min:%3.1lf%%'",
 		                      "'COMMENT:Max'", "'GPRINT:BU_max:%3.1lf%%'",
-		                      "'COMMENT:Avg'", "'GPRINT:BU_avg:%3.1lf%%\l'"
-		                      ));
-  }
+		                      "'COMMENT:Avg'", "'GPRINT:BU_avg:%3.1lf%%\l'"));
+		$this->exec($argv);
+	}
 
-  $cmd = implode(' ', $argv);
-  exec("$cmd 2>&1", $output, $rc);
-  if ( $rc != 0 ){
-	  error($width, $height, array_merge(
-		        array("RRDtool error code $rc"),
-		        explode("\n", wordwrap($cmd, floor($width / imagefontwidth(2)), "\\\n", true)),
-		        array("Output:"),
-		        explode("\n", wordwrap(implode("\n", $output), floor($width / imagefontwidth(2)), "\\\n", true))
-		        ));
-  }
-}
+	private function exec($argv){
+		$cmd = implode(' ', $argv);
+		exec("$cmd 2>&1", $output, $rc);
+		if ( $rc != 0 ){
+			$chars = floor($this->size[0] / imagefontwidth(2));
+			error($this->size, array_merge(
+				      array("RRDtool error code $rc"),
+				      explode("\n", wordwrap($cmd, $chars, "\\\n", true)),
+				      array("Output:"),
+				      explode("\n", wordwrap(implode("\n", $output), $chars, "\\\n", true))));
+		}
+	}
+};
 
-header("Content-Disposition: inline; filename=\"{$filebase}_{$what}\"");
+/* get parameters */
+$mampid = get_param('mampid');
+$what = get_param('what');
+$ci = get_param('CI', false);
+$span = get_param('span', false);
+$start = get_param('start', false);
+$end = get_param('end', "now");
+$cache = get_param('cache', 1) == 1;
+$width = clamp(get_param('width', -1), -1, 2000);
+$height = clamp(get_param('height', -1), -1, 2000);
+
+/* create graph */
+$graph = new Graph($mampid, $what, $ci);
+$graph->set_size($width, $height);
+$graph->set_timespan($span, $start, $end);
+$filename = $graph->render();
+
+header("Content-Disposition: inline; filename=\"{$graph->pretty_filename()}\"");
 header("Content-type: image/png");
 echo file_get_contents($filename);
 if ( !$cache ) unlink($filename);
-
-?>

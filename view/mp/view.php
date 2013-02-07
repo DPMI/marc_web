@@ -64,7 +64,7 @@ $(document).ready(function(){
 </table>
 
 <h2>Overview</h2>
-<p>(Graphs are updated at a 5min interval)</p>
+<p>(Graphs are updated at a <?=round($graph_max_age/60,2)?> minute interval)</p>
 <a href="<?=$root?>graphparam.php?mampid=<?=$mp->MAMPid?>&amp;start=-24h&amp;end=now&amp;what=packets" target="_blank" onclick="window.open($(this).attr('href'), 'marc_graph','height=480,width=660,menubar=0,resizable=1,toolbar=0').focus(); return false;"><img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;span=24h&amp;what=packets" /></a>
 <a href="<?=$root?>graphparam.php?mampid=<?=$mp->MAMPid?>&amp;start=-6w&amp;end=now&amp;what=packets"  target="_blank" onclick="window.open($(this).attr('href'), 'marc_graph','height=480,width=660,menubar=0,resizable=1,toolbar=0').focus(); return false;"><img src="<?=$root?>graph.php?mampid=<?=$mp->MAMPid?>&amp;span=6w&amp;what=packets"  /></a>
 

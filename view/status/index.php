@@ -44,4 +44,5 @@
 	<tr><td>Subtitle</td><td><?=isset($subtitle) ? $subtitle : '<span class="na">(unset)</span>'?></td></tr>
 	<tr><td>Ping</td><td><?=$use_ping ? 'Enabled' : 'Disabled' ?></td></tr>
 	<tr><td>MP Timeout</td><td><?=$mp_timeout?></td></tr>
+	<tr><td>Graph age</td><td><?=$graph_max_age?></td></tr>
 </table>
