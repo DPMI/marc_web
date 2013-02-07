@@ -36,6 +36,10 @@ $(document).ready(function(){
     <td><?=$mp->mac?></td>
   </tr>
   <tr>
+    <th title="MTU on MA network">MTU</th>
+    <td><?=$mp->mtu >= 0 ? $mp->mtu : 'N/A'?></td>
+  </tr>
+  <tr>
   </tr>
   <tr>
     <th>MAMPid</th>

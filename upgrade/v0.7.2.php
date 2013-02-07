@@ -73,6 +73,10 @@ function enum_tables(){
 	mysql_query("ALTER TABLE `measurementpoints` ADD CONSTRAINT `fk_mp_status` FOREIGN KEY (`status`) REFERENCES `mp_status`(`id`)") or die(mysql_error());
 }
 
+function add_mtu(){
+	mysql_query("ALTER TABLE `measurementpoints` ADD `mtu` INT NOT NULL DEFAULT -1") or die(mysql_error());
+}
+
 $result = mysql_query("SELECT `num` FROM `version`") or die(mysql_error());
 $row = mysql_fetch_array($result) or die("run v0.7.1.php first");
 $version = $row[0];
@@ -86,6 +90,9 @@ case 2:
 
 case 3:
 	enum_tables();
+
+case 4:
+	add_mtu();
 };
 
-mysql_query("UPDATE `version` SET `num` = 4");
+mysql_query("UPDATE `version` SET `num` = 5");

@@ -26,7 +26,7 @@ $localstatedir = expand_path($localstatedir);
 $rrdbase = expand_path($rrdbase);
 
 $version = "0.7.1";
-$dbversion = 4;
+$dbversion = 5;
 
 /* store config errors, if count() != 0 the config errorpage is shown */
 $config_error = array();
