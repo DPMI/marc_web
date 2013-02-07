@@ -79,6 +79,8 @@ class StatusController extends Controller {
 			'caputils' => Meta::get('marcd_caputils'),
 		);
 
-		return template('status/index.php', $GLOBALS + array('vcs' => $vcs, 'marcd' => $marcd));
+		$apache_user = posix_getpwuid(posix_getuid());
+
+		return template('status/index.php', $GLOBALS + array('vcs' => $vcs, 'marcd' => $marcd, 'apache_user' => $apache_user['name']));
 	}
 }

@@ -28,6 +28,7 @@
 
 <h2>Permissions</h2>
 <table class="status" cellspacing="0">
+	<tr><td>User</td><td><?=$apache_user?></td><td></td></tr>
 	<tr><td>Usergroup</td><td><?=check_group($usergroup['name'], $message)?></td><td><?=$message?></td></tr>
 </table>
 
