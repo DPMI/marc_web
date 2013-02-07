@@ -4,6 +4,8 @@ require("sessionCheck.php");
 require("config.php");
 require('model/MP.php');
 
+define('DEFAULT_WIDTH', 345);
+
 function error($width, $height, $data){
 	$im = imagecreate($width, $height);
 	$bg = imagecolorallocate($im, 255, 255, 255);
@@ -27,6 +29,18 @@ function clamp($value, $min, $max){
 	return max(min($value, $max), $min);
 }
 
+function calc_size($width, $height, $aspect){
+	if ( $width == -1 && $height == -1 ){
+		return array(DEFAULT_WIDTH, (int)(DEFAULT_WIDTH / $aspect));
+	} else if ( $width == -1 && $height != -1 ){
+		return array((int)($height * $aspect), $height);
+	} else if ( $width != -1 && $height == -1 ){
+		return array($width, (int)($width / $aspect));
+	} else {
+		return array($width, $height);
+	}
+}
+
 $mampid = get_param('mampid');
 $what = get_param('what');
 $ci = get_param('CI', false);
@@ -38,17 +52,7 @@ $height = clamp(get_param('height', -1), -1, 2000);
 $cache = get_param('cache', 1) == 1;
 $mp = MP::from_mampid($mampid);
 $filebase = "$mampid";
-
-/* calculate image size */
-$aspect = 1.7;
-if ( $width == -1 && $height == -1 ){
-	$width = 345;
-	$height = (int)($width / $aspect);
-} else if ( $width == -1 && $height != -1 ){
-	$width = (int)($height * $aspect);
-} else if ( $width != -1 && $height == -1 ){
-	$height = (int)($width / $aspect);
-}
+list($width, $height) = calc_size($width, $height, 1.7);
 
 /* calculate start and end */
 if ( $span !== false ){
