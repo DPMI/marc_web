@@ -20,7 +20,7 @@ class MPController extends Controller {
 	}
 
 	public function view($id){
-		global $graph_max_age;
+		global $graph_max_age, $graph_packet_span, $graph_bu_span;
 		parent::validate_access(1);
 
 		$mp = MP::from_mampid($id);
@@ -29,7 +29,9 @@ class MPController extends Controller {
 		}
 
 		$data['mp'] = $mp;
-		$data['graph_max_age'] = $graph_max_age;
+		$data['interval'] = $graph_max_age;
+		$data['packet_span'] = $graph_packet_span;
+		$data['bu_span'] = $graph_bu_span;
 		return template('mp/view.php', $data);
 	}
 

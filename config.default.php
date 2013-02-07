@@ -31,11 +31,16 @@ $usergroup = 'marc';
 /* URL configuration */
 $root = '/';                                /* If installing into a subdirectory, set the path here. Must end in trailing slash.
                                              * E.g. if URL is http://example.net/marc set root to 'marc/' */
+/* Graph settings */
+$graph_width = 345;                         /* default width of graphs */
+$graph_aspect = 1.7;                        /* graph aspect ratio */
+$graph_max_age = 5*60;                      /* time in seconds the cached graphs is valid */
+$graph_packet_span = array('24h', '6w');    /* default timespan for packet graphs */
+$graph_bu_span = array('24h');              /* default timestan for buffer utilization */
 
 /* misc */
 $use_ping = true;                           /* show ping time for MPs */
 $mp_timeout = 60*60;                        /* after how many seconds an MP should be considered non-responsive */
-$graph_max_age = 5*60;                      /* time in seconds the cached graphs is valid */
 
 /* General */
 $title = 'Network Performance Labs';        /* title prepended in<title> */

@@ -4,8 +4,6 @@ require("sessionCheck.php");
 require("config.php");
 require('model/MP.php');
 
-define('DEFAULT_WIDTH', 345);          /* default image width in pixels */
-
 function error($size, $data){
 	$im = imagecreate($size[0], $size[1]);
 	$bg = imagecolorallocate($im, 255, 255, 255);
@@ -43,8 +41,9 @@ class Graph {
 		$this->set_type($type);
 	}
 
-	public function set_size($width, $height, $aspect=1.7){
-		$this->size = $this->calc_size($width, $height, $aspect);
+	public function set_size($width, $height){
+		global $graph_aspect;
+		$this->size = $this->calc_size($width, $height, $graph_aspect);
 	}
 
 	public function set_timespan($span, $start, $end){
@@ -92,8 +91,9 @@ class Graph {
 	}
 
 	private function calc_size($width, $height, $aspect){
+		global $graph_width; /* from configuration */
 		if ( $width == -1 && $height == -1 ){
-			return array(DEFAULT_WIDTH, (int)(DEFAULT_WIDTH / $aspect));
+			return array($graph_width, (int)($graph_width / $aspect));
 		} else if ( $width == -1 && $height != -1 ){
 			return array((int)($height * $aspect), $height);
 		} else if ( $width != -1 && $height == -1 ){
