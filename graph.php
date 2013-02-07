@@ -47,12 +47,10 @@ $ci = get_param('CI', false);
 $span = get_param('span', false);
 $start = get_param('start', false);
 $end = get_param('end', "now");
-$width = clamp(get_param('width', -1), -1, 2000);
-$height = clamp(get_param('height', -1), -1, 2000);
 $cache = get_param('cache', 1) == 1;
-$mp = MP::from_mampid($mampid);
 $filebase = "$mampid";
-list($width, $height) = calc_size($width, $height, 1.7);
+list($width, $height) = calc_size(clamp(get_param('width', -1), -1, 2000), clamp(get_param('height', -1), -1, 2000), 1.7);
+$mp = MP::from_mampid($mampid) or error($width, $height, array("Parameter error", "Missing or invalid MAMPid"));
 
 /* calculate start and end */
 if ( $span !== false ){
@@ -60,10 +58,6 @@ if ( $span !== false ){
 	$end = "now";
 } else if ( $start === false ){
 	error($width, $height, array("Paramter error", "Either span or start must be given"));
-}
-
-if ( !$mp ){
-	error($width, $height, array("Parameter error", "Missing or invalid MAMPid"));
 }
 
 if ( !in_array($what, array('packets', 'bu') ) ){
