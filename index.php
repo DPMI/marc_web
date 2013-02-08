@@ -70,6 +70,7 @@ if ( $handler == '' ){
 		<script type="text/javascript" src="<?=$root?>js/jquery-1.8.3.min.js"></script>
 		<script type="text/javascript" src="<?=$root?>js/jquery-ui-1.9.2.custom.min.js"></script>
 		<script type="text/javascript" src="<?=$root?>js/jquery.jeditable.mini.js"></script>
+		<script type="text/javascript" src="<?=$root?>js/jquery.mousewheel.js"></script>
 		<script type="text/javascript" src="<?=$root?>js/filter.js"></script>
 		<title><?=$title?> -- MArC</title>
 	</head>

@@ -189,6 +189,13 @@ function filter_init(){
 		e.stopPropagation();
 	});
 
+	/* allow scrolling to change caplen */
+	$('#caplen').mousewheel(function(event, delta, deltaX, deltaY) {
+		var cur = parseInt($(this).val());
+		$(this).val(Math.min(Math.max(cur + deltaY, 0), ma_mtu >= 0 ? ma_mtu-header_size : 9000));
+		caplen_validate();
+	});
+
 	/* warn if caplen is too large */
 	$('#caplen').change(caplen_validate);
 	caplen_validate(); /* always run during init */
