@@ -24,10 +24,13 @@
 	<tr><td>Localstatedir</td><td><?=check_path($localstatedir, 'rd', $message)?></td><td><?=$message?></td></tr>
 	<tr><td>rrdbase</td><td><?=check_path($rrdbase, 'rwd', $message, $usergroup)?></td><td><?=$message?></td></tr>
 	<tr><td>rrdtool</td><td><?=check_path($rrdtool, 'rx', $message)?></td><td><?=$message?></td></tr>
+	<tr><td>cache</td><td><?=check_path($cachedir, 'wd', $message)?></td><td><?=$message?></td></tr>
+	<tr><td>cache usage</td><td><?=exec('du -sh ' . escapeshellarg($cachedir) . ' | cut -f1')?></td><td></td></tr>
 </table>
 
 <h2>Permissions</h2>
 <table class="status" cellspacing="0">
+	<tr><td>User</td><td><?=$apache_user?></td><td></td></tr>
 	<tr><td>Usergroup</td><td><?=check_group($usergroup['name'], $message)?></td><td><?=$message?></td></tr>
 </table>
 
@@ -43,4 +46,5 @@
 	<tr><td>Subtitle</td><td><?=isset($subtitle) ? $subtitle : '<span class="na">(unset)</span>'?></td></tr>
 	<tr><td>Ping</td><td><?=$use_ping ? 'Enabled' : 'Disabled' ?></td></tr>
 	<tr><td>MP Timeout</td><td><?=$mp_timeout?></td></tr>
+	<tr><td>Graph age</td><td><?=$graph_max_age?></td></tr>
 </table>
