@@ -7,6 +7,10 @@ require('config.default.php');
 if ( file_exists('config.local.php') ){
   require('config.local.php');
 }
+
+if ( substr($root,  0, 1) != '/' ) $root = "/$root"; /* force leading slash */
+if ( substr($root, -1, 1) != '/' ) $root = "$root/"; /* force trailing slash */
+
 $index = $root . 'index.php';
 $ajax = $root . 'ajax.php';
 
