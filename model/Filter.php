@@ -65,7 +65,7 @@ class Filter extends BasicObject {
 		$parts = array();
 
 		if($index&512){
-			$parts[] = "(if = {$this->CI_ID})";
+			$parts[] = "(if = {$this->CI})";
 		}
 		if($index&256){
 			$parts[] = "(vlantci = {$this->VLAN_TCI})";
