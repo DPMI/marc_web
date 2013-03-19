@@ -9,4 +9,5 @@ This assumes that the files are placed where your webserver can access them.
    `php <file>`  
    run it in order, i.e. 0.7.1 then 0.7.2, then ...
 3. Configure the web site, via config.local.php, see instructions in file.
-4. Access the web site, and fix the last things that it complains about.
+4. Access the web site, and fix the last things that it complains about.  
+   Make sure to visit daemon status for full diagnostics.
