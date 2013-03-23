@@ -172,7 +172,7 @@ td.label {
 }
 
 #content .alert {
-    background: #fff url('gfx/Ambox_content.png') no-repeat left top;
+    background: #fff url('../gfx/Ambox_content.png') no-repeat left top;
     min-height: 50px;
     padding-left: 50px;
 }
@@ -184,7 +184,7 @@ td.label {
 }
 
 #content .notice {
-    background: #fff url('gfx/Ambox_notice.png') no-repeat left top;
+    background: #fff url('../gfx/Ambox_notice.png') no-repeat left top;
     min-height: 50px;
     padding-left: 50px;
 }
