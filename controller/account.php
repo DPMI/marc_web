@@ -148,7 +148,7 @@ class AccountController extends Controller {
 
 			$account = Account::validate_login($uname, $pass);
 			if ( !$account ){
-				return template('account/login.php', array('msg' => 'Invalid username or password.'));
+				return template('account/login.php', array('msg' => array('Invalid username or password.')));
 			}
 
 			$_SESSION["OK"]="OK";

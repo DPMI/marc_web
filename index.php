@@ -44,7 +44,7 @@ if ( $handler == '' ){
   try {
     $content = $controller->_path($path);
   } catch ( HTTPError403 $e ){
-    $content = template('403.php', array());
+    $content = template('account/login.php', array('msg' => array('403: Forbidden', 'You do not have access to this resource.')));
   } catch ( HTTPError404 $e ){
     $content = template('404.php', array());
   } catch ( HTTPRedirect $e ){
