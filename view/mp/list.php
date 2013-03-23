@@ -45,7 +45,7 @@
 <?php } else { ?>
       <a href="<?=$root?>authMP.php?id=<?=$mp->id?>">Auth</a>
 <?php } ?>
-      <a href="<?=$root?>control.php?id=<?=$mp->id?>&amp;action=remove">Remove</a>
+      <a href="<?=$index?>/MP/delete/<?=$mp->id?>">Remove</a>
     </td>
   </tr>
 <?php } /* foreach $mps */ ?>
