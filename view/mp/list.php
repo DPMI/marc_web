@@ -41,7 +41,7 @@
 	</td>
     <td>
 <?php if ( $mp->is_authorized() ){ ?>
-      <a href="<?=$root?>control.php?id=<?=$mp->id?>&amp;action=stop">Stop</a>
+      <a href="<?=$index?>/MP/stop/<?=$mp->id?>" class="stop_mp">Stop</a>
 <?php } else { ?>
       <a href="<?=$root?>authMP.php?id=<?=$mp->id?>">Auth</a>
 <?php } ?>
