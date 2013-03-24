@@ -120,7 +120,7 @@ class MP extends BasicObject {
 
   public function ping(){
 	  global $use_ping, $root;
-	  if ( !$use_ping ){ return ''; }
+	  if ( !($use_ping && $this->is_authorized()) ){ return ''; }
 	  return "<img src=\"{$root}ping.php?MAMPid={$this->MAMPid}\" alt=\"\" />";
   }
 
