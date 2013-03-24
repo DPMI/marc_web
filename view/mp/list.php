@@ -29,8 +29,13 @@
     <td><?=$mp->id?></td>
     <td><?=$mp->name?></td>
 <?php } ?>
+<?php if ( $mp->running() ){ ?>
     <td><?=$mp->ip?>:<?=$mp->port?></td>
     <td><?=$mp->mac?></td>
+<?php } else { ?>
+    <td></td>
+    <td></td>
+<?php } ?>
     <td><?=strlen($mp->comment) > 0 ? $mp->comment : "&nbsp;" ?></td>
     <td><?=age($mp->time)?></td>
     <td><?=$mp->MAMPid?></td>
@@ -41,7 +46,9 @@
 	</td>
     <td>
 <?php if ( $mp->is_authorized() ){ ?>
+<?php if ( $mp->running() ){ ?>
       <a href="<?=$index?>/MP/stop/<?=$mp->id?>" class="stop_mp">Stop</a>
+<?php } ?>
 <?php } else { ?>
       <a href="<?=$root?>authMP.php?id=<?=$mp->id?>">Auth</a>
 <?php } ?>
