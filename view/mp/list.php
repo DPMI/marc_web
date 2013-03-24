@@ -16,7 +16,7 @@
   </tr>
 
 <?php foreach ( $mps as $mp ){ $toggle = 0; ?>
-  <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
+  <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>" data-id="<?=$mp->id?>" data-name="<?=$mp->name?>" data-mampid="<?=$mp->MAMPid?>">
     <td>
 		<?=$mp->status()?>
 		<?=$mp->ping()?>
@@ -45,7 +45,7 @@
 <?php } else { ?>
       <a href="<?=$root?>authMP.php?id=<?=$mp->id?>">Auth</a>
 <?php } ?>
-      <a href="<?=$index?>/MP/delete/<?=$mp->id?>">Remove</a>
+      <a href="<?=$index?>/MP/delete/<?=$mp->id?>" class="remove_mp">Remove</a>
     </td>
   </tr>
 <?php } /* foreach $mps */ ?>

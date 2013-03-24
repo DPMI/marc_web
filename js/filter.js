@@ -226,4 +226,27 @@ $(document).ready(function(){
 
 		return false;
 	});
+
+	$('a.remove_mp').click(function(){
+		var $a = $(this);
+		var $parent = $a.closest('tr');
+		var name = $parent.data('name');
+		$confirm.attr('title', 'Confirm removal');
+		$confirm.find('.text').html('Are you sure you want to remove MP "'+name+'"?');
+		$confirm.dialog({
+			resizable: false,
+			height:160,
+			buttons: {
+				"Remove": function() {
+					$(this).dialog('close');
+					window.location = $a.attr('href')+'?confirm=remove';
+				},
+				"Cancel": function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+
+		return false;
+	});
 });
