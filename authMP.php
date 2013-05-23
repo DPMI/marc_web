@@ -27,7 +27,7 @@ $tables[] = "CREATE TABLE IF NOT EXISTS `{$MAMPid}_ci` ( `id` INT NOT NULL AUTO_
 $MAMPidCIl="$MAMPid"."_CIload";
 $sql_create = "CREATE TABLE IF NOT EXISTS `$MAMPidCIl` ( `id` INT NOT NULL AUTO_INCREMENT, `time` timestamp NOT NULL, `noFilters` INT NOT NULL, `matchedPkts` INT NOT NULL ";
 for($i=0;$i<$mp->noCI;$i++){
-  $sql_create = $sql_create . ",`CI$i` VARCHAR(20) NOT NULL, `PKT$i` INT NOT NULL, `BU$i` INT NOT NULL";
+  $sql_create = $sql_create . ",`CI$i` VARCHAR(20) NOT NULL, `PKT$i` INT NOT NULL, `BU$i` INT NOT NULL, `SYNC$i` ENUM('yes','no','undef') NOT NULL DEFAULT 'undef'";
 }
 $sql_create = $sql_create . ", INDEX( `id` ))";
 $tables[] = $sql_create;

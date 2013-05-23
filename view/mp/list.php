@@ -50,3 +50,40 @@
   </tr>
 <?php } /* foreach $mps */ ?>
 </table>
+
+<h1>Software and Time</h1>
+<table border="0" cellspacing="0" width="100%" class="list">
+  <tr>
+    <th align="left" valign="bottom">Status</th>
+    <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=id&amp;asc=<?=$ascinv?>">ID</a></th>
+    <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=name&amp;asc=<?=$ascinv?>">name</a></th>
+    <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=MAMPid&amp;asc=<?=$ascinv?>">MAMPid</a></th>
+    <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=MAMPid&amp;asc=<?=$ascinv?>">MTU</a></th>
+    <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=time&amp;asc=<?=$ascinv?>">Time Synchronization</a></th>
+    <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=time&amp;asc=<?=$ascinv?>">Software Versions</a></th>
+
+
+  </tr>
+
+<?php foreach ( $mps as $mp ){ $toggle = 0; ?>
+  <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
+    <td>
+                <?=$mp->status()?>
+                <?=$mp->ping()?>
+        </td>
+
+<?php if ( $mp->is_authorized() ){ ?>
+    <td><a href="<?=$index?>/MP/view/<?=$mp->MAMPid?>"><?=$mp->id?></a></td>
+    <td><a href="<?=$index?>/MP/view/<?=$mp->MAMPid?>"><?=$mp->name?></a></td>
+<?php } else { ?>
+    <td><?=$mp->id?></td>
+    <td><?=$mp->name?></td>
+<? } ?>
+    <td><?=$mp->MAMPid?></td>
+    <td><?=$mp->mtu?></td>
+    <td><?=$mp->sync($mp->MAMPid)?></td>
+    <td><?=$mp->version?></td>
+
+  </tr>                                                                                                                                                             
+<?php } /* foreach $mps */ ?>                                                                                                                                       
+</table>          

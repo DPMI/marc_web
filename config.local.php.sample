@@ -1,14 +1,14 @@
 <?php
 /* Database configuration */
 $DB_SERVER="localhost";
-$DATABASE='marc2';
+$DATABASE='marc';
 $user='marc';
 $password='konko';
 
 /* Path configuration */
 $localstatedir = "{PREFIX}var/lib/";
 
-$root = '/marc2/';
+$root = '/marc/';
 $index = $root . 'index.php';
 
 /* General */

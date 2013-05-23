@@ -24,6 +24,75 @@ class MP extends BasicObject {
     return static::from_field('MAMPid', $mampid);
   }
 
+  public function filter_table(){
+    return "{$this->MAMPid}_filterlist";
+  }
+
+  public function sync(){
+    global $db;
+    // Evaluate syncronization for entire 'MP'                                                                                                                       
+    $nics=$this->noCI;
+    $totStat=1; // In sync.                                                                                                                                          
+    $syncStr="";
+    $result = $db->query("SELECT * FROM {$this->MAMPid}_CIload ORDER BY id DESC LIMIT 0,1");
+    if ( $result == null ){
+      return array();
+    }
+
+    $syncstatus=array();
+    $k=0;
+
+    $row = $result->fetch_assoc();
+    //    print_r($row);                                                                                                                                             
+    //    print "The Nics $nics ...";                                                                                                                                
+    for($k=0;$k<$nics;$k++){
+      $nicstr="SYNC$k";
+      $syncstatus[$k] = $row["$nicstr"];
+
+    }
+
+    //    print "exited with $k, syncstatus:";                                                                                                                       
+    // print_r($syncstatus);                                                                                                                                         
+
+    for($k=0;$k<$nics;$k++){
+      $nstat=$syncstatus[$k];
+      //      print "[$k]->" . $nstat . "eof";                                                                                                                       
+      switch ($nstat){
+      case 'yes':
+        $totStat*=1;
+        $syncStr=$syncStr."Y";
+        break;
+      case 'no':
+        $totStat*=0;
+        $syncStr=$syncStr."N";
+        break;
+      case 'undef':
+      default:
+        $syncStr=$syncStr."U";
+        $totStat*=2;
+      }
+    }
+    switch($totStat){
+    case 1:
+      $syncStat='yes';
+      break;
+    case 0:
+      $syncStat='no';
+      break;
+    default:
+      $syncStat='Undefined';
+    }
+    if ($nics==0) {
+      return "No CI present";
+    } else {
+      return "$syncStat [$syncStr]";
+    }
+  }
+
+
+
+
+
   public function status(){
 	  global $db, $mp_timeout;
     if ( !$this->is_authorized() ){
