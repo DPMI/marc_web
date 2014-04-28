@@ -28,7 +28,7 @@
 <?php } else { ?>
     <td><?=$mp->id?></td>
     <td><?=$mp->name?></td>
-<? } ?>
+<?php } ?>
     <td><?=$mp->ip?>:<?=$mp->port?></td>
     <td><?=$mp->mac?></td>
     <td><?=strlen($mp->comment) > 0 ? $mp->comment : "&nbsp;" ?></td>
@@ -78,12 +78,12 @@
 <?php } else { ?>
     <td><?=$mp->id?></td>
     <td><?=$mp->name?></td>
-<? } ?>
+<?php } ?>
     <td><?=$mp->MAMPid?></td>
     <td><?=$mp->mtu?></td>
     <td><?=$mp->sync($mp->MAMPid)?></td>
     <td><?=$mp->version?></td>
 
-  </tr>                                                                                                                                                             
-<?php } /* foreach $mps */ ?>                                                                                                                                       
-</table>          
+  </tr>
+<?php } /* foreach $mps */ ?>
+</table>

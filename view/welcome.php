@@ -1,6 +1,6 @@
 <?php //  -*- mode:html;  -*- ?>
-<?php 
-require_once('helper/age.php'); 
+<?php
+require_once('helper/age.php');
 require_once('model/MP.php');
 
 $order = isset($_GET['order']) ? $_GET['order'] : 'name';
@@ -28,7 +28,7 @@ $mps = MP::selection(array(
 <table border="0" cellspacing="0" width="100%" class="list">
   <tr>
     <th align="left" valign="bottom">Status</th>
-    <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=MAMPid&amp;asc=<?=$ascinv?>">MAMPid</a></th> 
+    <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=MAMPid&amp;asc=<?=$ascinv?>">MAMPid</a></th>
     <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=ip&amp;asc=<?=$ascinv?>">ip</a></th>
     <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=time&amp;asc=<?=$ascinv?>">last heard from</a></th>
     <th align="left" valign="bottom"><a href="<?=$index?>/MP?order=MAMPid&amp;asc=<?=$ascinv?>">MTU</a></th>
