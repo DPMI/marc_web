@@ -3,7 +3,11 @@
 <h1>Login</h1>
 
 <?php if ( isset($msg) ){ ?>
-<div class="alert"><p><?=$msg?></p></div>
+<div class="alert">
+	<?php foreach ( $msg as $text ){ ?>
+	<p><?=$text?></p>
+	<?php } ?>
+</div>
 <?php } ?>
 
 <p>This site uses cookies and sessions.</p>
