@@ -1,4 +1,4 @@
-<?
+<?php
 require("config.php");
 header("Content-type: image/png");
 
