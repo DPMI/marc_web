@@ -30,9 +30,9 @@ class MP extends BasicObject {
 
   public function sync(){
     global $db;
-    // Evaluate syncronization for entire 'MP'                                                                                                                       
+    // Evaluate syncronization for entire 'MP'
     $nics=$this->noCI;
-    $totStat=1; // In sync.                                                                                                                                          
+    $totStat=1; // In sync.
     $syncStr="";
     $result = $db->query("SELECT * FROM {$this->MAMPid}_CIload ORDER BY id DESC LIMIT 0,1");
     if ( $result == null ){
@@ -43,20 +43,20 @@ class MP extends BasicObject {
     $k=0;
 
     $row = $result->fetch_assoc();
-    //    print_r($row);                                                                                                                                             
-    //    print "The Nics $nics ...";                                                                                                                                
+    //    print_r($row);
+    //    print "The Nics $nics ...";
     for($k=0;$k<$nics;$k++){
       $nicstr="SYNC$k";
       $syncstatus[$k] = $row["$nicstr"];
 
     }
 
-    //    print "exited with $k, syncstatus:";                                                                                                                       
-    // print_r($syncstatus);                                                                                                                                         
+    //    print "exited with $k, syncstatus:";
+    // print_r($syncstatus);
 
     for($k=0;$k<$nics;$k++){
       $nstat=$syncstatus[$k];
-      //      print "[$k]->" . $nstat . "eof";                                                                                                                       
+      //      print "[$k]->" . $nstat . "eof";
       switch ($nstat){
       case 'yes':
         $totStat*=1;

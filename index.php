@@ -91,9 +91,9 @@ if ( $handler == '' ){
 		</div>
 
 		<div id="menu">
-<? if ( isset($subtitle) ){ ?>
+<?php if ( isset($subtitle) ){ ?>
 			<h1><?=$subtitle?></h1>
-<? } ?>
+<?php } ?>
 			<h1>MArC - Member</h1>
 			<ul>
 				<li><a href="<?=$index?>">Home</a></li>
