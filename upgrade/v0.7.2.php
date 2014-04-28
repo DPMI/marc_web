@@ -77,6 +77,16 @@ function add_mtu(){
 	mysql_query("ALTER TABLE `measurementpoints` ADD `mtu` INT NOT NULL DEFAULT -1") or die(mysql_error());
 }
 
+function filter_delete_cascade(){
+	mysql_query("ALTER TABLE `filter` DROP FOREIGN KEY `filter_mp`") or die(mysql_error());;
+	mysql_query("ALTER TABLE `filter` ADD CONSTRAINT `filter_mp` FOREIGN KEY (`mp`) REFERENCES `measurementpoints` (`id`) ON DELETE CASCADE") or die(mysql_error());;
+}
+
+function mampid_unique(){
+	mysql_query("ALTER TABLE `measurementpoints` MODIFY `MAMPid` VARCHAR(16)") or die(mysql_error());;
+	mysql_query("ALTER TABLE `measurementpoints` ADD CONSTRAINT `mampid_uk` UNIQUE(`MAMPid`)") or die(mysql_error());;
+}
+
 $result = mysql_query("SELECT `num` FROM `version`") or die(mysql_error());
 $row = mysql_fetch_array($result) or die("run v0.7.1.php first");
 $version = $row[0];
@@ -93,6 +103,12 @@ case 3:
 
 case 4:
 	add_mtu();
+
+case 5:
+	filter_delete_cascade();
+
+case 6:
+	mampid_unique();
 };
 
-mysql_query("UPDATE `version` SET `num` = 5");
+mysql_query("UPDATE `version` SET `num` = 7");

@@ -118,9 +118,13 @@ class MP extends BasicObject {
     }
   }
 
+  public function running(){
+	  return in_array($this->status, array(MP_STATUS_IDLE, MP_STATUS_CAPTURE));
+  }
+
   public function ping(){
 	  global $use_ping, $root;
-	  if ( !$use_ping ){ return ''; }
+	  if ( !($use_ping && $this->is_authorized()) ){ return ''; }
 	  return "<img src=\"{$root}ping.php?MAMPid={$this->MAMPid}\" alt=\"\" />";
   }
 
