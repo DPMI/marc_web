@@ -36,7 +36,7 @@ class MP extends BasicObject {
     $syncStr="";
     $result = $db->query("SELECT * FROM {$this->MAMPid}_CIload ORDER BY id DESC LIMIT 0,1");
     if ( $result == null ){
-      return array();
+      return '';
     }
 
     $syncstatus=array();
