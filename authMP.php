@@ -1,4 +1,4 @@
-<?
+<?php
 require("sessionCheck.php");
 require("config.php");
 require("model/MP.php");
@@ -48,5 +48,3 @@ $mp->auth();
 
 /* go back to MP list */
 header("Location: $index/MP");
-
-?>
