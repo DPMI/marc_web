@@ -213,6 +213,7 @@ $(document).ready(function(){
 		$confirm.dialog({
 			resizable: false,
 			height:140,
+			modal: true,
 			buttons: {
 				"Delete": function() {
 					$(this).dialog('close');
@@ -236,6 +237,7 @@ $(document).ready(function(){
 		$confirm.dialog({
 			resizable: false,
 			height:160,
+			modal: true,
 			buttons: {
 				"Remove": function() {
 					$(this).dialog('close');
@@ -259,6 +261,7 @@ $(document).ready(function(){
 		$confirm.dialog({
 			resizable: false,
 			height:160,
+			modal: true,
 			buttons: {
 				"Stop": function() {
 					$(this).dialog('close');
