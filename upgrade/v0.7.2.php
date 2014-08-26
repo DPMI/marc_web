@@ -44,8 +44,8 @@ function single_filter_table(){
 	            "  `destaddr` VARCHAR(23) NOT NULL DEFAULT '',".
 	            "  `type` INT NOT NULL DEFAULT 0,".
 	            "  `caplen` INT NOT NULL DEFAULT 0,".
-	            "  PRIMARY KEY `filter_pk` (`filter_id`, `mp`),".
-	            "  CONSTRAINT `filter_mp` FOREIGN KEY (`mp`) REFERENCES `measurementpoints`(`id`)".
+	            "  PRIMARY KEY `pk_filter` (`filter_id`, `mp`),".
+	            "  CONSTRAINT `fk_filter_mp` FOREIGN KEY (`mp`) REFERENCES `measurementpoints`(`id`)".
 	            ") ENGINE=InnoDB") or die(mysql_error());
 
 	foreach ( MP::selection() as $mp ){
@@ -78,8 +78,8 @@ function add_mtu(){
 }
 
 function filter_delete_cascade(){
-	mysql_query("ALTER TABLE `filter` DROP FOREIGN KEY `filter_mp`") or die(mysql_error());;
-	mysql_query("ALTER TABLE `filter` ADD CONSTRAINT `filter_mp` FOREIGN KEY (`mp`) REFERENCES `measurementpoints` (`id`) ON DELETE CASCADE") or die(mysql_error());;
+	mysql_query("ALTER TABLE `filter` DROP FOREIGN KEY `fk_filter_mp`") or die(mysql_error());;
+	mysql_query("ALTER TABLE `filter` ADD CONSTRAINT `fk_filter_mp` FOREIGN KEY (`mp`) REFERENCES `measurementpoints` (`id`) ON DELETE CASCADE") or die(mysql_error());;
 }
 
 function mampid_unique(){
