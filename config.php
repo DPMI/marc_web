@@ -3,6 +3,8 @@
 /* NOTE! User configuration is now added in `config.local.php`. See
  * `config.default.php` for help. */
 
+chdir(dirname(__FILE__));
+
 require('config.default.php');
 if ( file_exists('config.local.php') ){
   require('config.local.php');
