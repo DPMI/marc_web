@@ -3,7 +3,7 @@
 /* NOTE! User configuration is now added in `config.local.php`. See
  * `config.default.php` for help. */
 
-$baseurl = dirname(path)(__FILE__);
+$baseurl = dirname(__FILE__);
 
 require($baseurl . '/config.default.php');
 if ( file_exists($baseurl . '/config.local.php') ){
