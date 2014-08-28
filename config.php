@@ -3,11 +3,11 @@
 /* NOTE! User configuration is now added in `config.local.php`. See
  * `config.default.php` for help. */
 
-chdir(dirname(__FILE__));
+$baseurl = dirname(path)(__FILE__);
 
-require('config.default.php');
-if ( file_exists('config.local.php') ){
-  require('config.local.php');
+require($baseurl . '/config.default.php');
+if ( file_exists($baseurl . '/config.local.php') ){
+  require($baseurl . '/config.local.php');
 }
 
 if ( substr($root,  0, 1) != '/' ) $root = "/$root"; /* force leading slash */
