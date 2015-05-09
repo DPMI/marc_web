@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS `filter_type` (`id` INT PRIMARY KEY, `name` VARCHAR(32)) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS `mp_status` (`id` INT PRIMARY KEY, `name` VARCHAR(32)) ENGINE=InnoDB;
+INSERT IGNORE INTO `filter_type` (`id`, `name`) VALUES (0, 'file');
+INSERT IGNORE INTO `filter_type` (`id`, `name`) VALUES (1, 'ethernet');
+INSERT IGNORE INTO `filter_type` (`id`, `name`) VALUES (2, 'tcp');
+INSERT IGNORE INTO `filter_type` (`id`, `name`) VALUES (3, 'udp');
+INSERT IGNORE INTO `mp_status` (`id`, `name`) VALUES (0, 'unauthorized');
+INSERT IGNORE INTO `mp_status` (`id`, `name`) VALUES (1, 'idle');
+INSERT IGNORE INTO `mp_status` (`id`, `name`) VALUES (2, 'capturing');
+INSERT IGNORE INTO `mp_status` (`id`, `name`) VALUES (3, 'stopped');
+INSERT IGNORE INTO `mp_status` (`id`, `name`) VALUES (4, 'distress');
+INSERT IGNORE INTO `mp_status` (`id`, `name`) VALUES (5, 'terminated');
+INSERT IGNORE INTO `mp_status` (`id`, `name`) VALUES (6, 'timeout');

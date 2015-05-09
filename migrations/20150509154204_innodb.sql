@@ -1,0 +1,3 @@
+ALTER TABLE `access` ENGINE = INNODB;
+ALTER TABLE `measurementpoints` ENGINE = INNODB;
+ALTER TABLE `greeting` ENGINE = INNODB;
