@@ -1,17 +1,17 @@
 <?php
 
-$skip_config_check = true;
-require(dirname(__FILE__) . '/../config.php');
+global $DATABASE;
 
-$result = mysql_query("SELECT 1 FROM `information_schema`.`tables` WHERE `table_schema` = '$DATABASE' AND `table_name`='version' LIMIT 1");
-if ( mysql_num_rows($result) == 1 ){
-	exit;
+/* usually not needed but this is for compatiblity with the old upgrade scripts which was (supposed to be) idempotent */
+$result = $db->query("SELECT 1 FROM `information_schema`.`tables` WHERE `table_schema` = '$DATABASE' AND `table_name`='version' LIMIT 1");
+if ( $result->num_rows == 1 ){
+	return;
 }
 
-$result = mysql_query("SELECT `table_name` FROM `information_schema`.`tables` WHERE `table_schema` = '$DATABASE' AND `table_name` LIKE '%_filterlist'");
-while ($row = mysql_fetch_assoc($result)) {
+$result = $db->query("SELECT `table_name` FROM `information_schema`.`tables` WHERE `table_schema` = '$DATABASE' AND `table_name` LIKE '%_filterlist'");
+while ($row = $result->fetch_assoc()) {
 	$table = $row['table_name'];
-	mysql_query("ALTER TABLE $table ADD mode ENUM('AND', 'OR') NOT NULL DEFAULT 'AND'") or die(mysql_error());
+	$db->query("ALTER TABLE $table ADD mode ENUM('AND', 'OR') NOT NULL DEFAULT 'AND'") or die($db->error());
 }
-mysql_query("CREATE TABLE `version` (`num` INT PRIMARY KEY NOT NULL DEFAULT 1)") or die(mysql_error());
-mysql_query("INSERT INTO `version` (`num`) VALUES (1)") or die(mysql_error());
+$db->query("CREATE TABLE `version` (`num` INT PRIMARY KEY NOT NULL DEFAULT 1)") or die($db->error());
+$db->query("INSERT INTO `version` (`num`) VALUES (1)") or die($db->error());
