@@ -1,5 +1,5 @@
 <?php global $u_access ?>
-<h1>Filters</h1>
+<h1>Filters . </h1>
 
 <?php if ( count($mps) == 0 ){ ?>
 <p>No MPs found!</p>

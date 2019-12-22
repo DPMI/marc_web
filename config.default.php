@@ -23,8 +23,8 @@ $site_key = str_repeat('default_marc_key', 25);
 /* Path configuration */
 $prefix = '/';                              /* Path prefix (--prefix to configure). */
 $sysconfdir = "{PREFIX}etc";
-$localstatedir = "{PREFIX}var";
-$rrdbase = "{LOCALSTATEDIR}marc";
+$localstatedir = "{PREFIX}var/lib";
+$rrdbase = "{LOCALSTATEDIR}marcd";
 $rrdtool = '/usr/bin/rrdtool';
 $cachedir = realpath('cache');                 /* cache directory (e.g. graphs ) */
 
@@ -32,7 +32,7 @@ $cachedir = realpath('cache');                 /* cache directory (e.g. graphs )
 $usergroup = 'marc';
 
 /* URL configuration */
-$root = '/';                                /* If installing into a subdirectory, set the path here. Must end in trailing slash.
+$root = '/marc/';                                /* If installing into a subdirectory, set the path here. Must end in trailing slash.
                                              * E.g. if URL is http://example.net/marc set root to 'marc/' */
 /* Graph settings */
 $graph_width = 345;                         /* default width of graphs */
