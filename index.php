@@ -44,7 +44,7 @@ if ( $handler == '' ){
   try {
     $content = $controller->_path($path);
   } catch ( HTTPError403 $e ){
-    $content = template('403.php', array());
+    $content = template('account/login.php', array('msg' => array('403: Forbidden', 'You do not have access to this resource.')));
   } catch ( HTTPError404 $e ){
     $content = template('404.php', array());
   } catch ( HTTPRedirect $e ){
@@ -91,9 +91,9 @@ if ( $handler == '' ){
 		</div>
 
 		<div id="menu">
-<? if ( isset($subtitle) ){ ?>
+<?php if ( isset($subtitle) ){ ?>
 			<h1><?=$subtitle?></h1>
-<? } ?>
+<?php } ?>
 			<h1>MArC - Member</h1>
 			<ul>
 				<li><a href="<?=$index?>">Home</a></li>

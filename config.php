@@ -31,7 +31,7 @@ $rrdbase = expand_path($rrdbase);
 $cachedir = expand_path($cachedir);
 
 $version = "0.7.1";
-$dbversion = 5;
+$dbversion = 7;
 
 /* store config errors, if count() != 0 the config errorpage is shown */
 $config_error = array();

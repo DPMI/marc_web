@@ -163,6 +163,49 @@ class MPController extends Controller {
 		$mp->reload_filter($filter->filter_id);
 		throw new HTTPRedirect("$index/MP/filter/{$mp->MAMPid}");
 	}
+
+	public function delete($id){
+		parent::validate_access(1);
+		global $index;
+
+		$mp = MP::from_id($id);
+		if ( !$mp ){
+			return template('mp/invalid.php', array());
+		}
+
+		if ( isset($_GET['confirm']) ){
+			$confirm = $_GET['confirm'];
+			if ( $confirm == 'remove' ){
+				$mp->delete();
+			}
+
+			throw new HTTPRedirect("$index/MP");
+		}
+
+		return confirm("Are you sure you want to remove measurement point \"{$mp->name}\" and all its data?<br/>This action is irreversable.", array("remove", "cancel"));
+	}
+
+	public function stop($id){
+		parent::validate_access(1);
+		global $index;
+
+		$mp = MP::from_id($id);
+		if ( !$mp ){
+			return template('mp/invalid.php', array());
+		}
+
+		if ( isset($_GET['confirm']) ){
+			$confirm = $_GET['confirm'];
+			if ( $confirm == 'stop' ){
+				$mp->stop();
+				sleep(1); /* try to wait for it to stop before returning */
+			}
+
+			throw new HTTPRedirect("$index/MP");
+		}
+
+		return confirm("Are you sure you want to stop the measurement point \"{$mp->name}\"? It is not possible to restart it using the webgui.", array("stop", "cancel"));
+	}
 };
 
 ?>

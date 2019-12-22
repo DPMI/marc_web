@@ -213,10 +213,59 @@ $(document).ready(function(){
 		$confirm.dialog({
 			resizable: false,
 			height:140,
+			modal: true,
 			buttons: {
 				"Delete": function() {
 					$(this).dialog('close');
 					window.location = $a.attr('href')+'?confirm=delete';
+				},
+				"Cancel": function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+
+		return false;
+	});
+
+	$('a.remove_mp').click(function(){
+		var $a = $(this);
+		var $parent = $a.closest('tr');
+		var name = $parent.data('name');
+		$confirm.attr('title', 'Confirm removal');
+		$confirm.find('.text').html('Are you sure you want to remove MP "'+name+'"?');
+		$confirm.dialog({
+			resizable: false,
+			height:160,
+			modal: true,
+			buttons: {
+				"Remove": function() {
+					$(this).dialog('close');
+					window.location = $a.attr('href')+'?confirm=remove';
+				},
+				"Cancel": function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+
+		return false;
+	});
+
+	$('a.stop_mp').click(function(){
+		var $a = $(this);
+		var $parent = $a.closest('tr');
+		var name = $parent.data('name');
+		$confirm.attr('title', 'Confirm removal');
+		$confirm.find('.text').html('Are you sure you want to stop MP "'+name+'"?<br/>It is not possible to restart it using the webgui.');
+		$confirm.dialog({
+			resizable: false,
+			height:160,
+			modal: true,
+			buttons: {
+				"Stop": function() {
+					$(this).dialog('close');
+					window.location = $a.attr('href')+'?confirm=stop';
 				},
 				"Cancel": function() {
 					$(this).dialog('close');

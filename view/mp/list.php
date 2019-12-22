@@ -16,7 +16,7 @@
   </tr>
 
 <?php foreach ( $mps as $mp ){ $toggle = 0; ?>
-  <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>">
+  <tr class="<?=($toggle++ % 2 == 0) ? "even" : "odd"?>" data-id="<?=$mp->id?>" data-name="<?=$mp->name?>" data-mampid="<?=$mp->MAMPid?>">
     <td>
 		<?=$mp->status()?>
 		<?=$mp->ping()?>
@@ -28,9 +28,14 @@
 <?php } else { ?>
     <td><?=$mp->id?></td>
     <td><?=$mp->name?></td>
-<? } ?>
+<?php } ?>
+<?php if ( $mp->running() ){ ?>
     <td><?=$mp->ip?>:<?=$mp->port?></td>
     <td><?=$mp->mac?></td>
+<?php } else { ?>
+    <td></td>
+    <td></td>
+<?php } ?>
     <td><?=strlen($mp->comment) > 0 ? $mp->comment : "&nbsp;" ?></td>
     <td><?=age($mp->time)?></td>
     <td><?=$mp->MAMPid?></td>
@@ -41,11 +46,13 @@
 	</td>
     <td>
 <?php if ( $mp->is_authorized() ){ ?>
-      <a href="<?=$root?>control.php?id=<?=$mp->id?>&amp;action=stop">Stop</a>
+<?php if ( $mp->running() ){ ?>
+      <a href="<?=$index?>/MP/stop/<?=$mp->id?>" class="stop_mp">Stop</a>
+<?php } ?>
 <?php } else { ?>
       <a href="<?=$root?>authMP.php?id=<?=$mp->id?>">Auth</a>
 <?php } ?>
-      <a href="<?=$root?>control.php?id=<?=$mp->id?>&amp;action=remove">Remove</a>
+      <a href="<?=$index?>/MP/delete/<?=$mp->id?>" class="remove_mp">Remove</a>
     </td>
   </tr>
 <?php } /* foreach $mps */ ?>
@@ -78,12 +85,12 @@
 <?php } else { ?>
     <td><?=$mp->id?></td>
     <td><?=$mp->name?></td>
-<? } ?>
+<?php } ?>
     <td><?=$mp->MAMPid?></td>
     <td><?=$mp->mtu?></td>
     <td><?=$mp->sync($mp->MAMPid)?></td>
     <td><?=$mp->version?></td>
 
-  </tr>                                                                                                                                                             
-<?php } /* foreach $mps */ ?>                                                                                                                                       
-</table>          
+  </tr>
+<?php } /* foreach $mps */ ?>
+</table>
