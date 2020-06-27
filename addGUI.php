@@ -12,24 +12,24 @@ print $pageStyle;
 
 <?
 
-$Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
-mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
+$Connect = mysqli_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
+mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 
 $toggle=0;
 
 $sql_query="SELECT * FROM guiconfig WHERE selected=1";
-$result=mysql_query ($sql_query);
+$result=mysqli_query ($sql_query);
 if(!$result) {
 	print "sq: $sql_q <br>\n";
-	print "Mysql Problems: " . mysql_error() . "<br>\n";
+	print "Mysql Problems: " . mysqli_error() . "<br>\n";
 }
 
-if(mysql_num_rows($result)>0) {
+if(mysqli_num_rows($result)>0) {
 ?>
 	<form action="addGUI2.php?SID=<? print $sid;?>&ID=<? print $_GET["ID"]; ?>" method="POST" target="view">
 
 <?
-	$row = mysql_fetch_array($result);
+	$row = mysqli_fetch_array($result);
 	print "<table border=0>";
 
 	print "<tr><th><b>pageStyle</b></th></tr>";

@@ -12,7 +12,7 @@
 $DB_SERVER="localhost";
 $DATABASE='marc';
 $user='marc';
-$password='konko';
+$password='konkelbar1993';
 $path='uploadedfiles/';
 
 /* Password hashing key. If this is changed then all current passwords are lost.

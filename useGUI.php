@@ -12,22 +12,22 @@ if($status < $accesslevel) {
 }
 
 
-$Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
-mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
+$Connect = mysqli_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
+mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 
 
 
 $sql_update="UPDATE guiconfig SET selected='0' WHERE id='$selectedID'";
-$result=mysql_query($sql_update);
+$result=mysqli_query($sql_update);
 if(!$result) {
-	print "MySQL error: " . mysql_error();
+	print "MySQL error: " . mysqli_error();
 	exit;
 }
 
 $sql_update="UPDATE guiconfig SET selected='1' WHERE id='$ID'";
-$result=mysql_query($sql_update);
+$result=mysqli_query($sql_update);
 if(!$result) {
-	print "MySQL error: " . mysql_error();
+	print "MySQL error: " . mysqli_error();
 	exit;
 }
 
@@ -36,15 +36,15 @@ if(!$result) {
 
 $sql_update="SELECT * FROM guiconfig WHERE selected=1";
 //print "sql_update : $sql_update <br>\n";
-$result=mysql_query($sql_update);
+$result=mysqli_query($sql_update);
 if(!$result) {
-	print "MySQL error: " . mysql_error();
+	print "MySQL error: " . mysqli_error();
 	exit;
 }
 
 
-if(mysql_num_rows($result)>0) {
-	$row = mysql_fetch_array($result);
+if(mysqli_num_rows($result)>0) {
+	$row = mysqli_fetch_array($result);
 } else { // PRoblems. Use some default
 
 }

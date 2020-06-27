@@ -8,8 +8,8 @@ print $pageStyle;
 
 $MAMPid=$_GET["MAMPid"];
 
-$Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
-mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
+$Connect = mysqli_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
+mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 if (isset($_SESSION["accesslevel"])) {
 	$level=$_SESSION["accesslevel"];
 } else {
@@ -18,22 +18,22 @@ if (isset($_SESSION["accesslevel"])) {
 print "Clearing old table.<br>\n";
 $tabel=$MAMPid."_filterlistverify";
 $drop="TRUNCATE TABLE $tabel";
-$result=mysql_query ($drop);
+$result=mysqli_query ($drop);
 if(!$result) {
 	print "sq: $drop <br>\n";
-	print "Mysql Problems: " . mysql_error() . "<br>\n";
+	print "Mysql Problems: " . mysqli_error() . "<br>\n";
 	return;
 }
 
 
 $query="SELECT * FROM measurementpoints WHERE MAMPid='$MAMPid'";
-$result=mysql_query ($query);
+$result=mysqli_query ($query);
 if(!$result) {
 	print "sq: $query <br>\n";
-	print "Mysql Problems: " . mysql_error() . "<br>\n";
+	print "Mysql Problems: " . mysqli_error() . "<br>\n";
 	return;
 }
-$row = mysql_fetch_array($result);
+$row = mysqli_fetch_array($result);
 
 $IP=$row["ip"];
 $port=$row["port"];
@@ -55,12 +55,12 @@ sleep(10);
 $toggle=0;
 $tabel=$MAMPid."_filterlistverify";
 $query2="SELECT * FROM $tabel";
-$result2=mysql_query($query2);
+$result2=mysqli_query($query2);
 print "<table border=1>\n";
 if(!$result2) {
-	print "<tr><td colspan=14> sq: $query2 Mysql Problems: " . mysql_error() . "</td></tr>\n";
+	print "<tr><td colspan=14> sq: $query2 Mysql Problems: " . mysqli_error() . "</td></tr>\n";
 } else {
-	if(mysql_num_rows($result2)==0) {
+	if(mysqli_num_rows($result2)==0) {
 	  print "<tr><td colspan=15>No Filters</td></tr>\n";
 	} else {
 	  print "<tr bgcolor=dddddd><th >Index</th><th>Filter_ID</th><th>CI</th><th>VLAN_TCI/<br>MASK</th>";
@@ -68,7 +68,7 @@ if(!$result2) {
 	  print "<th>IP_PROTO</th>";
 	  print "<th>IP_SRC/<br>MASK</th><th>IP_DST/<br>MASK</th><th>SRC_PORT/<br>MASK</th><th>DST_PORT/<br>MASK</th>";
 	  print "<th>DESTADDR/TYPE</th><th>CAPLEN</th><th></th></tr>\n";
-	  while($row2 = mysql_fetch_array($result2)){
+	  while($row2 = mysqli_fetch_array($result2)){
 	    if($toggle==0) {
 		$color="aaaaaa";
 		$toggle=1;

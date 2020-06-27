@@ -17,13 +17,13 @@ print $pageStyle;
 <hr>
 <ul>
 <?
-$Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
-mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
+$Connect = mysqli_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
+mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 
 $sql_question="SELECT * FROM mainmenu WHERE accesslevel <= $u_access ORDER BY id ASC";
-$tabell_query=mysql_query(($sql_question),$Connect) or die("Invalid SQL query: $sql_question");
+$tabell_query=mysqli_query(($sql_question),$Connect) or die("Invalid SQL query: $sql_question");
 
-while($row = mysql_fetch_array($tabell_query)) { ?>
+while($row = mysqli_fetch_array($tabell_query)) { ?>
 <?php  if ($row["type"]==0) { ?>
   <li><a href="displayPage.php?url=<?=$row["url"]?>" target="view"><?=$row["string"]?></a></li>
 <?php } else if ($row["type"]==1) { ?>

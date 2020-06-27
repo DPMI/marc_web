@@ -360,7 +360,10 @@ abstract class BasicObject {
 			$stmt->execute();
 			$stmt->close();
 		}
-		unset($this);
+/** Removed to work with php7 
+	unset($this);
+	*/
+		$this->_valid = false;
 	}
 
 	public static function from_id($id){

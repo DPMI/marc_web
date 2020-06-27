@@ -6,8 +6,8 @@ require("config.php");
 <?
 print $pageStyle;
 
-$Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
-mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
+$Connect = mysqli_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
+mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 
 $toggle=0;
 
@@ -23,16 +23,16 @@ if($order!=""){
 	$sql_query=$sql_query . " ORDER BY $order";
 }
 
-$result=mysql_query ($sql_query);
+$result=mysqli_query ($sql_query);
 if(!$result) {
 	print "sq: $sql_q <br>\n";
-	print "Mysql Problems: " . mysql_error() . "<br>\n";
+	print "Mysql Problems: " . mysqli_error() . "<br>\n";
 }
 
-if(mysql_num_rows($result)>0) {
+if(mysqli_num_rows($result)>0) {
 	print "<table border=0>";
 
-	while($row = mysql_fetch_array($result)) {
+	while($row = mysqli_fetch_array($result)) {
 		$noEthers=0;
 		if($toggle==0) {
 			$color="CCCCCC";
@@ -48,12 +48,12 @@ if(mysql_num_rows($result)>0) {
 
 	if(strlen($row["MAMPid"])>0) {
 		$sql2="SELECT * FROM " . $row["MAMPid"] ."_filterlist";
-		$result2=mysql_query($sql2);
+		$result2=mysqli_query($sql2);
 		if(!$result2){
-			print " MySQL pr. " . mysql_error() ."</td>";
+			print " MySQL pr. " . mysqli_error() ."</td>";
 		} else {
-			if(mysql_num_rows($result2)>0) {
-				print "Capturing " . mysql_num_rows($result2) . " filters </td>";
+			if(mysqli_num_rows($result2)>0) {
+				print "Capturing " . mysqli_num_rows($result2) . " filters </td>";
 			} else {
 				print "Idle</td>";
 			}
@@ -68,16 +68,16 @@ if(mysql_num_rows($result)>0) {
 
 
 	$sql2="SELECT * FROM " . $row["MAMPid"] ."_CIload";// ORDER BY id DESC LIMIT 0, 366";
-	$result2=mysql_query($sql2);
+	$result2=mysqli_query($sql2);
 	if(!$result2){
-		print " MySQL pr. " . mysql_error() ."</td>";
+		print " MySQL pr. " . mysqli_error() ."</td>";
 	} else {
 		$first=0;
 		$count=0;
 		$lastTime="";
-		$numRows=mysql_num_rows($result2);
-		if(mysql_num_rows($result2)>0) {
-			while($row=mysql_fetch_array($result2)) {
+		$numRows=mysqli_num_rows($result2);
+		if(mysqli_num_rows($result2)>0) {
+			while($row=mysqli_fetch_array($result2)) {
 			   if(($numRows-363)<$first){
 			   	$arrFilters[$count]=$row["noFilters"];
 			   	$arrMatchedPkts[$count]=$row["matchedPkts"];

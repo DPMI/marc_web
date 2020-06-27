@@ -2,8 +2,8 @@
 require("sessionCheck.php");
 require("config.php");
 
-$Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
-mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
+$Connect = mysqli_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
+mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 
 $url=$_GET["url"];
 $qMark=strpos($url,"?");
@@ -12,8 +12,8 @@ if($qMark>0) {
 }
 
 $sql_question="SELECT * FROM pages WHERE url='" . $url . "'";
-$tabell_query=mysql_query(($sql_question),$Connect) or die("Invalid SQL query: $sql_question");
-$row = mysql_fetch_array($tabell_query);
+$tabell_query=mysqli_query(($sql_question),$Connect) or die("Invalid SQL query: $sql_question");
+$row = mysqli_fetch_array($tabell_query);
 
 $accesslevel = isset($_SESSION["accesslevel"]) ? $_SESSION["accesslevel"] : 0;
 
@@ -40,5 +40,5 @@ if ( $row["accesslevel"] > $accesslevel ) {
   </body>
 </html>
 <?
-mysql_close($Connect);
+mysqli_close($Connect);
 ?>

@@ -15,13 +15,13 @@ if($status < $accesslevel) {
 }
 
 
-$Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
-mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
+$Connect = mysqli_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
+mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 
 $sql_update="INSERT INTO access SET uname='$uname', passwd=PASSWORD('$passwd'), status='$status', comment='$comment', name='$name', email='$email'";
-$result=mysql_query($sql_update);
+$result=mysqli_query($sql_update);
 if(!$result) {
-	print "MySQL error: " . mysql_error();
+	print "MySQL error: " . mysqli_error();
 	exit;
 }
 //header("Location: root.php?SID=$sidVAR");

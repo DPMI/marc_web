@@ -2,12 +2,13 @@
 <?php
 require "color_terminal.php";
 
+echo "=> " . realpath(dirname($argv[0])) . "|" .  PHP_EOL;
 $file_dir = realpath(dirname($argv[0]));
 
 if(file_exists("$file_dir/config.php")) {
 	require "$file_dir/config.php";
 } else if(file_exists(dirname(__FILE__)."/config.php")) {
-	$file_dir = dirname(__FILE__);
+       $file_dir = dirname(__FILE__);
 	require "$file_dir/config.php";
 } else {
 	die("Please create config.php. You can look at config-example.php for ideas.\n");
@@ -18,6 +19,8 @@ $ignored_files = array(
 	'(?<!\.(php|sql))$',            /* everything not .php or .sql */
 	'^(update_database|create_migration|config(-example)?|color_terminal)\.php$',
 );
+
+echo "Bob2";
 
 /* append project-wide ignores */
 if ( is_callable(array('MigrationConfig', 'ignored')) ){
@@ -65,6 +68,8 @@ function ask_for_password() {
 	return $password;
 }
 
+echo "Starting?";
+
 try {
 	$db = MigrationConfig::fix_database($username);
 } catch(Exception $e) {
@@ -92,6 +97,7 @@ $db->autocommit(FALSE);
 run_hook("begin");
 
 foreach(migration_list() as $version => $file) {
+        echo "Running Migration file=$file\n";
 	if(!migration_applied($version)) {
 		run_migration($version,$file);
 	}

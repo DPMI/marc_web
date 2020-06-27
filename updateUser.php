@@ -18,17 +18,17 @@ if($status < $accesslevel) {
 }
 
 
-$Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
-mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
+$Connect = mysqli_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
+mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 
 
 $sql_select="SELECT * FROM access where passwd='$passwd'";
-$result=mysql_query($sql_select);
+$result=mysqli_query($sql_select);
 if(!$result) {
-	print "MySQL error: " . mysql_error();
+	print "MySQL error: " . mysqli_error();
 	exit;
 }
-$n=mysql_num_rows($result);
+$n=mysqli_num_rows($result);
 //print "sql: $sql_select <br>\n";
 //print "n  : $n <br>\n";
 if ($n==0) {
@@ -40,9 +40,9 @@ if ($n==0) {
 	$sql_update="UPDATE access SET uname='$uname', status='$status', comment='$comment', Name='$name', Email='$email', time=NOW() WHERE id='$ID'";
 	print "Not changing passwd..<br>\n";
 }
-$result=mysql_query($sql_update);
+$result=mysqli_query($sql_update);
 if(!$result) {
-	print "MySQL error: " . mysql_error();
+	print "MySQL error: " . mysqli_error();
 	exit;
 }
 

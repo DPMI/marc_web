@@ -4,6 +4,7 @@ $skip_config_check = true;
 require(dirname(__FILE__) . '/../config.php');
 require(dirname(__FILE__) . '/../model/MP.php');
 
+
 class MigrationConfig {
 	public static function fix_database($username=null) {
 		global $DB_SERVER, $user, $password, $DATABASE;
