@@ -1,3 +1,4 @@
+
 -- MySQL dump 10.13  Distrib 5.1.56, for pc-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: marc
@@ -42,9 +43,11 @@ CREATE TABLE `access` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+/* Note changed PASSWORD() to SHA2('',512).  */
 INSERT INTO `access` SET
        `uname` = 'root',
-       `passwd` = PASSWORD('0000'),
+       `passwd` = SHA2('0000',512),
        `status` = 99,
        `comment` = 'default user (please remove after creating a new admin account)',
        `Name` = 'admin',
@@ -126,28 +129,28 @@ INSERT INTO `mp_status` (`id`, `name`) VALUES (6, 'timeout');
 
 DROP TABLE IF EXISTS `measurementpoints`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = UTF8MB4 */;
 CREATE TABLE `measurementpoints` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL DEFAULT '',
   `ip` varchar(20) NOT NULL DEFAULT '',
-  `port` int(11) NOT NULL DEFAULT '0',
+  `port` int NOT NULL DEFAULT '0',
   `mac` varchar(20) NOT NULL DEFAULT '',
   `comment` text NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `MAMPid` varchar(16) NOT NULL DEFAULT '',
-  `maxFilters` int(11) NOT NULL DEFAULT '0',
-  `noCI` int(11) NOT NULL DEFAULT '0',
+  `maxFilters` int NOT NULL DEFAULT '0',
+  `noCI` int NOT NULL DEFAULT '0',
 
   -- 0.7 additions
-  `status` int(11) NOT NULL DEFAULT '0',  -- MP status (e.g. distress)
-  `drivers` int(11) NOT NULL,             -- bitmask of capture drivers
+  `status` int NOT NULL DEFAULT '0',  -- MP status (e.g. distress)
+  `drivers` int NOT NULL,             -- bitmask of capture drivers
   `version` text NOT NULL,                -- semicolon separated list of version-numbers (for presentation)
-  `CI_iface` text NOT NULL DEFAULT '',    -- semicolon separated list of CI ifaces (for presentation)
+  `CI_iface` text NOT NULL ,    -- semicolon separated list of CI ifaces (for presentation)
 
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_mp_status` FOREIGN KEY (`status`) REFERENCES `mp_status`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 PACK_KEYS=0 COMMENT='List of MPs within the MA';
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 PACK_KEYS=0 COMMENT='List of MPs within the MA';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,16 +159,16 @@ CREATE TABLE `measurementpoints` (
 
 DROP TABLE IF EXISTS `pages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = UTF8MB4 */;
 CREATE TABLE `pages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `url` text NOT NULL,
-  `accesslevel` int(11) NOT NULL DEFAULT '0',
+  `accesslevel` int NOT NULL DEFAULT '0',
   `text` text NOT NULL,
   PRIMARY KEY (`id`),
   FULLTEXT KEY `text` (`text`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='List of pages on site';
+) ENGINE=MyISAM DEFAULT CHARSET=UTF8MB4 COMMENT='List of pages on site';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 CREATE TABLE IF NOT EXISTS `filter` (
@@ -199,6 +202,7 @@ CREATE TABLE IF NOT EXISTS `filter` (
   CONSTRAINT `fk_filter_type` FOREIGN KEY (`type`) REFERENCES `filter_type`(`id`)
 ) ENGINE=InnoDB;
 
+DROP TABLE IF EXISTS `version`;
 CREATE TABLE `version` (`num` INT PRIMARY KEY NOT NULL DEFAULT 1);
 INSERT INTO `version` (`num`) VALUES (4);
 
