@@ -2,19 +2,20 @@
 require("sessionCheck.php");
 require("config.php");
 
-$url=		$HTTP_POST_VARS["url"];
-$accesslevel=	$HTTP_POST_VARS["accesslevel"];
-$text=		$HTTP_POST_VARS["text"];
+$url=		$_POST["url"];
+$accesslevel=	$_POST["accesslevel"];
+$text=		$_POST["text"];
 
 
 
-$Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
-mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
+$Connect = mysqli_connect($DB_SERVER, $user, $password,$DATABASE) or die ("Cant connect to MySQL at $DB_SERVER");
+//mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 
 $sql_update="INSERT pages SET url='$url', accesslevel='$accesslevel', text='$text'";
-$result=mysql_query($sql_update);
+$result=mysqli_query($Connect, $sql_update);
 if(!$result) {
-	print "MySQL error: " . mysql_error();
+	print "MySQL error: " . mysqli_error() . "\n";
+	print "Query = $sql_update \n";
 	exit;
 }
 //header("Location: root.php?SID=$sidVAR");

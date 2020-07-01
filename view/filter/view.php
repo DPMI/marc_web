@@ -219,7 +219,7 @@ $stmt->close();
 			  <input id="ETH_SRC_MASK" name="ETH_SRC_MASK" type="text" size="17" maxlength="17" value="<?=$filter->ETH_SRC_MASK ?>" />
 		  </td>
 		  <td>
-			  <?=select('ethsrcmask_selection', array('' => 'ffffffffffff', 'Multicast' => '010000000000', 'OUI' => 'ffffff000000', 'NIC' => '000000ffffff', '000000000000', 'Other' => ''), array($filter->ETH_SRC_MASK, ''), 'ETH_SRC_MASK')?>
+			  <?=select('ethsrcmask_selection', array('' => '0xffffffffffff', 'Multicast' => '0x010000000000', 'OUI' => '0xffffff000000', 'NIC' => '0x000000ffffff', '0x000000000000', 'Other' => ''), array($filter->ETH_SRC_MASK, ''), 'ETH_SRC_MASK')?>
 		  </td>
 	  </tr>
 
@@ -240,7 +240,7 @@ $stmt->close();
 			  <input id="ETH_DST_MASK" name="ETH_DST_MASK" type="text" size="17" maxlength="17" value="<?=$filter->ETH_DST_MASK ?>" />
 		  </td>
 		  <td>
-			  <?=select('ethdstmask_selection', array('' => 'ffffffffffff', 'Multicast' => '010000000000', 'OUI' => 'ffffff000000', 'NIC' => '000000ffffff', '000000000000', 'Other' => ''), array($filter->ETH_DST_MASK, ''), 'ETH_DST_MASK')?>
+			  <?=select('ethdstmask_selection', array('' => '0xffffffffffff', 'Multicast' => '0x010000000000', 'OUI' => '0xffffff000000', 'NIC' => '0x000000ffffff', '0x000000000000', 'Other' => ''), array($filter->ETH_DST_MASK, ''), 'ETH_DST_MASK')?>
 		  </td>
 	  </tr>
 

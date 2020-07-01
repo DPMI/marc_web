@@ -11,14 +11,14 @@ if ( count($config_error) > 0 ){
 	exit;
 }
 
-function innodb(){
+function innodb($Connect){
 	foreach(array('access', 'measurementpoints', 'greeting') as $table){
-		mysql_query("ALTER TABLE `$table` ENGINE = INNODB") or die(mysql_error());
+		mysqli_query($Connect, "ALTER TABLE `$table` ENGINE = INNODB") or die(mysqli_error());
 	}
 }
 
-function single_filter_table(){
-	mysql_query("CREATE TABLE IF NOT EXISTS `filter` (\n".
+function single_filter_table($Connect){
+	mysqli_query($Connect, "CREATE TABLE IF NOT EXISTS `filter` (\n".
 	            "  `filter_id` INT NOT NULL,".
 	            "  `mp` INT NOT NULL,".
 	            "  `mode` ENUM('AND', 'OR') NOT NULL DEFAULT 'AND',".
@@ -46,53 +46,53 @@ function single_filter_table(){
 	            "  `caplen` INT NOT NULL DEFAULT 0,".
 	            "  PRIMARY KEY `filter_pk` (`filter_id`, `mp`),".
 	            "  CONSTRAINT `filter_mp` FOREIGN KEY (`mp`) REFERENCES `measurementpoints`(`id`)".
-	            ") ENGINE=InnoDB") or die(mysql_error());
+	            ") ENGINE=InnoDB") or die(mysqli_error($Connect));
 
 	foreach ( MP::selection() as $mp ){
 		$table = "{$mp->MAMPid}_filterlist";
-		mysql_query("INSERT INTO `filter` SELECT `filter_id`, {$mp->id} AS `mp_id`, `mode`, `ind` AS `index`, `CI_ID` AS `CI`, `VLAN_TCI`, `VLAN_TCI_MASK`, `ETH_TYPE`, `ETH_TYPE_MASK`, `ETH_SRC`, `ETH_SRC_MASK`, `ETH_DST`, `ETH_DST_MASK`, `IP_PROTO`, `IP_SRC`, `IP_SRC_MASK`, `IP_DST`, `IP_DST_MASK`, `SRC_PORT`, `SRC_PORT_MASK`, `DST_PORT`, `DST_PORT_MASK`, `destaddr`, `type`, `caplen` FROM `$table`") or print(mysql_error()."\n");
-		mysql_query("DROP TABLE `$table`") or print(mysql_error()."\n");
+		mysqli_query($Connect, "INSERT INTO `filter` SELECT `filter_id`, {$mp->id} AS `mp_id`, `mode`, `ind` AS `index`, `CI_ID` AS `CI`, `VLAN_TCI`, `VLAN_TCI_MASK`, `ETH_TYPE`, `ETH_TYPE_MASK`, `ETH_SRC`, `ETH_SRC_MASK`, `ETH_DST`, `ETH_DST_MASK`, `IP_PROTO`, `IP_SRC`, `IP_SRC_MASK`, `IP_DST`, `IP_DST_MASK`, `SRC_PORT`, `SRC_PORT_MASK`, `DST_PORT`, `DST_PORT_MASK`, `destaddr`, `type`, `caplen` FROM `$table`") or print(mysqli_error($Connect)."\n");
+		mysqli_query($Connect, "DROP TABLE `$table`") or print(mysqli_error($Connect)."\n");
 	}
 }
 
-function enum_tables(){
-	mysql_query("CREATE TABLE IF NOT EXISTS `filter_type` (`id` INT PRIMARY KEY, `name` VARCHAR(32)) ENGINE=InnoDB") or die(mysql_error());
-	mysql_query("CREATE TABLE IF NOT EXISTS `mp_status` (`id` INT PRIMARY KEY, `name` VARCHAR(32)) ENGINE=InnoDB") or die(mysql_error());
-	mysql_query("INSERT INTO `filter_type` (`id`, `name`) VALUES (0, 'file')") or die(mysql_error());
-	mysql_query("INSERT INTO `filter_type` (`id`, `name`) VALUES (1, 'ethernet')") or die(mysql_error());
-	mysql_query("INSERT INTO `filter_type` (`id`, `name`) VALUES (2, 'tcp')") or die(mysql_error());
-	mysql_query("INSERT INTO `filter_type` (`id`, `name`) VALUES (3, 'udp')") or die(mysql_error());
-	mysql_query("INSERT INTO `mp_status` (`id`, `name`) VALUES (0, 'unauthorized')") or die(mysql_error());
-	mysql_query("INSERT INTO `mp_status` (`id`, `name`) VALUES (1, 'idle')") or die(mysql_error());
-	mysql_query("INSERT INTO `mp_status` (`id`, `name`) VALUES (2, 'capturing')") or die(mysql_error());
-	mysql_query("INSERT INTO `mp_status` (`id`, `name`) VALUES (3, 'stopped')") or die(mysql_error());
-	mysql_query("INSERT INTO `mp_status` (`id`, `name`) VALUES (4, 'distress')") or die(mysql_error());
-	mysql_query("INSERT INTO `mp_status` (`id`, `name`) VALUES (5, 'terminated')") or die(mysql_error());
-	mysql_query("INSERT INTO `mp_status` (`id`, `name`) VALUES (6, 'timeout')") or die(mysql_error());
-	mysql_query("ALTER TABLE `filter` ADD CONSTRAINT `fk_filter_type` FOREIGN KEY (`type`) REFERENCES `filter_type`(`id`)") or die(mysql_error());
-	mysql_query("ALTER TABLE `measurementpoints` ADD CONSTRAINT `fk_mp_status` FOREIGN KEY (`status`) REFERENCES `mp_status`(`id`)") or die(mysql_error());
+function enum_tables($Connect){
+	mysqli_query($Connect, "CREATE TABLE IF NOT EXISTS `filter_type` (`id` INT PRIMARY KEY, `name` VARCHAR(32)) ENGINE=InnoDB") or die(mysqli_error($Connect));
+	mysqli_query($Connect, "CREATE TABLE IF NOT EXISTS `mp_status` (`id` INT PRIMARY KEY, `name` VARCHAR(32)) ENGINE=InnoDB") or die(mysqli_error($Connect));
+	mysqli_query($Connect, "INSERT INTO `filter_type` (`id`, `name`) VALUES (0, 'file')") or die(mysqli_error($Connect));
+	mysqli_query($Connect, "INSERT INTO `filter_type` (`id`, `name`) VALUES (1, 'ethernet')") or die(mysqli_error($Connect));
+	mysqli_query($Connect, "INSERT INTO `filter_type` (`id`, `name`) VALUES (2, 'tcp')") or die(mysqli_error($Connect));
+	mysqli_query($Connect, "INSERT INTO `filter_type` (`id`, `name`) VALUES (3, 'udp')") or die(mysqli_error($Connect));
+	mysqli_query($Connect, "INSERT INTO `mp_status` (`id`, `name`) VALUES (0, 'unauthorized')") or die(mysqli_error($Connect));
+	mysqli_query($Connect, "INSERT INTO `mp_status` (`id`, `name`) VALUES (1, 'idle')") or die(mysqli_error($Connect));
+	mysqli_query($Connect, "INSERT INTO `mp_status` (`id`, `name`) VALUES (2, 'capturing')") or die(mysqli_error($Connect));
+	mysqli_query($Connect, "INSERT INTO `mp_status` (`id`, `name`) VALUES (3, 'stopped')") or die(mysqli_error($Connect));
+	mysqli_query($Connect, "INSERT INTO `mp_status` (`id`, `name`) VALUES (4, 'distress')") or die(mysqli_error($Connect));
+	mysqli_query($Connect, "INSERT INTO `mp_status` (`id`, `name`) VALUES (5, 'terminated')") or die(mysqli_error($Connect));
+	mysqli_query($Connect, "INSERT INTO `mp_status` (`id`, `name`) VALUES (6, 'timeout')") or die(mysqli_error($Connect));
+	mysqli_query($Connect, "ALTER TABLE `filter` ADD CONSTRAINT `fk_filter_type` FOREIGN KEY (`type`) REFERENCES `filter_type`(`id`)") or die(mysqli_error($Connect));
+	mysqli_query($Connect, "ALTER TABLE `measurementpoints` ADD CONSTRAINT `fk_mp_status` FOREIGN KEY (`status`) REFERENCES `mp_status`(`id`)") or die(mysqli_error($Connect));
 }
 
-function add_mtu(){
-	mysql_query("ALTER TABLE `measurementpoints` ADD `mtu` INT NOT NULL DEFAULT -1") or die(mysql_error());
+function add_mtu($Connect){
+	mysqli_query($Connect, "ALTER TABLE `measurementpoints` ADD `mtu` INT NOT NULL DEFAULT -1") or die(mysqli_error($Connect));
 }
 
-$result = mysql_query("SELECT `num` FROM `version`") or die(mysql_error());
-$row = mysql_fetch_array($result) or die("run v0.7.1.php first");
+$result = mysqli_query($Connect, "SELECT `num` FROM `version`") or die(mysqli_error($Connect));
+$row = mysqli_fetch_array($result) or die("run v0.7.1.php first");
 $version = $row[0];
 
 switch ( $version ){
 case 1:
-	innodb();
+	innodb($Connect);
 
 case 2:
-	single_filter_table();
+	single_filter_table($Connect);
 
 case 3:
-	enum_tables();
+	enum_tables($Connect);
 
 case 4:
-	add_mtu();
+	add_mtu($Connect);
 };
 
-mysql_query("UPDATE `version` SET `num` = 5");
+mysqli_query($Connect, "UPDATE `version` SET `num` = 5");

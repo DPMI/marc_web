@@ -141,9 +141,14 @@ class MPController extends Controller {
 		$filter->mp = $mp->id;
 
 		foreach ($fields as $key => $value){
-			if ( strcmp(substr($key, -10), '_selection') == 0 || strcmp(substr($key, -3), '_cb') == 0 ){
+			echo "key = $key --- $value| " . strlen($value) .  " \n";
+			
+			if ( strcmp(substr($key, -10), '_selection') == 0 || strcmp(substr($key, -3), '_cb') == 0 || strlen($value)==0 ){
+			   echo "Usetting that <br>\n";
 				unset($fields[$key]);
 				continue;
+			} else {
+			  echo " Keeping it.<br>\n";
 			}
 			$filter->$key = $value;
 		}

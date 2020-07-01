@@ -106,7 +106,8 @@ if ( $handler == '' ){
 				<li><a href="<?=$index?>/FilterReadable">List filters</a></li>
 			</ul>
 
-<?php if ( $u_id > 0 ){ ?>
+
+<?php if ( $u_id > 100 ){ ?>
 			<h1>Site maintenance</h1>
 			<ul>
 				<li><a href="listPages.php">List Pages</a></li>
@@ -117,11 +118,11 @@ if ( $handler == '' ){
 <?php if ( $u_access > 1 ) { ?>
 			<h1>Site administration</h1>
 			<ul>
-				<li><a href="addPage.php">Add Page</a></li>
-				<li><a href="listGUIconfig.php">List GUI config</a></li>
-				<li><a href="addGUI.php">Add GUI config</a></li>
-				<li><a href="listMenu.php">List Menu</a></li>
-				<li><a href="addMenu.php">Add Menu Entry</a></li>
+<?php if ( $u_id >100 ){?>	<li><a href="addPage.php">Add Page</a></li> <?php } ?>
+<?php if ( $u_id >100 ){?>	<li><a href="listGUIconfig.php">List GUI config</a></li> <?php } ?>
+<?php if ( $u_id >100 ){?>	<li><a href="addGUI.php">Add GUI config</a></li> <?php } ?>
+<?php if ( $u_id >100 ){?>	<li><a href="listMenu.php">List Menu</a></li> <?php } ?>
+<?php if ( $u_id >100 ){?>	<li><a href="addMenu.php">Add Menu Entry</a></li>  <?php } ?>
 				<li><a href="<?=$index?>/account">List Accounts</a></li>
 				<li><a href="<?=$index?>/account/add">Add Account</a></li>
 				<li><a href="<?=$index?>/status">Daemon status</a></li>

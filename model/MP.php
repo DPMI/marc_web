@@ -158,10 +158,18 @@ class MP extends BasicObject {
   }
 
   public function delete(){
-    global $db;
+    global $db;   
     $db->query("DROP TABLE IF EXISTS {$this->MAMPid}_CIload") or die($db->error);
     $db->query("DROP TABLE IF EXISTS {$this->MAMPid}_ci") or die($db->error);
+
+    $myResult = $db->query("SHOW TABLES") or die($db->error);
+    while ( $row = mysqli_fetch_array($myResult) ){
+    	  printf ("=> %s <br>\n",$row[0]);
+    }
+//    echo "Deleting parent<br>\n";
+//    var_dump(parent);
     parent::delete();
+//    echo "done<br>\n";
   }
 
   public function commit($timestamp=true){

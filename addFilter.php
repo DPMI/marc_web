@@ -92,17 +92,61 @@ print $pageStyle;
 <tr><td bgcolor = D3DCE3><div align=right>INDEX</div></td><td><input name="index" type="text" size="14" maxlength="14" value=0></td></tr>
 <tr><td bgcolor = D3DCE3><div align=right>FILTER ID</div></td><td><input name="filter_id" type="text" size="14" maxlength="14" ></td></tr>
 <tr><td colspan=6>Packet Specification</td></tr>
-<tr><td bgcolor = D3DCE3><input name=cicb type=checkbox onChange="updateIndex();">512</td><td><div align=right>CI</div></td><td><input name="ci" type="text" size="8" maxlength="8" value='null'></td></tr>
-<tr><td bgcolor = D3DCE3><input name=vlancb type=checkbox onChange="updateIndex();">256</td><td><div align=right>VLAN_TCI</div></td><td><input name="vlan_tci" type="text" size="5" maxlength="5" value=0></td><td bgcolor = D3DCE3><div align=right>VLAN_TCI_MASK</div></td><td><input name="vlan_tci_mask" type="text" size="14" maxlength="14" value=0></td><td><select name=vlanmask size=1 onChange="updateVLANmask();"><option value="ffff">ffff</option><option value="ff00">ff00</option><option value="00ff">00ff</option><option selected value="">Other</option></select></td></tr>
-<tr><td bgcolor = D3DCE3><input name=ethtcb type=checkbox onChange="updateIndex();">128</td><td><div align=right>ETH_TYPE</div></td><td><input name="eth_type" type="text" size="5" maxlength="5" value=0></td><td bgcolor = D3DCE3><div align=right>ETH_TYPE_MASK</div></td><td><input name="eth_type_mask" type="text" size="14" maxlength="14" value=0></td><td><select name=ethmask size=1 onChange="updateETHmask();"><option value="ffff">ffff</option><option value="ff00">ff00</option><option value="00ff">00ff</option><option  selected value="">Other</option></select></td></tr>
-<tr><td bgcolor = D3DCE3><input name=ethscb type=checkbox onChange="updateIndex();">64</td><td><div align=right>ETH_SRC</div></td><td><input name="eth_src" type="text" size="17" maxlength="17" value=000000000000></td><td bgcolor = D3DCE3><div align=right>ETH_SRC_MASK</div></td><td><input name="eth_src_mask" type="text" size="17" maxlength="17" value="000000000000"></td><td><select name=ethsrcmask size=1 onChange="updateETHSmask();"><option value="ffffffffffff">ffffffffffff</option><option value="000000000000">000000000000</option><option  selected value="">Other</option></select></td></tr>
-<tr><td bgcolor = D3DCE3><input name=ethdcb type=checkbox onChange="updateIndex();">32</td><td><div align=right>ETH_DST</div></td><td><input name="eth_dst" type="text" size="17" maxlength="17" value=000000000000></td><td bgcolor = D3DCE3><div align=right>ETH_DST_MASK</div></td><td><input name="eth_dst_mask" type="text" size="17" maxlength="17" value="000000000000"></td><td><select name=ethdstmask size=1 onChange="updateETHDmask();"><option value="ffffffffffff">ffffffffffff</option><option value="000000000000">000000000000</option><option  selected value="">Other</option></select></td></tr>
-<tr><td bgcolor = D3DCE3><input name=ippcb type=checkbox onChange="updateIndex();">16</td><td><div align=right>IP_PROTO</div></td><td><input name="ip_proto" type="text" size="5" maxlength="5" value=0></td><td><select name=ipproto_predef size=1 onChange="updateIPproto();"><option value="17">UDP</option><option value="6">TCP</option><option value="1">ICMP</option><option  selected value="">Other</option></select></td></tr>
-<tr><td bgcolor = D3DCE3><input name=ipscb type=checkbox onChange="updateIndex();">8</td><td><div align=right>IP_SRC</div></td><td><input name="ip_src" type="text" size="16" maxlength="16" value=0></td><td bgcolor = D3DCE3><div align=right>IP_SRC_MASK</div></td><td><input name="ip_src_mask" type="text" size="16" maxlength="16" value=0></td><td><select name=ipsmask size=1 onChange="updateIPSmask();"><option value="255.255.255.255">255.255.255.255</option><option value="255.255.255.0">255.255.255.0</option><option  selected value="">Other</option></select></td></tr>
-<tr><td bgcolor = D3DCE3><input name=ipdcb type=checkbox onChange="updateIndex();">4</td><td><div align=right>IP_DST</div></td><td><input name="ip_dst" type="text" size="16" maxlength="16" value=0></td><td bgcolor = D3DCE3><div align=right>IP_DST_MASK</div></td><td><input name="ip_dst_mask" type="text" size="16" maxlength="16" value=0></td><td><select name=ipdmask size=1 onChange="updateIPDmask();"><option value="255.255.255.255">255.255.255.255</option><option value="255.255.255.0">255.255.255.0</option><option  selected value="">Other</option></select></td></tr>
-<tr><td bgcolor = D3DCE3><input name=sprtcb type=checkbox onChange="updateIndex();">2</td><td><div align=right>SRC_PORT</div></td><td><input name="src_port" type="text" size="5" maxlength="5" value=0></td><td bgcolor = D3DCE3><div align=right>SRC_PORT_MASK</div></td><td><input name="src_port_mask" type="text" size="5" maxlength="5" value=0></td><td><select name=portsmask size=1 onChange="updatePORTSmask();"><option value="65535">ffff</option><option value="0">0</option><option  selected value="">Other</option></select></td></tr>
-<tr><td bgcolor = D3DCE3><input name=dprtcb type=checkbox onChange="updateIndex();">1</td><td><div align=right>DST_PORT</div></td><td><input name="dst_port" type="text" size="5" maxlength="5" value=0></td><td bgcolor = D3DCE3><div align=right>DST_PORT_MASK</div></td><td><input name="dst_port_mask" type="text" size="5" maxlength="5" value=0></td><td><select name=portdmask size=1 onChange="updatePORTDmask();"><option value="65535">ffff</option><option value="0">0</option><option  selected value="">Other</option></select></td></tr>
-<tr><td bgcolor=D3DcE3></td><td><div align=right>DESTADDR</div></td><td><input name="destaddr" type="text" size="23" maxlength="23" value="010000000000"></td><td bgcolor=d3dce3>TYPE</td><td><input name="stream_type" type="text" size="5" maxlength="5" value=1></td><td><select name=type size=1 onChange="updateType();">
+<tr><td bgcolor = D3DCE3><input name=cicb type=checkbox onChange="updateIndex();">512</td>
+	<td><div align=right>CI</div></td><td><input name="ci" type="text" size="8" maxlength="8" value='null'></td></tr>
+
+<tr><td bgcolor = D3DCE3><input name=vlancb type=checkbox onChange="updateIndex();">256</td>
+	<td><div align=right>VLAN_TCI</div></td><td><input name="vlan_tci" type="text" size="5" maxlength="5" value=0></td>
+	<td bgcolor = D3DCE3><div align=right>VLAN_TCI_MASK</div></td>
+	<td><input name="vlan_tci_mask" type="text" size="14" maxlength="14" value=0></td>
+	<td><select name=vlanmask size=1 onChange="updateVLANmask();"><option value="0xffff">0xffff</option><option value="0xff00">0xff00</option><option value="0x00ff">0x00ff</option><option selected value="">Other</option></select></td></tr>
+	
+<tr><td bgcolor = D3DCE3><input name=ethtcb type=checkbox onChange="updateIndex();">128</td>
+	<td><div align=right>ETH_TYPE</div></td><td><input name="eth_type" type="text" size="5" maxlength="5" value=0></td>
+	<td bgcolor = D3DCE3><div align=right>ETH_TYPE_MASK</div></td>
+	<td><input name="eth_type_mask" type="text" size="14" maxlength="14" value=0></td>
+	<td><select name=ethmask size=1 onChange="updateETHmask();"><option value="0xffff">0xffff</option><option value="0xff00">0xff00</option><option value="0x00ff">0x00ff</option><option  selected value="">Other</option></select></td></tr>
+	
+<tr><td bgcolor = D3DCE3><input name=ethscb type=checkbox onChange="updateIndex();">64</td>
+	<td><div align=right>ETH_SRC</div></td><td><input name="eth_src" type="text" size="17" maxlength="17" value=000000000000></td>
+	<td bgcolor = D3DCE3><div align=right>ETH_SRC_MASK1</div></td>
+	<td><input name="eth_src_mask" type="text" size="17" maxlength="17" value="0x000000000000"></td>
+	<td><select name=ethsrcmask size=1 onChange="updateETHSmask();"><option value="0xffffffffffff">0xffffffffffff</option><option value="0x000000000000">0x000000000000</option><option  selected value="">Other</option></select></td></tr>
+	
+<tr><td bgcolor = D3DCE3><input name=ethdcb type=checkbox onChange="updateIndex();">32</td>
+	<td><div align=right>ETH_DST</div></td><td><input name="eth_dst" type="text" size="17" maxlength="17" value=000000000000></td>
+	<td bgcolor = D3DCE3><div align=right>ETH_DST_MASK</div></td>
+	<td><input name="eth_dst_mask" type="text" size="17" maxlength="17" value="0x000000000000"></td>
+	<td><select name=ethdstmask size=1 onChange="updateETHDmask();"><option value="0xffffffffffff">0xffffffffffff</option><option value="0x000000000000">0x000000000000</option><option  selected value="">Other</option></select></td></tr>
+
+<tr><td bgcolor = D3DCE3><input name=ippcb type=checkbox onChange="updateIndex();">16</td>
+	<td><div align=right>IP_PROTO</div></td><td><input name="ip_proto" type="text" size="5" maxlength="5" value=0></td>
+	<td><select name=ipproto_predef size=1 onChange="updateIPproto();"><option value="17">UDP</option><option value="6">TCP</option><option value="1">ICMP</option><option  selected value="">Other</option></select></td></tr>
+	
+<tr><td bgcolor = D3DCE3><input name=ipscb type=checkbox onChange="updateIndex();">8</td>
+	<td><div align=right>IP_SRC</div></td><td><input name="ip_src" type="text" size="16" maxlength="16" value=0></td>
+	<td bgcolor = D3DCE3><div align=right>IP_SRC_MASK</div></td><td><input name="ip_src_mask" type="text" size="16" maxlength="16" value=0></td>
+	<td><select name=ipsmask size=1 onChange="updateIPSmask();"><option value="255.255.255.255">255.255.255.255</option><option value="255.255.255.0">255.255.255.0</option><option  selected value="">Other</option></select></td></tr>
+	
+<tr><td bgcolor = D3DCE3><input name=ipdcb type=checkbox onChange="updateIndex();">4</td>
+	<td><div align=right>IP_DST</div></td><td><input name="ip_dst" type="text" size="16" maxlength="16" value=0></td>
+	<td bgcolor = D3DCE3><div align=right>IP_DST_MASK</div></td><td><input name="ip_dst_mask" type="text" size="16" maxlength="16" value=0></td>
+	<td><select name=ipdmask size=1 onChange="updateIPDmask();"><option value="255.255.255.255">255.255.255.255</option><option value="255.255.255.0">255.255.255.0</option><option  selected value="">Other</option></select></td></tr>
+	
+<tr><td bgcolor = D3DCE3><input name=sprtcb type=checkbox onChange="updateIndex();">2</td><td><div align=right>SRC_PORT</div></td>
+	<td><input name="src_port" type="text" size="5" maxlength="5" value=0></td>
+	<td bgcolor = D3DCE3><div align=right>SRC_PORT_MASK</div></td>
+	<td><input name="src_port_mask" type="text" size="5" maxlength="5" value=0></td><td><select name=portsmask size=1 onChange="updatePORTSmask();"><option value="65535">ffff</option><option value="0">0</option><option  selected value="">Other</option></select></td></tr>
+	
+<tr><td bgcolor = D3DCE3><input name=dprtcb type=checkbox onChange="updateIndex();">1</td>
+	<td><div align=right>DST_PORT</div></td><td><input name="dst_port" type="text" size="5" maxlength="5" value=0></td>
+	<td bgcolor = D3DCE3><div align=right>DST_PORT_MASK</div></td><td><input name="dst_port_mask" type="text" size="5" maxlength="5" value=0></td>
+	<td><select name=portdmask size=1 onChange="updatePORTDmask();"><option value="65535">ffff</option><option value="0">0</option><option  selected value="">Other</option></select></td></tr>
+	
+<tr><td bgcolor=D3DcE3></td><td><div align=right>DESTADDR</div></td>
+	<td><input name="destaddr" type="text" size="23" maxlength="23" value="010000000000"></td>
+	<td bgcolor=d3dce3>TYPE</td><td><input name="stream_type" type="text" size="5" maxlength="5" value=1></td>
+	<td><select name=type size=1 onChange="updateType();">
 <option value="0">File</option>
 <option value="1" selected>Ethernet Multicast</option>
 <option value="2">UDP</option>
@@ -110,25 +154,25 @@ print $pageStyle;
 <tr><td bgcolor=d3dce3></td><td><div align=right>CAPLEN</div></td><td><input name="caplen" type="text" size="14" maxlength="4" value="54"></td></tr>
 <tr><td colspan=6>MP Receiving Filter</td></tr>
 <?
-$Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
-mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
+$Connect = mysqli_connect($DB_SERVER, $user, $password,$DATABASE) or die ("Cant connect to MySQL at $DB_SERVER");
+//mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 
 $sql_query="SELECT * FROM measurementpoints";
-$result=mysql_query ($sql_query);
+$result=mysqli_query($Connect, $sql_query);
 if(!$result) {
 	print "sq: $sql_q <br>\n";
-	print "Mysql Problems: " . mysql_error() . "<br>\n";
+	print "Mysql Problems: " . mysqli_error() . "<br>\n";
 	return;
 }
 
-if(mysql_num_rows($result)>0) {
+if(mysqli_num_rows($result)>0) {
 	print "<tr><th></th>";
 	print "<th><b>Name</b></th>";
 	print "<th colspan = 3><b>Comment</b></th>";
 	print "<th><b>Max filters</b></th></tr>";
 	$toggle=0;
 	$first=0;
-	while($row = mysql_fetch_array($result)) {
+	while($row = mysqli_fetch_array($result)) {
 		$noEthers=0;
 		if($toggle==0) {
 			$color="CCCCCC";

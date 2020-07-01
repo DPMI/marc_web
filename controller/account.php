@@ -82,7 +82,8 @@ class AccountController extends Controller {
 		if ( strlen($p1) > 0 && ( $p1 != $p2 ) ){
 			$error[] = 'Passwords does not match.';
 		}
-
+		
+		$account->set_password($p1);
 		$account->Name = $_POST['name'];
 		$account->Email = $_POST['email'];
 
@@ -106,6 +107,7 @@ class AccountController extends Controller {
 			$data['exist'] = $exist;
 			$data['admin'] = isset($_POST['status']);
 			$data['error'] = $error;
+
 			return template('account/view.php', $data);
 		}
 

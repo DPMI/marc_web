@@ -314,6 +314,9 @@ abstract class BasicObject {
 			}
 		}
 		$stmt = $db->prepare($query);
+		echo "params = \n";
+		print_r($params);
+		echo "\n";
 		call_user_func_array(array($stmt, 'bind_param'), $params);
 		if(!$stmt->execute()) {
 			throw new Exception("Internal error, failed to execute query:\n<pre>$query\n".$stmt->error.'</pre>');
@@ -360,7 +363,13 @@ abstract class BasicObject {
 			$stmt->execute();
 			$stmt->close();
 		}
-		unset($this);
+//		unset($this); /* remove to match php 7.4 */
+//		$this->__valid=false;
+		$this->__destruct();
+	}
+
+	public function __destruct() {
+	        
 	}
 
 	public static function from_id($id){

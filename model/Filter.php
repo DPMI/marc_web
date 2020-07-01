@@ -95,6 +95,10 @@ class Filter extends BasicObject {
 			$parts[] = "(DPORT = {$this->DST_PORT})";
 		}
 
+		if($index==0){
+			$parts[] = "Grab everything.";
+		}
+
 		$glue = $this->mode == 'AND' ? 'and' : 'or';
 		return implode(" $glue ", $parts);
 	}

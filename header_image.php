@@ -1,8 +1,9 @@
-<?
+<?php
 require("config.php");
 header("Content-type: image/png");
 
-$im=imagecreatefromjpeg("huvud-rubrik-inga.jpg");
+//$im=imagecreatefromjpeg("huvud-rubrik-inga.jpg");
+$im=imagecreatefrompng("npllogo.png");
 $textColor=imagecolorallocate($im, 255,255,255);
 $bgColor=imagecolorallocate($im, 0,0,0);
 
@@ -14,7 +15,8 @@ if(!$im) {
   imagestring($im,1,5,5, "Error loading file", $tc);
 
 } else {
- imagestring($im, 5, 600, 20, "$projectName", $textColor);
+// imagestring($im, 5, 600, 20, "$projectName", $textColor);//huvud-rubrik-inga
+  imagestring($im, 5, 200, 5, "$projectName", $textColor);
 //imagetftext($im, 20, 0, 600,20, $textColor, "/path/arial.ttf","MP");
 
 }

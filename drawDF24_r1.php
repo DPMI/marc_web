@@ -60,23 +60,23 @@ $MAMPid=$_GET["MAMPid"];
 
 $LENHRS=$LEN*60;
 
-$Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
-mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
+$Connect = mysqli_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
+mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 
 $sql2="SELECT * FROM " . $MAMPid ."_Linkutilization ORDER BY id DESC LIMIT " . $LENHRS;
 //int "sql2 = $sql2 <br>\n";
 
-$result2=mysql_query($sql2);
+$result2=mysqli_query($sql2);
 if(!$result2){
-	print " MySQL pr. " . mysql_error() ."</td>";
+	print " MySQL pr. " . mysqli_error() ."</td>";
 	exit;
 }
-$row2=mysql_fetch_array($result2);
+$row2=mysqli_fetch_array($result2);
 
 
 $k=1;
 $j=1;
-while($row2=mysql_fetch_array($result2)){
+while($row2=mysqli_fetch_array($result2)){
 	if(($k)%60==0){
 		$leX = preg_split("/,/",$row2["bins"]);
 		$leY = preg_split("/,/",$row2["counters"]);

@@ -24,14 +24,14 @@ print $pageStyle;
        	if (file_exists($path . $HTTP_POST_FILES['file']['name'])) { print "File already exists<br>\n"; exit;}
        	$res=copy($HTTP_POST_FILES['file']['tmp_name'], $path . $HTTP_POST_FILES['file']['name']);
 	if (!$res) { print "Upload failed.<br>\n"; exit; } else { print "Upload sucessfull. <br>\n"; }
-       	$Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
- 	mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
+       	$Connect = mysqli_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
+ 	mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 
  	$sql_update="INSERT files SET username='". $_SESSION["username"] ."', accesslevel='" . $HTTP_POST_VARS["accesslevel"] ."', filename='" . $HTTP_POST_FILES['file']['name'] ."', filesize='" . $HTTP_POST_FILES['file']['size'] ."', description='" .$HTTP_POST_VARS["description"] . "'";
  	print "sql_update = $sql_update <br>\n";
 
- 	$result=mysql_query($sql_update);
- 	if(!$result) { print "MySQL error: " . mysql_error(); exit; }
+ 	$result=mysqli_query($sql_update);
+ 	if(!$result) { print "MySQL error: " . mysqli_error(); exit; }
     } else {
     	print "file not uploaded.<br>\n";
     }

@@ -18,11 +18,11 @@ if ($accesslevel > 1 ) {
 	exit;
 }
 $ID=$_GET["ID"];
-$Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
-mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
+$Connect = mysqli_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
+mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 $sql_query="SELECT * FROM pages where id=".$ID;
-$result=mysql_query($sql_query) or die ("Error in mysql query: $sql_query \n" . mysql_error() ."<br>\n");
-$row=mysql_fetch_array($result);
+$result=mysqli_query($sql_query) or die ("Error in mysql query: $sql_query \n" . mysqli_error() ."<br>\n");
+$row=mysqli_fetch_array($result);
 ?>
 
 

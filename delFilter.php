@@ -9,8 +9,8 @@ print $pageStyle;
 $FILTER_ID=$_GET["filter_id"];
 $MAMPid=$_GET["MAMPid"];
 
-$Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
-mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
+$Connect = mysqli_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
+mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 if (isset($_SESSION["accesslevel"])) {
 	$level=$_SESSION["accesslevel"];
 } else {
@@ -18,20 +18,20 @@ if (isset($_SESSION["accesslevel"])) {
 }
 $tabel=$MAMPid."_filterlist";
 $query2="DELETE FROM $tabel WHERE filter_id='$FILTER_ID'";
-$result2=mysql_query($query2);
+$result2=mysqli_query($query2);
 if(!$result2) {
-	print "sq: $query2 Mysql Problems: " . mysql_error() . "\n";
+	print "sq: $query2 Mysql Problems: " . mysqli_error() . "\n";
 	return;
 }
 
 $query="SELECT * FROM measurementpoints WHERE MAMPid='$MAMPid'";
-$result=mysql_query ($query);
+$result=mysqli_query ($query);
 if(!$result) {
 	print "sq: $query <br>\n";
-	print "Mysql Problems: " . mysql_error() . "<br>\n";
+	print "Mysql Problems: " . mysqli_error() . "<br>\n";
 	return;
 }
-$row = mysql_fetch_array($result);
+$row = mysqli_fetch_array($result);
 
 $IP=$row["ip"];
 $port=$row["port"];

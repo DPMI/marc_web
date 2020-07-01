@@ -45,21 +45,21 @@ $query="INSERT INTO $filt SET filter_id='$FILTER_ID', ind='$INDEX',
 	SRC_PORT='$SRC_PORT',SRC_PORT_MASK='$SRC_PORT_MASK',
 	DST_PORT='$DST_PORT',DST_PORT_MASK='$DST_PORT_MASK',
 	DESTADDR='$DESTADDR', TYPE='$TYPE', CAPLEN='$CAPLEN'";
-$result=mysql_query ($query);
+$result=mysqli_query ($query);
 if(!$result) {
 	print "sq: $query <br>\n";
-	print "Mysql Problems: " . mysql_error() . "<br>\n";
+	print "Mysql Problems: " . mysqli_error() . "<br>\n";
 	return;
 }
 
 $query="SELECT * FROM measurementpoints WHERE MAMPid='$MAMPid'";
-$result=mysql_query ($query);
+$result=mysqli_query ($query);
 if(!$result) {
 	print "sq: $query <br>\n";
-	print "Mysql Problems: " . mysql_error() . "<br>\n";
+	print "Mysql Problems: " . mysqli_error() . "<br>\n";
 	return;
 }
-$row = mysql_fetch_array($result);
+$row = mysqli_fetch_array($result);
 
 $IP=$row["ip"];
 $port=$row["port"];

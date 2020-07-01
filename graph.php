@@ -13,7 +13,8 @@ function error($size, $data){
 		$fontsize = $i == 0 ? 5 : 2;
 		imagestring($im, $fontsize, 5,  $i*$dy+5, $line, $fg);
 	}
-	header('Content-type: image/png');
+//	header('Content-type: image/png');
+	header('Content-type: text/text');	
 	imagepng($im);
 	imagedestroy($im);
 	exit;
@@ -169,10 +170,10 @@ class Graph {
 			                    "'DEF:matched=$rrdbase/$filebase.rrd:matched:AVERAGE'", "'VDEF:matched_last=matched,TOTAL'",
 			                    "'DEF:dropped=$rrdbase/$filebase.rrd:dropped:AVERAGE'", "'VDEF:dropped_last=dropped,TOTAL'",
 			                    "'CDEF:discarded=total,matched,-,dropped,-'", "'VDEF:discarded_last=discarded,TOTAL'",
-			                    "'AREA:dropped#ff0000:Dropped\:   :'",        $this->have_dropped ? "'GPRINT:dropped_last:%12.0lf pkts\l'" : "'COMMENT:              N/A\l'",
+			                    "'AREA:dropped#ff0000:Dropped\:   '",        $this->have_dropped ? "'GPRINT:dropped_last:%12.0lf pkts\l'" : "'COMMENT:              N/A\l'",
 			                    "'AREA:discarded#ffff00:Discarded\: :STACK'", "'GPRINT:discarded_last:%12.0lf pkts\l'",
 			                    "'AREA:matched#00ff00:Matched\:   :STACK'",   "'GPRINT:matched_last:%12.0lf pkts\l'",
-			                    "'LINE1:total#000000:Total\:     :'",         "'GPRINT:total_last:%12.0lf pkts\l'",));
+			                    "'LINE1:total#000000:Total\:     '",         "'GPRINT:total_last:%12.0lf pkts\l'",));
 		$this->exec($argv);
 	}
 
@@ -226,6 +227,9 @@ class Graph {
 
 	private function exec($argv){
 		$cmd = implode(' ', $argv);
+//		echo "Executing: $cmd <br>\n";
+//		echo "<br>\n";			    					    
+
 		exec("$cmd 2>&1", $output, $rc);
 		if ( $rc != 0 ){
 			$chars = floor($this->size[0] / imagefontwidth(2));
@@ -249,7 +253,15 @@ $cache = get_param('cache', 1) == 1;
 $width = clamp(get_param('width', -1), -1, 2000);
 $height = clamp(get_param('height', -1), -1, 2000);
 
+/*
+
+echo " Got this <br>\n";
+echo "mampid = $mampid <br>\n";
+echo "rrdbase = $rrdbase <br>\n";
+*/
+
 /* create graph */
+
 $graph = new Graph($mampid, $what, $ci);
 $graph->set_size($width, $height);
 $graph->set_timespan($span, $start, $end);
@@ -258,7 +270,10 @@ $orig_mtime = $graph->last_modified();
 list($filename, $fresh) = $graph->render();
 clearstatcache();
 
+
+
 /* caching */
+
 if ( $cache ){
 	/* need to set default timezone because strtotime fails to parse the timezone, e.g strtotime(date('...', $x)) is not $x if TZ != GMT */
 	date_default_timezone_set('UTC');
@@ -278,7 +293,9 @@ if ( $cache ){
 	}
 }
 
+
 header("Content-Disposition: inline; filename=\"{$graph->pretty_filename()}\"");
 header("Content-type: image/png");
 echo file_get_contents($filename);
 if ( !$cache ) unlink($filename);
+

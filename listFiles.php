@@ -12,8 +12,8 @@ print $pageStyle;
 <?
 require("config.php");
 
-$Connect = mysql_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
-mysql_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
+$Connect = mysqli_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
+mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
 
 $toggle=0;
 
@@ -29,13 +29,13 @@ if($order!=""){
 	$sql_query=$sql_query . " ORDER BY $order";
 }
 
-$result=mysql_query ($sql_query);
+$result=mysqli_query ($sql_query);
 if(!$result) {
 	print "sq: $sql_q <br>\n";
-	print "Mysql Problems: " . mysql_error() . "<br>\n";
+	print "Mysql Problems: " . mysqli_error() . "<br>\n";
 }
 
-if(mysql_num_rows($result)>0) {
+if(mysqli_num_rows($result)>0) {
 	print "<table border=0>";
 	print "<th><b><a href=\"listFiles.php?SID=$sid&order=filename\">Filename</b></th>";
 	print "<th><b><a href=\"listFiles.php?SID=$sid&order=accesslevel\">Access Level</a></b></th>\n";
@@ -45,7 +45,7 @@ if(mysql_num_rows($result)>0) {
 	print "<th><b><a href=\"listFiles.php?SID=$sid&order=downloads\">downloads</b></th>";
 	print "<th><b><a href=\"listFiles.php?SID=$sid&order=description\">description</a></b></th>\n";
 
-	while($row = mysql_fetch_array($result)) {
+	while($row = mysqli_fetch_array($result)) {
 		$noEthers=0;
 		if($toggle==0) {
 			$color="CCCCCC";

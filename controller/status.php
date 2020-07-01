@@ -18,7 +18,7 @@ function check_path($path, $mode='r', &$message, $owner=null){
 		case 'w':
 			if ( !is_writable($path) ){
 				$class = 'error';
-				$message = 'file not writable';
+				$message = 'file not writable, pid=' . getmypid() . ". path=$path";
 			}
 			break;
 		case 'x':
@@ -54,7 +54,8 @@ function check_group($name, &$message){
 	}
   if ( !in_array($group['gid'], posix_getgroups()) ){
 	  $cur =  posix_getpwuid(posix_getuid());
-	  $message = 'User ' . $cur['name'] . ' is not a member of the group';
+	  $groups=posix_getgroups();
+	  $message = 'User ' . $cur['name'] . ' is not a member of the group.' . print_r($groups) . "\n";
 	  return "<span class=\"error\">$name</span>";
   }
 	return "<span class=\"ok\">$name</span>";

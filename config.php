@@ -2,11 +2,18 @@
 
 /* NOTE! User configuration is now added in `config.local.php`. See
  * `config.default.php` for help. */
+//echo "config.php \n";
+
+//echo "dir=> " . dirname(__FILE__) . ".\n";
 
 require('config.default.php');
-if ( file_exists('config.local.php') ){
-  require('config.local.php');
+if ( file_exists(dirname(__FILE__). '/config.local.php') ){
+//   echo "config.local.php \n";
+   require('config.local.php');
+} else {
+ // echo "Missing config.local.php \n";
 }
+
 $index = $root . 'index.php';
 $ajax = $root . 'ajax.php';
 
@@ -40,10 +47,16 @@ foreach ( array('posix', 'mysqli', 'gd') as $ext ){
 }
 
 /* required for BasicObject */
-$db = @new mysqli($DB_SERVER, $user, $password, $DATABASE);
+$db = new mysqli($DB_SERVER, $user, $password, $DATABASE);
 define('HTML_ACCESS', 1);
 
 if ( mysqli_connect_error() ){
+   echo "Issues with DB : " . mysqli_connect_error() . POP_EOL;
+   echo "DB_SERVER = $DB_SERVER \n";
+   echo "user= $user \n";
+   echo "password = $password \n";
+   echo "DATABASE = $DATABASE \n";
+   
 	$config_error[] = array(
 		"message" => "Unable to connect to MySQL database.",
 		"error" => mysqli_connect_error(),
@@ -51,8 +64,21 @@ if ( mysqli_connect_error() ){
 }
 
 /* required for legacy database connections */
-$Connect = @mysql_connect($DB_SERVER, $user, $password);
-mysql_select_db($DATABASE,$Connect);
+$Connect = mysqli_connect($DB_SERVER, $user, $password,$DATABASE);
+
+//echo "config.php ==> db= " . mysqli_get_host_info($db) ."\n";
+//echo "config.php ==> connect= " . mysqli_get_host_info($Connect) . " \n";
+if ( mysqli_connect_error() ){
+        $config_error[] = array(
+                "message" => "Unable to connect to MySQL database.",
+                "error" => mysqli_connect_error(),
+        );
+}
+
+
+/*
+  mysqli_select_db($DATABASE,$Connect);
+*/
 
 if ( isset($skip_config_check) ){
 	return;
@@ -64,14 +90,14 @@ $groupinfo = posix_getpwuid(posix_geteuid());
 $max_size=1000000;
 
 $sql_update="SELECT * FROM guiconfig WHERE selected=1";
-$result=mysql_query($sql_update);
+$result=mysqli_query($Connect, $sql_update);
 if(!$result) {
-	print "MySQL error: " . mysql_error();
+	print "MySQL error: " . mysqli_error();
 	exit;
 }
 
-if(mysql_num_rows($result)>0) {
-	$row = mysql_fetch_array($result);
+if(mysqli_num_rows($result)>0) {
+	$row = mysqli_fetch_array($Connect, $result);
 	$pageStyle=$row["pageStyle"];
 	$pageStyleBad=$row["pageStyleBad"];
 	$projectName=$row["projectName"];
@@ -83,8 +109,8 @@ if(mysql_num_rows($result)>0) {
 	$selectedID=-1;
 }
 
-$result = mysql_query("SELECT 1 FROM `information_schema`.`tables` WHERE `table_schema` = '$DATABASE' AND `table_name`='version' LIMIT 1");
-if ( mysql_num_rows($result) == 1 ){
+$result = mysqli_query($Connect, "SELECT 1 FROM `information_schema`.`tables` WHERE `table_schema` = '$DATABASE' AND `table_name`='version' LIMIT 1");
+if ( mysqli_num_rows($result) == 1 ){
 
 } else {
 	$config_error[] = array(
@@ -93,8 +119,8 @@ if ( mysql_num_rows($result) == 1 ){
 		);
 }
 
-$result = mysql_query("SELECT `num` FROM `version` LIMIT 1");
-$row = mysql_fetch_array($result);
+$result = mysqli_query($Connect,"SELECT `num` FROM `version` LIMIT 1");
+$row = mysqli_fetch_array($result);
 if ( $row[0] < $dbversion ){
 	$config_error[] = array(
 		"message" => "MySQL schema too old, please execute all upgrade scripts under upgrade/*.php in a shell.",
