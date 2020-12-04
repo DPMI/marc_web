@@ -34,7 +34,7 @@ class Account extends BasicObject {
       'uname' => $username,
       '@or' => array(
         'passwd' => $hash,
-	'@manual_query' => "passwd = PASSWORD('$password')"
+	'@manual_query' => "passwd = SHA2('$password',512)"
       ),
       '@limit' => 1));
 

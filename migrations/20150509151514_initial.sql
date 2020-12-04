@@ -32,7 +32,7 @@ DROP TABLE IF EXISTS `access`;
 CREATE TABLE `access` (
   `id` int(11) PRIMARY KEY AUTO_INCREMENT,
   `uname` varchar(64) NOT NULL UNIQUE,
-  `passwd` varchar(512) NOT NULL,
+  `passwd` varchar(512) NULL DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
   `comment` text NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

@@ -27,6 +27,7 @@ $localstatedir = "{PREFIX}var/lib";
 $rrdbase = "{LOCALSTATEDIR}marcd";
 $rrdtool = '/usr/bin/rrdtool';
 $cachedir = realpath('cache');                 /* cache directory (e.g. graphs ) */
+$webroot = '/var/www/marc_web';             /* Path were the main (web) files are located */ 
 
 /* Permissions */
 $usergroup = 'marc';

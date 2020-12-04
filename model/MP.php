@@ -232,8 +232,11 @@ class MP extends BasicObject {
 
   public function delete(){
     global $db;
-    $db->query("DROP TABLE IF EXISTS {$this->MAMPid}_CIload") or die($db->error);
-    $db->query("DROP TABLE IF EXISTS {$this->MAMPid}_ci") or die($db->error);
+    $query1="DROP TABLE IF EXISTS `" . $this->MAMPid . "_CIload`";
+    $query2="DROP TABLE IF EXISTS `" . $this->MAMPid . "_ci`";
+    
+    $db->query($query1) or die($db->error);
+    $db->query($query2) or die($db->error);
     parent::delete();
   }
 

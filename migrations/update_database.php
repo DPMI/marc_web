@@ -20,7 +20,6 @@ $ignored_files = array(
 	'^(update_database|create_migration|config(-example)?|color_terminal)\.php$',
 );
 
-echo "Bob2";
 
 /* append project-wide ignores */
 if ( is_callable(array('MigrationConfig', 'ignored')) ){
@@ -38,6 +37,7 @@ function usage() {
 }
 
 if($argc > 2) {
+	 echo "[argc>2]";
 	usage();
 }
 
@@ -68,7 +68,7 @@ function ask_for_password() {
 	return $password;
 }
 
-echo "Starting?";
+echo date("Y-m-d H:i:s"). "Starting. [$user / $password ] \n";
 
 try {
 	$db = MigrationConfig::fix_database($username);

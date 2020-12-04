@@ -4,9 +4,16 @@
  * `config.default.php` for help. */
 
 require('config.default.php');
-if ( file_exists('config.local.php') ){
+if ( file_exists("$webroot/config.local.php") ){
+/*  echo "Reading config.local.php.\n" ; */
   require('config.local.php');
+/* If your debugging, enable this and the line above. But NOT in production.
+} else {
+  echo "No config.local.php in " . getcwd() ."\n";
+*/
 }
+
+
 
 if ( substr($root,  0, 1) != '/' ) $root = "/$root"; /* force leading slash */
 if ( substr($root, -1, 1) != '/' ) $root = "$root/"; /* force trailing slash */

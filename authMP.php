@@ -3,8 +3,15 @@ require("sessionCheck.php");
 require("config.php");
 require("model/MP.php");
 
-$Connect = mysqli_connect($DB_SERVER, $user, $password) or die ("Cant connect to MySQL at $DB_SERVER");
-mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database");
+
+echo "authMP; $DB_SERVER|$user|$password \n";
+$Connect = mysqli_connect($DB_SERVER, $user, $password, $DATABASE) or die ("Cant connect to MySQL at $DB_SERVER");
+/* mysqli_select_db($DATABASE,$Connect) or die ("Cant connect to $DATABASE database"); */ 
+
+if (mysqli_connect_errno()) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
+}
 
 $ID=$_GET["id"];
 $mp = MP::from_id($ID);
@@ -34,7 +41,7 @@ $tables[] = $sql_create;
 
 /* Create SQL tables */
 foreach ( $tables as $query ){
-  if ( !mysqli_query ($query) ){
+  if ( !mysqli_query ($Connect,$query) ){
     echo "<h1>SQL error</h1>\n";
     echo "<p>\"" . mysqli_error() . "\"<p>\n";
     echo "<p>The attempted query was:</p>\n";
