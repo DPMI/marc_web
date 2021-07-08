@@ -3,9 +3,11 @@
 /* NOTE! User configuration is now added in `config.local.php`. See
  * `config.default.php` for help. */
 
-require('config.default.php');
-if ( file_exists('config.local.php') ){
-  require('config.local.php');
+$basedir = dirname(__FILE__);
+
+require($basedir . '/config.default.php');
+if ( file_exists($basedir . '/config.local.php') ){
+  require($basedir . '/config.local.php');
 }
 
 if ( substr($root,  0, 1) != '/' ) $root = "/$root"; /* force leading slash */
